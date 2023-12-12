@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\gears.gif" />
     <None Remove="Resources\icon.ico" />
     <None Remove="Resources\noChamp.png" />
     <None Remove="Resources\quit.ico" />
@@ -22,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\gears.gif" />
     <Resource Include="Resources\icon.ico" />
     <Resource Include="Resources\noChamp.png" />
     <Resource Include="Resources\quit.ico" />

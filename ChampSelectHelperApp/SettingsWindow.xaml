@@ -10,8 +10,10 @@
     <Grid>
         <Image x:Name="championImage" Height="63" Margin="10,10,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ComboBox x:Name="championComboBox" Margin="85,38,0,0" Width="120" SelectionChanged="championComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBlock x:Name="championtextBlock" HorizontalAlignment="Left" Height="20" Margin="85,18,0,0" TextWrapping="Wrap" Text="Champion" VerticalAlignment="Top" Width="120"/>
-        <Image x:Name="testimage" HorizontalAlignment="Left" Height="100" Margin="27,145,0,0" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="championTextBlock" HorizontalAlignment="Left" Height="20" Margin="85,18,0,0" TextWrapping="Wrap" Text="Champion" VerticalAlignment="Top" Width="120"/>
+        <Image x:Name="skinImage" HorizontalAlignment="Left" Height="100" Margin="85,257,0,0" VerticalAlignment="Top" Width="180"/>
+        <ComboBox x:Name="skinComboBox" Margin="262,113,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBlock x:Name="skinTextBlock" HorizontalAlignment="Left" Height="20" Margin="262,93,0,0" TextWrapping="Wrap" Text="Skin" VerticalAlignment="Top" Width="120"/>
 
     </Grid>
 

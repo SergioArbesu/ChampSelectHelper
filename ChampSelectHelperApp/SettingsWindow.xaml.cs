@@ -32,11 +32,11 @@ namespace ChampSelectHelperApp
 
         public SettingsWindow()
         {
+            InitializeComponent();
+
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
             noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/noChamp.png"));
-            
-            InitializeComponent();
         }
 
         public void InitializeWindow()
@@ -49,7 +49,7 @@ namespace ChampSelectHelperApp
                     {
                         string response = httpClient.GetStringAsync(Program.CHAMPIONS_JSON_URL).Result;
                         JObject parsedResponse = JObject.Parse(response);
-                        CreateChampInfoArray(parsedResponse);
+                        ChampInfoArrayParser(parsedResponse);
                         InitializeElements();
                         return;
                     }
@@ -84,7 +84,7 @@ namespace ChampSelectHelperApp
             championImage.Visibility = Visibility.Visible;
         }
 
-        private void CreateChampInfoArray(JObject champJObject)
+        private void ChampInfoArrayParser(JObject champJObject)
         {
             champInfo = new ChampInfo[champJObject.Count];
             int i = 0;
@@ -123,6 +123,8 @@ namespace ChampSelectHelperApp
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            skinComboBox.Items.Clear();
+
             if (championComboBox.SelectedIndex == -1)
             {
                 championImage.Source = noChampImg;
@@ -130,7 +132,29 @@ namespace ChampSelectHelperApp
             else
             {
                 championImage.Source = champInfo[championComboBox.SelectedIndex].Icon;
+                foreach (SkinInfo skin in champInfo[championComboBox.SelectedIndex].Skins)
+                {
+                    skinComboBox.Items.Add(skin.Name);
+                }
             }
+        }
+
+        private void skinComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (skinComboBox.SelectedIndex == -1)
+            {
+                skinImage.Source = null;
+            }
+            else
+            {
+                BitmapImage bitimg = new BitmapImage(new Uri(champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
+                bitimg.DownloadCompleted += (sender, ev) => skinImage.Source = bitimg;
+            }
+        }
+
+        private void CheckConnectivity()
+        {
+
         }
     }
 }

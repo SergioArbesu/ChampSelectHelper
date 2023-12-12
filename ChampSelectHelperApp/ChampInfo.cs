@@ -27,14 +27,14 @@ namespace ChampSelectHelperApp
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public BitmapImage Icon { get; set; }
+        public string IconUri { get; set; }
         public ChromaInfo[]? Chromas { get; set; }
 
         public SkinInfo(int id, string name, string iconUri, ChromaInfo[]? chromas)
         {
             Id = id;
             Name = name;
-            Icon = new BitmapImage(new Uri(iconUri));
+            IconUri = iconUri;
             Chromas = chromas;
         }
     }
