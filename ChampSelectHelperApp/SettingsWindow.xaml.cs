@@ -30,6 +30,8 @@ namespace ChampSelectHelperApp
 
         private BitmapImage noChampImg;
 
+        private UIElement[] skinUIElements;
+
         public SettingsWindow()
         {
             InitializeComponent();
@@ -37,6 +39,15 @@ namespace ChampSelectHelperApp
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
             noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/noChamp.png"));
+
+            skinUIElements = new UIElement[]
+            {
+                skinComboBox, skinImage
+            };
+            foreach (UIElement ui in skinUIElements)
+            {
+                ui.IsEnabled = false;
+            }
         }
 
         public void InitializeWindow()
@@ -152,9 +163,28 @@ namespace ChampSelectHelperApp
             }
         }
 
+        private void skinCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            if (skinCheckBox.IsChecked == true)
+            {
+                foreach (UIElement ui in skinUIElements)
+                {
+                    ui.IsEnabled = true;
+                }
+            }
+            else
+            {
+                foreach (UIElement ui in skinUIElements)
+                {
+                    ui.IsEnabled = false;
+                }
+                skinComboBox.SelectedIndex = -1;
+            }
+        }
+
         private void CheckConnectivity()
         {
-
+            //TODO: check Connectivity everytime a bitmapImage from an internet uri is loaded
         }
     }
 }
