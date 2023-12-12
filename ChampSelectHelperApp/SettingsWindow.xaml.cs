@@ -31,6 +31,7 @@ namespace ChampSelectHelperApp
         private BitmapImage noChampImg;
 
         private UIElement[] skinUIElements;
+        private UIElement[] chromaUIElements;
 
         public SettingsWindow()
         {
@@ -42,9 +43,17 @@ namespace ChampSelectHelperApp
 
             skinUIElements = new UIElement[]
             {
-                skinComboBox, skinImage
+                skinComboBox, skinImage, skinRndmCheckBox
             };
             foreach (UIElement ui in skinUIElements)
+            {
+                ui.IsEnabled = false;
+            }
+            chromaUIElements = new UIElement[]
+            {
+                chromaComboBox, chromaRndmCheckBox
+            };
+            foreach (UIElement ui in chromaUIElements)
             {
                 ui.IsEnabled = false;
             }
@@ -52,31 +61,21 @@ namespace ChampSelectHelperApp
 
         public void InitializeWindow()
         {
-            if (NetworkInterface.GetIsNetworkAvailable())
+            CheckConnectivity();
+            try
             {
-                try
+                using (HttpClient httpClient = new())
                 {
-                    using (HttpClient httpClient = new())
-                    {
-                        string response = httpClient.GetStringAsync(Program.CHAMPIONS_JSON_URL).Result;
-                        JObject parsedResponse = JObject.Parse(response);
-                        ChampInfoArrayParser(parsedResponse);
-                        InitializeElements();
-                        return;
-                    }
-                }
-                catch (HttpRequestException e) 
-                {
-                    MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
+                    string response = httpClient.GetStringAsync(Program.CHAMPIONS_JSON_URL).Result;
+                    JObject parsedResponse = JObject.Parse(response);
+                    ChampInfoArrayParser(parsedResponse);
+                    InitializeElements();
+                    return;
                 }
             }
-            var result = MessageBox.Show("There was a problem while trying to connect. Check your internet connection.\n\nDo you want to retry?", "Connecction Error", MessageBoxButton.YesNo, MessageBoxImage.Error);
-            if (result == MessageBoxResult.Yes)
+            catch (HttpRequestException e) 
             {
-                InitializeWindow();
-            }
-            else
-            {
+                MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
             }
         }
@@ -132,6 +131,23 @@ namespace ChampSelectHelperApp
             }
         }
 
+        private void CheckConnectivity()
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                return;
+            }
+            var result = MessageBox.Show("There was a problem while trying to connect to the internet. Check your internet connection.\n\nDo you want to retry?", "Connecction Error", MessageBoxButton.YesNo, MessageBoxImage.Error);
+            if (result == MessageBoxResult.Yes)
+            {
+                InitializeWindow();
+            }
+            else
+            {
+                Close();
+            }
+        }
+
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             skinComboBox.Items.Clear();
@@ -158,6 +174,7 @@ namespace ChampSelectHelperApp
             }
             else
             {
+                CheckConnectivity();
                 BitmapImage bitimg = new BitmapImage(new Uri(champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
                 bitimg.DownloadCompleted += (sender, ev) => skinImage.Source = bitimg;
             }
@@ -182,9 +199,27 @@ namespace ChampSelectHelperApp
             }
         }
 
-        private void CheckConnectivity()
+        private void skinRndmCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-            //TODO: check Connectivity everytime a bitmapImage from an internet uri is loaded
+            if (skinRndmCheckBox.IsChecked == true)
+            {
+                skinComboBox.SelectedIndex = -1;
+                skinComboBox.IsEnabled = false;
+            }
+            else
+            {
+                skinComboBox.IsEnabled = true;
+            }
+        }
+
+        private void chromaCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void chromaRndmCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

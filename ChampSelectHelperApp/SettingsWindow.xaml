@@ -11,9 +11,13 @@
         <Image x:Name="championImage" Height="63" Margin="10,10,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ComboBox x:Name="championComboBox" Margin="85,38,0,0" Width="120" SelectionChanged="championComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBlock x:Name="championTextBlock" HorizontalAlignment="Left" Height="20" Margin="85,18,0,0" TextWrapping="Wrap" Text="Champion" VerticalAlignment="Top" Width="120"/>
-        <Image x:Name="skinImage" HorizontalAlignment="Left" Height="176" Margin="34,217,0,0" VerticalAlignment="Top" Width="263"/>
-        <ComboBox x:Name="skinComboBox" Margin="85,167,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <CheckBox x:Name="skinCheckBox" Content="Skin" HorizontalAlignment="Left" Height="20" Margin="85,147,0,0" VerticalAlignment="Top" Width="120" Checked="skinCheckBox_Changed" Unchecked="skinCheckBox_Changed"/>
+        <Image x:Name="skinImage" HorizontalAlignment="Left" Height="176" Margin="10,148,0,0" VerticalAlignment="Top" Width="263"/>
+        <ComboBox x:Name="skinComboBox" Margin="20,111,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox x:Name="skinCheckBox" Content="Skin" HorizontalAlignment="Left" Height="20" Margin="20,91,0,0" VerticalAlignment="Top" Width="120" Checked="skinCheckBox_Changed" Unchecked="skinCheckBox_Changed"/>
+        <CheckBox x:Name="skinRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,114,0,0" VerticalAlignment="Top" Width="120" Checked="skinRndmCheckBox_Changed" Unchecked="skinRndmCheckBox_Changed"/>
+        <ComboBox x:Name="chromaComboBox" Margin="20,368,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chromaCheckBox" Content="Chroma" HorizontalAlignment="Left" Height="20" Margin="20,348,0,0" VerticalAlignment="Top" Width="120" Checked="chromaCheckBox_Changed" Unchecked="chromaCheckBox_Changed"/>
+        <CheckBox x:Name="chromaRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,371,0,0" VerticalAlignment="Top" Width="120" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed"/>
 
     </Grid>
 
