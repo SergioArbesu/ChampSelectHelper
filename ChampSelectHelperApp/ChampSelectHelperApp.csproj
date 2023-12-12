@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>       
+    <UseWindowsForms>True</UseWindowsForms>       
+    <StartupObject>ChampSelectHelperApp.Program</StartupObject>       
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\icon.ico" />
+    <None Remove="Resources\noChamp.png" />
+    <None Remove="Resources\quit.ico" />
+    <None Remove="Resources\settings.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico" />
+    <Resource Include="Resources\noChamp.png" />
+    <Resource Include="Resources\quit.ico" />
+    <Resource Include="Resources\settings.ico" />
+  </ItemGroup>
+
+</Project>
