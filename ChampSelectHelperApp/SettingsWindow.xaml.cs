@@ -154,6 +154,7 @@ namespace ChampSelectHelperApp
                 {
                     skinComboBox.Items.Add(skin.Name);
                 }
+                skinCheckBox.IsChecked = false;
                 skinCheckBox.IsEnabled = true;
             }
         }
