@@ -57,6 +57,8 @@ namespace ChampSelectHelperApp
             {
                 ui.IsEnabled = false;
             }
+            EnableChromaUI(false);
+            chromaCheckBox.IsEnabled = false;
         }
 
         public void InitializeWindow()
@@ -155,6 +157,7 @@ namespace ChampSelectHelperApp
             if (championComboBox.SelectedIndex == -1)
             {
                 championImage.Source = noChampImg;
+                //TODO: disable skinUIELEments
             }
             else
             {
@@ -168,6 +171,8 @@ namespace ChampSelectHelperApp
 
         private void skinComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            chromaComboBox.Items.Clear();
+
             if (skinComboBox.SelectedIndex == -1)
             {
                 skinImage.Source = null;
@@ -176,7 +181,32 @@ namespace ChampSelectHelperApp
             {
                 CheckConnectivity();
                 BitmapImage bitimg = new BitmapImage(new Uri(champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
-                bitimg.DownloadCompleted += (sender, ev) => skinImage.Source = bitimg;
+                bitimg.DownloadCompleted += (sender, ev) =>
+                {
+                    skinImage.Source = bitimg;
+
+                    ChromaInfo[]? chromas = champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
+                    if (chromas is null)
+                    {
+                        EnableChromaUI(false);
+                    }
+                    else
+                    {
+                        EnableChromaUI(true);
+                        foreach (ChromaInfo chroma in chromas)
+                        {
+                            chromaComboBox.Items.Add(chroma.Name);
+                        }
+                    }
+                };
+            }
+        }
+
+        private void EnableChromaUI(bool enable)
+        {
+            foreach (UIElement ui in chromaUIElements)
+            {
+                ui.IsEnabled = enable;
             }
         }
 
@@ -188,6 +218,7 @@ namespace ChampSelectHelperApp
                 {
                     ui.IsEnabled = true;
                 }
+                chromaCheckBox.IsEnabled = true;
             }
             else
             {
@@ -196,6 +227,8 @@ namespace ChampSelectHelperApp
                     ui.IsEnabled = false;
                 }
                 skinComboBox.SelectedIndex = -1;
+                chromaCheckBox.IsEnabled = false;
+                chromaCheckBox.IsChecked = false;
             }
         }
 
@@ -205,6 +238,7 @@ namespace ChampSelectHelperApp
             {
                 skinComboBox.SelectedIndex = -1;
                 skinComboBox.IsEnabled = false;
+                chromaCheckBox_Changed(sender, e);
             }
             else
             {
@@ -214,12 +248,47 @@ namespace ChampSelectHelperApp
 
         private void chromaCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-
+            if (chromaCheckBox.IsChecked == true)
+            {
+                if (skinRndmCheckBox.IsChecked == true)
+                {
+                    chromaComboBox.SelectedIndex = -1;
+                    chromaRndmCheckBox.IsChecked = true;
+                    foreach (UIElement ui in chromaUIElements)
+                    {
+                        ui.IsEnabled = false;
+                    }
+                }
+                else
+                {
+                    foreach (UIElement ui in chromaUIElements)
+                    {
+                        ui.IsEnabled = true;
+                    }
+                }
+            }
+            else
+            {
+                chromaComboBox.SelectedIndex = -1;
+                chromaRndmCheckBox.IsChecked = false;
+                foreach (UIElement ui in chromaUIElements)
+                {
+                    ui.IsEnabled = false;
+                }
+            }
         }
 
         private void chromaRndmCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-
+            if (chromaRndmCheckBox.IsChecked == true)
+            {
+                chromaComboBox.SelectedIndex = -1;
+                chromaComboBox.IsEnabled = false;
+            }
+            else
+            {
+                chromaComboBox.IsEnabled = true;
+            }
         }
     }
 }

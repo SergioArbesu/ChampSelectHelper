@@ -15,9 +15,9 @@
         <ComboBox x:Name="skinComboBox" Margin="20,111,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <CheckBox x:Name="skinCheckBox" Content="Skin" HorizontalAlignment="Left" Height="20" Margin="20,91,0,0" VerticalAlignment="Top" Width="120" Checked="skinCheckBox_Changed" Unchecked="skinCheckBox_Changed"/>
         <CheckBox x:Name="skinRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,114,0,0" VerticalAlignment="Top" Width="120" Checked="skinRndmCheckBox_Changed" Unchecked="skinRndmCheckBox_Changed"/>
-        <ComboBox x:Name="chromaComboBox" Margin="20,368,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <CheckBox x:Name="chromaCheckBox" Content="Chroma" HorizontalAlignment="Left" Height="20" Margin="20,348,0,0" VerticalAlignment="Top" Width="120" Checked="chromaCheckBox_Changed" Unchecked="chromaCheckBox_Changed"/>
-        <CheckBox x:Name="chromaRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,371,0,0" VerticalAlignment="Top" Width="120" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed"/>
+        <ComboBox x:Name="chromaComboBox" Margin="20,357,0,0" Width="120" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chromaCheckBox" Content="Chroma" HorizontalAlignment="Left" Height="20" Margin="20,337,0,0" VerticalAlignment="Top" Width="120" Checked="chromaCheckBox_Changed" Unchecked="chromaCheckBox_Changed"/>
+        <CheckBox x:Name="chromaRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,360,0,0" VerticalAlignment="Top" Width="120" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed"/>
 
     </Grid>
 
