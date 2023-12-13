@@ -59,6 +59,7 @@ namespace ChampSelectHelperApp
             }
             EnableChromaUI(false);
             chromaCheckBox.IsEnabled = false;
+            skinCheckBox.IsEnabled = false;
         }
 
         public void InitializeWindow()
@@ -157,7 +158,8 @@ namespace ChampSelectHelperApp
             if (championComboBox.SelectedIndex == -1)
             {
                 championImage.Source = noChampImg;
-                //TODO: disable skinUIELEments
+                skinCheckBox.IsEnabled = false;
+                skinCheckBox.IsChecked = false;
             }
             else
             {
@@ -166,6 +168,7 @@ namespace ChampSelectHelperApp
                 {
                     skinComboBox.Items.Add(skin.Name);
                 }
+                skinCheckBox.IsEnabled = true;
             }
         }
 
@@ -192,11 +195,11 @@ namespace ChampSelectHelperApp
                     }
                     else
                     {
-                        EnableChromaUI(true);
                         foreach (ChromaInfo chroma in chromas)
                         {
                             chromaComboBox.Items.Add(chroma.Name);
                         }
+                        chromaCheckBox.IsEnabled = true;
                     }
                 };
             }
@@ -218,17 +221,17 @@ namespace ChampSelectHelperApp
                 {
                     ui.IsEnabled = true;
                 }
-                chromaCheckBox.IsEnabled = true;
             }
             else
             {
+                skinComboBox.SelectedIndex = -1;
+                skinRndmCheckBox.IsChecked = false;
+                chromaCheckBox.IsChecked = false;
                 foreach (UIElement ui in skinUIElements)
                 {
                     ui.IsEnabled = false;
                 }
-                skinComboBox.SelectedIndex = -1;
                 chromaCheckBox.IsEnabled = false;
-                chromaCheckBox.IsChecked = false;
             }
         }
 
@@ -237,12 +240,15 @@ namespace ChampSelectHelperApp
             if (skinRndmCheckBox.IsChecked == true)
             {
                 skinComboBox.SelectedIndex = -1;
+                chromaCheckBox.IsChecked = false;
                 skinComboBox.IsEnabled = false;
-                chromaCheckBox_Changed(sender, e);
+                chromaCheckBox.IsEnabled = true;
             }
             else
             {
                 skinComboBox.IsEnabled = true;
+                chromaCheckBox.IsChecked = false;
+                chromaCheckBox.IsEnabled = false;
             }
         }
 
