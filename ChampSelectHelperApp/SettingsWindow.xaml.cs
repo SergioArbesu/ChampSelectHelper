@@ -57,7 +57,10 @@ namespace ChampSelectHelperApp
             {
                 ui.IsEnabled = false;
             }
-            EnableChromaUI(false);
+            foreach (UIElement ui in chromaUIElements)
+            {
+                ui.IsEnabled = false;
+            }
             chromaCheckBox.IsEnabled = false;
             skinCheckBox.IsEnabled = false;
         }
@@ -191,7 +194,10 @@ namespace ChampSelectHelperApp
                     ChromaInfo[]? chromas = champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
                     if (chromas is null)
                     {
-                        EnableChromaUI(false);
+                        foreach (UIElement ui in chromaUIElements)
+                        {
+                            ui.IsEnabled = false;
+                        }
                     }
                     else
                     {
@@ -202,14 +208,6 @@ namespace ChampSelectHelperApp
                         chromaCheckBox.IsEnabled = true;
                     }
                 };
-            }
-        }
-
-        private void EnableChromaUI(bool enable)
-        {
-            foreach (UIElement ui in chromaUIElements)
-            {
-                ui.IsEnabled = enable;
             }
         }
 
@@ -260,27 +258,20 @@ namespace ChampSelectHelperApp
                 {
                     chromaComboBox.SelectedIndex = -1;
                     chromaRndmCheckBox.IsChecked = true;
-                    foreach (UIElement ui in chromaUIElements)
-                    {
-                        ui.IsEnabled = false;
-                    }
+                    chromaRndmCheckBox.IsEnabled = false;
                 }
                 else
                 {
-                    foreach (UIElement ui in chromaUIElements)
-                    {
-                        ui.IsEnabled = true;
-                    }
+                    chromaComboBox.IsEnabled = true;
+                    chromaRndmCheckBox.IsEnabled = true;
                 }
             }
             else
             {
                 chromaComboBox.SelectedIndex = -1;
                 chromaRndmCheckBox.IsChecked = false;
-                foreach (UIElement ui in chromaUIElements)
-                {
-                    ui.IsEnabled = false;
-                }
+                chromaComboBox.IsEnabled = false;
+                chromaRndmCheckBox.IsEnabled = false;
             }
         }
 
