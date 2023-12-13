@@ -30,9 +30,6 @@ namespace ChampSelectHelperApp
 
         private BitmapImage noChampImg;
 
-        private UIElement[] skinUIElements;
-        private UIElement[] chromaUIElements;
-
         public SettingsWindow()
         {
             InitializeComponent();
@@ -41,28 +38,14 @@ namespace ChampSelectHelperApp
 
             noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/noChamp.png"));
 
-            skinUIElements = new UIElement[]
-            {
-                skinComboBox, skinImage, skinRndmCheckBox
-            };
-            foreach (UIElement ui in skinUIElements)
-            {
-                ui.IsEnabled = false;
-            }
-            chromaUIElements = new UIElement[]
-            {
-                chromaComboBox, chromaRndmCheckBox
-            };
-            foreach (UIElement ui in chromaUIElements)
-            {
-                ui.IsEnabled = false;
-            }
-            foreach (UIElement ui in chromaUIElements)
-            {
-                ui.IsEnabled = false;
-            }
-            chromaCheckBox.IsEnabled = false;
             skinCheckBox.IsEnabled = false;
+            skinComboBox.IsEnabled = false;
+            skinRndmCheckBox.IsEnabled = false;
+            skinImage.IsEnabled = false;
+
+            chromaCheckBox.IsEnabled = false;
+            chromaComboBox.IsEnabled = false;
+            chromaRndmCheckBox.IsEnabled = false;
         }
 
         public void InitializeWindow()
@@ -161,8 +144,8 @@ namespace ChampSelectHelperApp
             if (championComboBox.SelectedIndex == -1)
             {
                 championImage.Source = noChampImg;
-                skinCheckBox.IsEnabled = false;
                 skinCheckBox.IsChecked = false;
+                skinCheckBox.IsEnabled = false;
             }
             else
             {
@@ -194,10 +177,8 @@ namespace ChampSelectHelperApp
                     ChromaInfo[]? chromas = champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
                     if (chromas is null)
                     {
-                        foreach (UIElement ui in chromaUIElements)
-                        {
-                            ui.IsEnabled = false;
-                        }
+                        chromaComboBox.IsEnabled = false;
+                        chromaRndmCheckBox.IsEnabled = false;
                     }
                     else
                     {
@@ -215,20 +196,19 @@ namespace ChampSelectHelperApp
         {
             if (skinCheckBox.IsChecked == true)
             {
-                foreach (UIElement ui in skinUIElements)
-                {
-                    ui.IsEnabled = true;
-                }
+                skinComboBox.IsEnabled = true;
+                skinRndmCheckBox.IsEnabled = true;
+                skinImage.IsEnabled = true;
             }
             else
             {
                 skinComboBox.SelectedIndex = -1;
                 skinRndmCheckBox.IsChecked = false;
                 chromaCheckBox.IsChecked = false;
-                foreach (UIElement ui in skinUIElements)
-                {
-                    ui.IsEnabled = false;
-                }
+
+                skinComboBox.IsEnabled = false;
+                skinRndmCheckBox.IsEnabled = false;
+                skinImage.IsEnabled = false;
                 chromaCheckBox.IsEnabled = false;
             }
         }
