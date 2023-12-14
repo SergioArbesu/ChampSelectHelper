@@ -32,8 +32,6 @@ namespace ChampSelectHelperApp
 
         private BitmapImage noChampImg;
 
-        private BitmapImage bitimg;
-
         public SettingsWindow()
         {
             InitializeComponent();
@@ -269,12 +267,6 @@ namespace ChampSelectHelperApp
             {
                 chromaComboBox.IsEnabled = true;
             }
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show($"skinComboBox.SelectedIndex: {skinComboBox.SelectedIndex}\nskinImage.Source: {skinImage.Source}\n" +
-                $"bitimg.IsDownloading: {bitimg.IsDownloading}\nbitimg.UriSource: {bitimg.UriSource}\n");
         }
     }
 }
