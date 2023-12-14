@@ -11,12 +11,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Net.Http;
+using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml.Linq;
-using System.Net.NetworkInformation;
 using System.Reflection;
+using NETWORKLIST;
 
 namespace ChampSelectHelperApp
 {
@@ -25,14 +25,20 @@ namespace ChampSelectHelperApp
     /// </summary>
     public partial class SettingsWindow : Window
     {
+        private readonly NetworkListManager networkListManager;
+
         private ChampInfo[] champInfo;
         private Dictionary<int, ChampionSettings> champSettDict = new();
 
         private BitmapImage noChampImg;
 
+        private BitmapImage bitimg;
+
         public SettingsWindow()
         {
             InitializeComponent();
+
+            networkListManager = new NetworkListManager();
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
@@ -53,18 +59,18 @@ namespace ChampSelectHelperApp
             CheckConnectivity();
             try
             {
-                using (HttpClient httpClient = new())
+                using (WebClient httpClient = new())
                 {
-                    string response = httpClient.GetStringAsync(Program.CHAMPIONS_JSON_URL).Result;
+                    string response = httpClient.DownloadString(Program.CHAMPIONS_JSON_URL);
                     JObject parsedResponse = JObject.Parse(response);
                     ChampInfoArrayParser(parsedResponse);
                     InitializeElements();
                     return;
                 }
             }
-            catch (HttpRequestException e) 
+            catch (WebException ex) 
             {
-                MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, ex.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
             }
         }
@@ -122,14 +128,14 @@ namespace ChampSelectHelperApp
 
         private void CheckConnectivity()
         {
-            if (NetworkInterface.GetIsNetworkAvailable())
+            if (networkListManager.IsConnectedToInternet)
             {
                 return;
             }
             var result = MessageBox.Show("There was a problem while trying to connect to the internet. Check your internet connection.\n\nDo you want to retry?", "Connecction Error", MessageBoxButton.YesNo, MessageBoxImage.Error);
             if (result == MessageBoxResult.Yes)
             {
-                InitializeWindow();
+                CheckConnectivity();
             }
             else
             {
@@ -170,26 +176,22 @@ namespace ChampSelectHelperApp
             else
             {
                 CheckConnectivity();
-                BitmapImage bitimg = new BitmapImage(new Uri(champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
-                bitimg.DownloadCompleted += (sender, ev) =>
-                {
-                    skinImage.Source = bitimg;
+                skinImage.Source = new BitmapImage(new Uri(champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
 
-                    ChromaInfo[]? chromas = champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
-                    if (chromas is null)
+                ChromaInfo[]? chromas = champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
+                if (chromas is null)
+                {
+                    chromaComboBox.IsEnabled = false;
+                    chromaRndmCheckBox.IsEnabled = false;
+                }
+                else
+                {
+                    foreach (ChromaInfo chroma in chromas)
                     {
-                        chromaComboBox.IsEnabled = false;
-                        chromaRndmCheckBox.IsEnabled = false;
+                        chromaComboBox.Items.Add(chroma.Name);
                     }
-                    else
-                    {
-                        foreach (ChromaInfo chroma in chromas)
-                        {
-                            chromaComboBox.Items.Add(chroma.Name);
-                        }
-                        chromaCheckBox.IsEnabled = true;
-                    }
-                };
+                    chromaCheckBox.IsEnabled = true;
+                }
             }
         }
 
@@ -267,6 +269,12 @@ namespace ChampSelectHelperApp
             {
                 chromaComboBox.IsEnabled = true;
             }
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show($"skinComboBox.SelectedIndex: {skinComboBox.SelectedIndex}\nskinImage.Source: {skinImage.Source}\n" +
+                $"bitimg.IsDownloading: {bitimg.IsDownloading}\nbitimg.UriSource: {bitimg.UriSource}\n");
         }
     }
 }
