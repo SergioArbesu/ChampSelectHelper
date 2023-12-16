@@ -233,26 +233,23 @@ namespace ChampSelectHelperApp
 
         private void chromaCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-            if (chromaCheckBox.IsChecked == true)
-            {
-                if (skinRndmCheckBox.IsChecked == true)
-                {
-                    chromaComboBox.SelectedIndex = -1;
-                    chromaRndmCheckBox.IsChecked = true;
-                    chromaRndmCheckBox.IsEnabled = false;
-                }
-                else
-                {
-                    chromaComboBox.IsEnabled = true;
-                    chromaRndmCheckBox.IsEnabled = true;
-                }
-            }
-            else
+            if (chromaCheckBox.IsChecked != true)
             {
                 chromaComboBox.SelectedIndex = -1;
                 chromaRndmCheckBox.IsChecked = false;
                 chromaComboBox.IsEnabled = false;
                 chromaRndmCheckBox.IsEnabled = false;
+            }
+            else if (skinRndmCheckBox.IsChecked == true)
+            {
+                chromaComboBox.SelectedIndex = -1;
+                chromaRndmCheckBox.IsChecked = true;
+                chromaRndmCheckBox.IsEnabled = false;
+            }
+            else
+            {
+                chromaComboBox.IsEnabled = true;
+                chromaRndmCheckBox.IsEnabled = true;
             }
         }
 
@@ -267,6 +264,11 @@ namespace ChampSelectHelperApp
             {
                 chromaComboBox.IsEnabled = true;
             }
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            new CheckBoxListWindow(new List<CheckBoxListItem>(), "Random Chromas").ShowDialog();
         }
     }
 }

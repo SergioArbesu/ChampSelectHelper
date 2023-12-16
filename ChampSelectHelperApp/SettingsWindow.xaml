@@ -5,19 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChampSelectHelperApp"
         mc:Ignorable="d"
-        Title="Champ Select Helper" Height="450" Width="800" Icon="Resources/icon.ico"
+        Height="450" Width="800" Icon="Resources/icon.ico"
         ResizeMode="CanMinimize">
     <Grid>
         <Image x:Name="championImage" Height="63" Margin="10,10,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ComboBox x:Name="championComboBox" Margin="85,38,0,0" Width="120" SelectionChanged="championComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBlock x:Name="championTextBlock" HorizontalAlignment="Left" Height="20" Margin="85,18,0,0" TextWrapping="Wrap" Text="Champion" VerticalAlignment="Top" Width="120"/>
-        <Image x:Name="skinImage" HorizontalAlignment="Left" Height="176" Margin="10,201,0,0" VerticalAlignment="Top" Width="263"/>
+        <Image x:Name="skinImage" HorizontalAlignment="Left" Height="223" Margin="10,201,0,0" VerticalAlignment="Top" Width="335"/>
         <ComboBox x:Name="skinComboBox" Margin="20,111,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <CheckBox x:Name="skinCheckBox" Content="Skin" HorizontalAlignment="Left" Height="20" Margin="20,91,0,0" VerticalAlignment="Top" Width="120" Checked="skinCheckBox_Changed" Unchecked="skinCheckBox_Changed"/>
         <CheckBox x:Name="skinRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,114,0,0" VerticalAlignment="Top" Width="120" Checked="skinRndmCheckBox_Changed" Unchecked="skinRndmCheckBox_Changed"/>
         <ComboBox x:Name="chromaComboBox" Margin="20,163,0,0" Width="120" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <CheckBox x:Name="chromaCheckBox" Content="Chroma" HorizontalAlignment="Left" Height="20" Margin="20,143,0,0" VerticalAlignment="Top" Width="120" Checked="chromaCheckBox_Changed" Unchecked="chromaCheckBox_Changed"/>
         <CheckBox x:Name="chromaRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,166,0,0" VerticalAlignment="Top" Width="120" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="557,201,0,0" VerticalAlignment="Top" Click="button_Click"/>
 
     </Grid>
 

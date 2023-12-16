@@ -8,7 +8,7 @@ namespace ChampSelectHelperApp
 {
     class Program
     {
-        public static readonly string APP_NAME = "Champion Select Helper";
+        public static readonly string APP_NAME = "Champ Select Helper";
         public static readonly string APP_VERSION = "0.0";
         public static readonly string APP_DEVELOPER = "Arbesu";
 
