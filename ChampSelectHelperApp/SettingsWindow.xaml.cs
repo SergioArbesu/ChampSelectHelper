@@ -27,7 +27,7 @@ namespace ChampSelectHelperApp
     {
         private readonly NetworkListManager networkListManager;
 
-        private ChampInfo[] champInfo;
+        private ChampInfo[] champions;
         private Dictionary<int, ChampionSettings> champSettDict = new();
 
         private BitmapImage noChampImg;
@@ -61,7 +61,7 @@ namespace ChampSelectHelperApp
                 {
                     string response = httpClient.DownloadString(Program.CHAMPIONS_JSON_URL);
                     JObject parsedResponse = JObject.Parse(response);
-                    ChampInfoArrayParser(parsedResponse);
+                    CreateChampInfo(parsedResponse);
                     InitializeElements();
                     return;
                 }
@@ -76,7 +76,7 @@ namespace ChampSelectHelperApp
         private void InitializeElements()
         {
             //always use after having created champInfo
-            foreach (ChampInfo info in champInfo!)
+            foreach (ChampInfo info in champions!)
             {
                 championComboBox.Items.Add(info.Name);
             }
@@ -87,39 +87,14 @@ namespace ChampSelectHelperApp
             championImage.Visibility = Visibility.Visible;
         }
 
-        private void ChampInfoArrayParser(JObject champJObject)
+        private void CreateChampInfo(JObject champJObject)
         {
-            champInfo = new ChampInfo[champJObject.Count];
+            champions = new ChampInfo[champJObject.Count];
             int i = 0;
             foreach (var champion in champJObject)
             {
-                var value = champion.Value;
-                string name = (string)value["name"];
-
-                JArray skins = (JArray)value["skins"];
-                SkinInfo[] skinInfo = new SkinInfo[skins.Count];
-                int j = 0;
-                foreach (JObject skin in skins)
-                {
-                    JArray chromas = (JArray)skin["chromas"];
-                    ChromaInfo[]? chromaInfo = null;
-                    if (chromas.HasValues)
-                    {
-                        if (chromas[0].Type == JTokenType.Object)
-                        {
-                            chromaInfo = new ChromaInfo[chromas.Count];
-                            int k = 0;
-                            foreach (JObject chroma in chromas)
-                            {
-                                chromaInfo[k] = new ChromaInfo((int)chroma["id"], (string)chroma["name"]);
-                                k++;
-                            }
-                        }
-                    }
-                    skinInfo[j] = new SkinInfo((int)skin["id"], (string)skin["name"], (string)skin["uncenteredSplashPath"], chromaInfo);
-                    j++;
-                }
-                champInfo[i] = new ChampInfo((int)value["id"], name, (string)value["icon"], skinInfo);
+                JObject value = (JObject)champion.Value;
+                champions[i] = new ChampInfo(value);
                 i++;
             }
         }
@@ -153,8 +128,8 @@ namespace ChampSelectHelperApp
             }
             else
             {
-                championImage.Source = champInfo[championComboBox.SelectedIndex].Icon;
-                foreach (SkinInfo skin in champInfo[championComboBox.SelectedIndex].Skins)
+                championImage.Source = champions[championComboBox.SelectedIndex].Icon;
+                foreach (SkinInfo skin in champions[championComboBox.SelectedIndex].Skins)
                 {
                     skinComboBox.Items.Add(skin.Name);
                 }
@@ -174,9 +149,9 @@ namespace ChampSelectHelperApp
             else
             {
                 CheckConnectivity();
-                skinImage.Source = new BitmapImage(new Uri(champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
+                skinImage.Source = new BitmapImage(new Uri(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
 
-                ChromaInfo[]? chromas = champInfo[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
+                ChromaInfo[]? chromas = champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
                 if (chromas is null)
                 {
                     chromaComboBox.IsEnabled = false;
@@ -251,6 +226,8 @@ namespace ChampSelectHelperApp
                 chromaComboBox.IsEnabled = true;
                 chromaRndmCheckBox.IsEnabled = true;
             }
+
+            //TODO: hacer que no se pueda elegir chroma aleatorio si hay skin aleatoria
         }
 
         private void chromaRndmCheckBox_Changed(object sender, RoutedEventArgs e)
@@ -266,9 +243,14 @@ namespace ChampSelectHelperApp
             }
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void skinRndmDialogButton_Click(object sender, RoutedEventArgs e)
         {
             new CheckBoxListWindow(this, new List<CheckBoxListItem>(), "Random Chromas").ShowDialog();
+        }
+
+        private void chromaRndmDialogButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

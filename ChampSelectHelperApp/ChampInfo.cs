@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,22 @@ namespace ChampSelectHelperApp
             Icon = new BitmapImage(new Uri(iconUri));
             Skins = skins;
         }
+
+        public ChampInfo(JObject champion)
+        {
+            Id = (int)champion["id"];
+            Name = (string)champion["name"];
+            Icon = new BitmapImage(new Uri((string)champion["icon"]));
+
+            JArray skins = (JArray)champion["skins"];
+            Skins = new SkinInfo[skins.Count];
+            int i = 0;
+            foreach (JObject skin in skins)
+            {
+                Skins[i] = new SkinInfo(skin);
+                i++;
+            }
+        }
     }
 
     class SkinInfo
@@ -37,6 +54,29 @@ namespace ChampSelectHelperApp
             IconUri = iconUri;
             Chromas = chromas;
         }
+
+        public SkinInfo(JObject skin)
+        {
+            Id = (int)skin["id"];
+            Name = (string)skin["name"];
+            IconUri = (string)skin["uncenteredSplashPath"];
+
+            JArray chromas = (JArray)skin["chromas"];
+            if (chromas.HasValues && chromas[0].Type == JTokenType.Object)
+            {
+                Chromas = new ChromaInfo[chromas.Count];
+                int i = 0;
+                foreach (JObject chroma in chromas)
+                {
+                    Chromas[i] = new ChromaInfo(chroma);
+                    i++;
+                }
+            }
+            else
+            {
+                Chromas = null;
+            }
+        }
     }
 
     class ChromaInfo
@@ -48,6 +88,12 @@ namespace ChampSelectHelperApp
         {
             Id = id;
             Name = name;
+        }
+
+        public ChromaInfo(JObject chroma)
+        {
+            Id = (int)chroma["id"];
+            Name = (string)chroma["name"];
         }
     }
 }

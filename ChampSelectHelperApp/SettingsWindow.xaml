@@ -18,7 +18,8 @@
         <ComboBox x:Name="chromaComboBox" Margin="20,163,0,0" Width="120" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <CheckBox x:Name="chromaCheckBox" Content="Chroma" HorizontalAlignment="Left" Height="20" Margin="20,143,0,0" VerticalAlignment="Top" Width="120" Checked="chromaCheckBox_Changed" Unchecked="chromaCheckBox_Changed"/>
         <CheckBox x:Name="chromaRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,166,0,0" VerticalAlignment="Top" Width="120" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="557,201,0,0" VerticalAlignment="Top" Click="button_Click"/>
+        <Button x:Name="skinRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,112,0,0" VerticalAlignment="Top" Click="skinRndmDialogButton_Click" Height="20" Width="50"/>
+        <Button x:Name="chromaRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,164,0,0" VerticalAlignment="Top" Click="chromaRndmDialogButton_Click" Height="20" Width="50"/>
 
     </Grid>
 
