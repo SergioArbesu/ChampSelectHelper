@@ -230,12 +230,12 @@ namespace ChampSelectHelperApp
             {
                 chromaComboBox.SelectedIndex = -1;
                 chromaComboBox.IsEnabled = false;
-                chromaRndmDialogButton.Visibility = Visibility.Visible;
+                chromaRndmDialogButton.IsEnabled = true;
             }
             else
             {
                 chromaComboBox.IsEnabled = true;
-                chromaRndmDialogButton.Visibility = Visibility.Hidden;
+                chromaRndmDialogButton.IsEnabled = false;
             }
         }
 
@@ -258,6 +258,7 @@ namespace ChampSelectHelperApp
                 checkBoxList.Add(new CheckBoxListItem(false, chroma.Name, chroma.Id));
             }
             new CheckBoxListWindow(this, checkBoxList, "Random Chromas Pool").ShowDialog();
+            //save it
             //TODO: add option to choose the regular chroma here and in dropdown
         }
     }
