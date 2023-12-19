@@ -51,7 +51,7 @@ namespace ChampSelectHelperApp
             chromaCheckBox.IsEnabled = false;
             chromaComboBox.IsEnabled = false;
             chromaRndmCheckBox.IsEnabled = false;
-            chromaRndmDialogButton.Visibility = Visibility.Hidden;
+            chromaRndmDialogButton.IsEnabled = false;
         }
 
         public void InitializeWindow()
@@ -143,6 +143,7 @@ namespace ChampSelectHelperApp
         private void skinComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             chromaComboBox.Items.Clear();
+            chromaCheckBox.IsChecked = false;
 
             if (skinComboBox.SelectedIndex == -1)
             {
