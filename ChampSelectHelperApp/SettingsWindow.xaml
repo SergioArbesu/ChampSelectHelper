@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ChampSelectHelperApp"
         mc:Ignorable="d"
         Height="450" Width="800" Icon="Resources/icon.ico"
-        ResizeMode="CanMinimize">
+        ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image x:Name="championImage" Height="63" Margin="10,10,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ComboBox x:Name="championComboBox" Margin="85,38,0,0" Width="120" SelectionChanged="championComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>

@@ -268,7 +268,7 @@ namespace ChampSelectHelperApp
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            new CheckBoxListWindow(new List<CheckBoxListItem>(), "Random Chromas").ShowDialog();
+            new CheckBoxListWindow(this, new List<CheckBoxListItem>(), "Random Chromas").ShowDialog();
         }
     }
 }

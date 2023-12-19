@@ -21,9 +21,11 @@ namespace ChampSelectHelperApp
     {
         public List<CheckBoxListItem> CheckBoxList { get; private set; }
 
-        public CheckBoxListWindow(List<CheckBoxListItem> checkBoxList, string title)
+        public CheckBoxListWindow(Window owner, List<CheckBoxListItem> checkBoxList, string title)
         {
             InitializeComponent();
+
+            Owner = owner;
 
             CheckBoxList = checkBoxList;
             Title = title;

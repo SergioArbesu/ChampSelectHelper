@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChampSelectHelperApp"
         mc:Ignorable="d"
-        Height="250" Width="250" Icon="Resources/icon.ico"
-        ResizeMode="NoResize"
+        Height="250" Width="225" Icon="Resources/icon.ico"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight" MinWidth="225" MinHeight="225">
     <Grid>
         <ListBox x:Name="checkBoxListBox" Margin="10,10,10,10" BorderThickness="0">
