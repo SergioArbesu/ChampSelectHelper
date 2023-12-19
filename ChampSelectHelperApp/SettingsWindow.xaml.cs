@@ -45,11 +45,13 @@ namespace ChampSelectHelperApp
             skinCheckBox.IsEnabled = false;
             skinComboBox.IsEnabled = false;
             skinRndmCheckBox.IsEnabled = false;
+            skinRndmDialogButton.IsEnabled = false;
             skinImage.IsEnabled = false;
 
             chromaCheckBox.IsEnabled = false;
             chromaComboBox.IsEnabled = false;
             chromaRndmCheckBox.IsEnabled = false;
+            chromaRndmDialogButton.Visibility = Visibility.Hidden;
         }
 
         public void InitializeWindow()
@@ -197,10 +199,12 @@ namespace ChampSelectHelperApp
                 chromaCheckBox.IsChecked = false;
                 skinComboBox.IsEnabled = false;
                 chromaCheckBox.IsEnabled = false;
+                skinRndmDialogButton.IsEnabled = true;
             }
             else
             {
                 skinComboBox.IsEnabled = true;
+                skinRndmDialogButton.IsEnabled = false;
             }
         }
 
@@ -226,21 +230,35 @@ namespace ChampSelectHelperApp
             {
                 chromaComboBox.SelectedIndex = -1;
                 chromaComboBox.IsEnabled = false;
+                chromaRndmDialogButton.Visibility = Visibility.Visible;
             }
             else
             {
                 chromaComboBox.IsEnabled = true;
+                chromaRndmDialogButton.Visibility = Visibility.Hidden;
             }
         }
 
         private void skinRndmDialogButton_Click(object sender, RoutedEventArgs e)
         {
-            new CheckBoxListWindow(this, new List<CheckBoxListItem>(), "Random Chromas").ShowDialog();
+            List<CheckBoxListItem> checkBoxList = new();
+            foreach (SkinInfo skin in champions[championComboBox.SelectedIndex].Skins)
+            {
+                checkBoxList.Add(new CheckBoxListItem(false, skin.Name, skin.Id));
+            }
+            new CheckBoxListWindow(this, checkBoxList, "Random Skins Pool").ShowDialog();
+            //save it
         }
 
         private void chromaRndmDialogButton_Click(object sender, RoutedEventArgs e)
         {
-
+            List<CheckBoxListItem> checkBoxList = new();
+            foreach (ChromaInfo chroma in champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas!)
+            {
+                checkBoxList.Add(new CheckBoxListItem(false, chroma.Name, chroma.Id));
+            }
+            new CheckBoxListWindow(this, checkBoxList, "Random Chromas Pool").ShowDialog();
+            //TODO: add option to choose the regular chroma here and in dropdown
         }
     }
 }

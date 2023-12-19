@@ -30,9 +30,6 @@ namespace ChampSelectHelperApp
             CheckBoxList = checkBoxList;
             Title = title;
 
-            CheckBoxList.Add(new CheckBoxListItem("Original", true));
-            CheckBoxList.Add(new CheckBoxListItem("Covenant Azir", false));
-            CheckBoxList.Add(new CheckBoxListItem("Elderwood SKT", false));
             checkBoxListBox.ItemsSource = CheckBoxList;
         }
     }
@@ -41,11 +38,13 @@ namespace ChampSelectHelperApp
     {
         public string Name { get; private set; }
         public bool IsChecked { get; set; }
+        public int Id { get; private set; }
 
-        public CheckBoxListItem(string name, bool isChecked)
+        public CheckBoxListItem(bool isChecked, string name, int id)
         {
             Name = name;
             IsChecked = isChecked;
+            Id = id;
         }
     }
 }
