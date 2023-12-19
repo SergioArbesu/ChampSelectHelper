@@ -196,13 +196,11 @@ namespace ChampSelectHelperApp
                 skinComboBox.SelectedIndex = -1;
                 chromaCheckBox.IsChecked = false;
                 skinComboBox.IsEnabled = false;
-                chromaCheckBox.IsEnabled = true;
+                chromaCheckBox.IsEnabled = false;
             }
             else
             {
                 skinComboBox.IsEnabled = true;
-                chromaCheckBox.IsChecked = false;
-                chromaCheckBox.IsEnabled = false;
             }
         }
 
@@ -215,19 +213,11 @@ namespace ChampSelectHelperApp
                 chromaComboBox.IsEnabled = false;
                 chromaRndmCheckBox.IsEnabled = false;
             }
-            else if (skinRndmCheckBox.IsChecked == true)
-            {
-                chromaComboBox.SelectedIndex = -1;
-                chromaRndmCheckBox.IsChecked = true;
-                chromaRndmCheckBox.IsEnabled = false;
-            }
             else
             {
                 chromaComboBox.IsEnabled = true;
                 chromaRndmCheckBox.IsEnabled = true;
             }
-
-            //TODO: hacer que no se pueda elegir chroma aleatorio si hay skin aleatoria
         }
 
         private void chromaRndmCheckBox_Changed(object sender, RoutedEventArgs e)
