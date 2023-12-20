@@ -17,8 +17,13 @@
     <None Remove="Resources\Perks Icons\armoricon.png" />
     <None Remove="Resources\Perks Icons\attackspeedicon.png" />
     <None Remove="Resources\Perks Icons\cdrscalingicon.png" />
+    <None Remove="Resources\Perks Icons\domination.png" />
     <None Remove="Resources\Perks Icons\healthscalingicon.png" />
+    <None Remove="Resources\Perks Icons\inspiration.png" />
     <None Remove="Resources\Perks Icons\magicresicon.png" />
+    <None Remove="Resources\Perks Icons\precision.png" />
+    <None Remove="Resources\Perks Icons\resolve.png" />
+    <None Remove="Resources\Perks Icons\sorcery.png" />
     <None Remove="Resources\System Icons\icon.ico" />
     <None Remove="Resources\System Icons\quit.ico" />
     <None Remove="Resources\System Icons\settings.ico" />
@@ -47,8 +52,13 @@
     <Resource Include="Resources\Perks Icons\armoricon.png" />
     <Resource Include="Resources\Perks Icons\attackspeedicon.png" />
     <Resource Include="Resources\Perks Icons\cdrscalingicon.png" />
+    <Resource Include="Resources\Perks Icons\domination.png" />
     <Resource Include="Resources\Perks Icons\healthscalingicon.png" />
+    <Resource Include="Resources\Perks Icons\inspiration.png" />
     <Resource Include="Resources\Perks Icons\magicresicon.png" />
+    <Resource Include="Resources\Perks Icons\precision.png" />
+    <Resource Include="Resources\Perks Icons\resolve.png" />
+    <Resource Include="Resources\Perks Icons\sorcery.png" />
     <Resource Include="Resources\System Icons\icon.ico" />
     <Resource Include="Resources\System Icons\quit.ico" />
     <Resource Include="Resources\System Icons\settings.ico" />

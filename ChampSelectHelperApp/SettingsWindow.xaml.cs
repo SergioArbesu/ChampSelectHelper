@@ -62,10 +62,11 @@ namespace ChampSelectHelperApp
                 using (WebClient httpClient = new())
                 {
                     string response = httpClient.DownloadString(Program.CHAMPIONS_JSON_URL);
-                    JObject parsedResponse = JObject.Parse(response);
-                    CreateChampInfo(parsedResponse);
-                    InitializeElements();
-                    return;
+                    JObject parsedObject = JObject.Parse(response);
+                    CreateChampInfo(parsedObject);
+                    response = httpClient.DownloadString(Program.PERKS_JSON_URL);
+                    JArray parsedArray = JArray.Parse(response);
+                    CreatePerkTreeInfo(parsedArray);
                 }
             }
             catch (WebException ex) 
@@ -73,20 +74,25 @@ namespace ChampSelectHelperApp
                 MessageBox.Show(ex.Message, ex.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
             }
+            InitializeElements();
         }
 
-        private void InitializeElements()
+        private void CheckConnectivity()
         {
-            //always use after having created champInfo
-            foreach (ChampInfo info in champions!)
+            if (networkListManager.IsConnectedToInternet)
             {
-                championComboBox.Items.Add(info.Name);
+                return;
             }
-
-            championImage.Source = noChampImg;
-
-            championComboBox.Visibility = Visibility.Visible;
-            championImage.Visibility = Visibility.Visible;
+            var result = MessageBox.Show("There was a problem while trying to connect to the internet. Check your internet " +
+                "connection.\n\nDo you want to retry?", "Connecction Error", MessageBoxButton.YesNo, MessageBoxImage.Error);
+            if (result == MessageBoxResult.Yes)
+            {
+                CheckConnectivity();
+            }
+            else
+            {
+                Close();
+            }
         }
 
         private void CreateChampInfo(JObject champJObject)
@@ -101,21 +107,23 @@ namespace ChampSelectHelperApp
             }
         }
 
-        private void CheckConnectivity()
+        private void CreatePerkTreeInfo(JArray perkTreeJArray)
         {
-            if (networkListManager.IsConnectedToInternet)
+
+        }
+
+        private void InitializeElements()
+        {
+            //always use after having created champInfo
+            foreach (ChampInfo info in champions!)
             {
-                return;
+                championComboBox.Items.Add(info.Name);
             }
-            var result = MessageBox.Show("There was a problem while trying to connect to the internet. Check your internet connection.\n\nDo you want to retry?", "Connecction Error", MessageBoxButton.YesNo, MessageBoxImage.Error);
-            if (result == MessageBoxResult.Yes)
-            {
-                CheckConnectivity();
-            }
-            else
-            {
-                Close();
-            }
+
+            championImage.Source = noChampImg;
+
+            championComboBox.Visibility = Visibility.Visible;
+            championImage.Visibility = Visibility.Visible;
         }
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -261,6 +269,24 @@ namespace ChampSelectHelperApp
             new CheckBoxListWindow(this, checkBoxList, "Random Chromas Pool").ShowDialog();
             //save it
             //TODO: add option to choose the regular chroma here and in dropdown
+        }
+
+        private void primaryStyle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            string tag = (string)((Image)sender).Tag;
+            foreach (Image style in subStyleGrid.Children)
+            {
+                style.Visibility = Visibility.Visible;
+                if ((string)style.Tag == tag)
+                {
+                    style.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void subStyle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

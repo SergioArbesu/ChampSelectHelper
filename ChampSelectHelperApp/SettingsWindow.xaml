@@ -23,31 +23,36 @@
         <UniformGrid x:Name="perksUniformGrid" Margin="355,91,10,10" Columns="2">
             <Grid x:Name="primaryStyleStackPanel">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.75*"/>
+                    <RowDefinition Height="52"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <ItemsControl Grid.Row="0">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="{Binding Count}">
-
-                            </UniformGrid>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
+                <UniformGrid Grid.Row="0" Columns="5" Margin="15">
+                    <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                    <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                    <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                    <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                    <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                </UniformGrid>
             </Grid>
             <Grid x:Name="subStyleStackPanel">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.75*"/>
+                    <RowDefinition Height="52"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-                <UniformGrid Grid.Row="4" Columns="3" Rows="3" Margin="15">
+                <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="33,15">
+                    <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                    <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                    <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                    <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                    <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown" Visibility="Collapsed"/>
+                </UniformGrid>
+                <UniformGrid Grid.Row="4" Columns="3" Rows="3" Margin="25,15">
                     <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png"/>
                     <Image Source="pack://application:,,,/Resources/Perks Icons/attackspeedicon.png"/>
                     <Image Source="pack://application:,,,/Resources/Perks Icons/cdrscalingicon.png"/>
