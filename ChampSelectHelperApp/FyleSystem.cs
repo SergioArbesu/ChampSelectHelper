@@ -19,18 +19,18 @@ namespace ChampSelectHelperApp
         public static bool LaunchesAtStartup()
         {
             // Update path to current executable if we moved.
-            return BOOT_KEY.GetValue(Program.APP_NAME + " -startup") is not null;
+            return BOOT_KEY.GetValue(Program.APP_NAME) is not null;
         }
 
         public static void ToggleLaunchAtStartup()
         {
             if (LaunchesAtStartup())
             {
-                BOOT_KEY.DeleteValue(Program.APP_NAME + " -startup");
+                BOOT_KEY.DeleteValue(Program.APP_NAME);
             }
             else
             {
-                BOOT_KEY.SetValue(Program.APP_NAME + " -startup", Assembly.GetExecutingAssembly().Location);
+                BOOT_KEY.SetValue(Program.APP_NAME, Assembly.GetExecutingAssembly().Location + " " + Program.WINDOWS_STARTUP_FLAG);
             }
         }
 

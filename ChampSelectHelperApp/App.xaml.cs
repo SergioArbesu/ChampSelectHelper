@@ -97,5 +97,3 @@ namespace ChampSelectHelperApp
         }
     }
 }
-
-//TODO: show a window while the settingswindow is loading
