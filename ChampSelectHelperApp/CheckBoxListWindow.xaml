@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChampSelectHelperApp"
         mc:Ignorable="d"
-        Height="200" Width="200" Icon="Resources/icon.ico"
+        Height="200" Width="200" Icon="Resources/System Icons/icon.ico"
         ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight" MinWidth="200" MinHeight="200">
     <Grid>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChampSelectHelperApp"
         mc:Ignorable="d"
-        Height="450" Width="800" Icon="Resources/icon.ico"
+        Height="450" Width="800" Icon="Resources/System Icons/icon.ico"
         ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image x:Name="championImage" Height="63" Margin="10,10,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -20,6 +20,38 @@
         <CheckBox x:Name="chromaRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,166,0,0" VerticalAlignment="Top" Width="120" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed"/>
         <Button x:Name="skinRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,112,0,0" VerticalAlignment="Top" Click="skinRndmDialogButton_Click" Height="20" Width="50"/>
         <Button x:Name="chromaRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,164,0,0" VerticalAlignment="Top" Click="chromaRndmDialogButton_Click" Height="20" Width="50"/>
+        <UniformGrid x:Name="perksUniformGrid" Margin="355,91,10,10" Columns="2">
+            <Grid x:Name="primaryStyleStackPanel">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.75*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ItemsControl Grid.Row="0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="{Binding Count}">
+                                
+                            </UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+            <Grid x:Name="subStyleStackPanel">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.75*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <UniformGrid Grid.Row="4" Columns="3" Rows="3">
+                    
+                </UniformGrid>
+            </Grid>
+        </UniformGrid>
 
     </Grid>
 

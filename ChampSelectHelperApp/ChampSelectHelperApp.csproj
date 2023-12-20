@@ -7,15 +7,21 @@
     <UseWPF>true</UseWPF>       
     <UseWindowsForms>True</UseWindowsForms>       
     <StartupObject>ChampSelectHelperApp.Program</StartupObject>       
-    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\System Icons\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resources\gears.gif" />
-    <None Remove="Resources\icon.ico" />
     <None Remove="Resources\noChamp.png" />
-    <None Remove="Resources\quit.ico" />
-    <None Remove="Resources\settings.ico" />
+    <None Remove="Resources\Perks Icons\adaptiveforceicon.png" />
+    <None Remove="Resources\Perks Icons\armoricon.png" />
+    <None Remove="Resources\Perks Icons\attackspeedicon.png" />
+    <None Remove="Resources\Perks Icons\cdrscalingicon.png" />
+    <None Remove="Resources\Perks Icons\healthscalingicon.png" />
+    <None Remove="Resources\Perks Icons\magicresicon.png" />
+    <None Remove="Resources\System Icons\icon.ico" />
+    <None Remove="Resources\System Icons\quit.ico" />
+    <None Remove="Resources\System Icons\settings.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,15 +37,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\System Icons\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Resources\gears.gif" />
-    <Resource Include="Resources\icon.ico" />
     <Resource Include="Resources\noChamp.png" />
-    <Resource Include="Resources\quit.ico" />
-    <Resource Include="Resources\settings.ico" />
+    <Resource Include="Resources\Perks Icons\adaptiveforceicon.png" />
+    <Resource Include="Resources\Perks Icons\armoricon.png" />
+    <Resource Include="Resources\Perks Icons\attackspeedicon.png" />
+    <Resource Include="Resources\Perks Icons\cdrscalingicon.png" />
+    <Resource Include="Resources\Perks Icons\healthscalingicon.png" />
+    <Resource Include="Resources\Perks Icons\magicresicon.png" />
+    <Resource Include="Resources\System Icons\icon.ico" />
+    <Resource Include="Resources\System Icons\quit.ico" />
+    <Resource Include="Resources\System Icons\settings.ico" />
   </ItemGroup>
 
 </Project>

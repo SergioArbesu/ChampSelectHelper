@@ -20,7 +20,7 @@ namespace ChampSelectHelperApp
     /// </summary>
     public partial class CheckBoxListWindow : Window
     {
-        public List<CheckBoxListItem> CheckBoxList { get; set; } //remove this when everything is settled and working
+        public List<CheckBoxListItem> CheckBoxList { get; private set; } //remove this when everything is settled and working
 
         public CheckBoxListWindow(Window owner, List<CheckBoxListItem> checkBoxList, string title)
         {
