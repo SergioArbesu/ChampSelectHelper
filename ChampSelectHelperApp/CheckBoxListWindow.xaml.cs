@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace ChampSelectHelperApp
     /// </summary>
     public partial class CheckBoxListWindow : Window
     {
-        public List<CheckBoxListItem> CheckBoxList { get; private set; } //remove this when everything is settled and working
+        public List<CheckBoxListItem> CheckBoxList { get; set; } //remove this when everything is settled and working
 
         public CheckBoxListWindow(Window owner, List<CheckBoxListItem> checkBoxList, string title)
         {
@@ -30,7 +31,7 @@ namespace ChampSelectHelperApp
             CheckBoxList = checkBoxList;
             Title = title;
 
-            checkBoxListBox.ItemsSource = CheckBoxList;
+            checkBoxItemsControl.ItemsSource = CheckBoxList;
         }
     }
 
