@@ -40,7 +40,7 @@ namespace ChampSelectHelperApp
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
-            noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/noChamp.png"));
+            noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/Resources/noChamp.png"));
 
             skinCheckBox.IsEnabled = false;
             skinComboBox.IsEnabled = false;

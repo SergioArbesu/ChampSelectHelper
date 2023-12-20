@@ -34,7 +34,7 @@ namespace ChampSelectHelperApp
             icon = new NotifyIcon();
             icon.Text = Program.APP_NAME;
             icon.Visible = true;
-            using (Stream stream = GetResourceStream(new Uri(@"pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/System icons/icon.ico")).Stream)
+            using (Stream stream = GetResourceStream(new Uri(@"pack://application:,,,/Resources/System Icons/icon.ico")).Stream)
             {
                 icon.Icon = new Icon(stream);       
             }
@@ -56,7 +56,7 @@ namespace ChampSelectHelperApp
             contextMenu.Items.Add(new ToolStripSeparator());
 
             openSettings.Text = "Settings";
-            using (Stream stream = GetResourceStream(new Uri(@"pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/System Icons/settings.ico")).Stream)
+            using (Stream stream = GetResourceStream(new Uri(@"pack://application:,,,/Resources/System Icons/settings.ico")).Stream)
             {
                 openSettings.Image = Image.FromStream(stream);
             }
@@ -64,7 +64,7 @@ namespace ChampSelectHelperApp
             contextMenu.Items.Add(openSettings);
 
             quitApp.Text = "Quit";
-            using (Stream stream = GetResourceStream(new Uri(@"pack://application:,,,/" + Assembly.GetExecutingAssembly().GetName().Name + ";component/Resources/System Icons/quit.ico")).Stream)
+            using (Stream stream = GetResourceStream(new Uri(@"pack://application:,,,/Resources/System Icons/quit.ico")).Stream)
             {
                 quitApp.Image = Image.FromStream(stream);
             }
