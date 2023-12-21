@@ -21,13 +21,11 @@
         <Button x:Name="skinRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,112,0,0" VerticalAlignment="Top" Click="skinRndmDialogButton_Click" Height="20" Width="50"/>
         <Button x:Name="chromaRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,164,0,0" VerticalAlignment="Top" Click="chromaRndmDialogButton_Click" Height="20" Width="50"/>
         <UniformGrid x:Name="perksUniformGrid" Margin="355,91,10,10" Columns="2">
-            <Grid x:Name="primaryStyleStackPanel">
+            <Grid x:Name="primaryTreeGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="52"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
                 </Grid.RowDefinitions>
                 <UniformGrid Grid.Row="0" Columns="5" Margin="15">
                     <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
@@ -36,8 +34,44 @@
                     <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                     <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                 </UniformGrid>
+                <ItemsControl x:Name="keyStonesItemsControl" Grid.Row="1" Margin="8">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl x:Name="slotsItemsControl" Grid.Row="2">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="1" Rows="3"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ItemsControl Margin="10" ItemsSource="{Binding}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="35" MaxWidth="35" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
             </Grid>
-            <Grid x:Name="subStyleStackPanel">
+            <Grid x:Name="subTreeGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="52"/>
                     <RowDefinition Height="*"/>

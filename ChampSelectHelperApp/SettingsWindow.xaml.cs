@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using System.Xml.Linq;
 using System.Reflection;
 using NETWORKLIST;
+using System.Collections.ObjectModel;
 
 namespace ChampSelectHelperApp
 {
@@ -25,22 +26,22 @@ namespace ChampSelectHelperApp
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        private readonly NetworkListManager networkListManager;
+        private readonly NetworkListManager networkListManager = new();
 
         private ChampInfo[] champions;
+        private PerkTreeInfo[] perkTrees;
         private Dictionary<int, ChampionSettings> champSettDict = new();
 
-        private BitmapImage noChampImg;
+        private BitmapImage noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/Resources/noChamp.png"));
+
+        private int primaryStyleIndex = 2;
+        private int subStyleIndex = 0;
 
         public SettingsWindow()
         {
             InitializeComponent();
 
-            networkListManager = new NetworkListManager();
-
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
-
-            noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/Resources/noChamp.png"));
 
             skinCheckBox.IsEnabled = false;
             skinComboBox.IsEnabled = false;
@@ -79,12 +80,11 @@ namespace ChampSelectHelperApp
 
         private void CheckConnectivity()
         {
-            if (networkListManager.IsConnectedToInternet)
-            {
-                return;
-            }
+            if (networkListManager.IsConnectedToInternet) return;
+
             var result = MessageBox.Show("There was a problem while trying to connect to the internet. Check your internet " +
                 "connection.\n\nDo you want to retry?", "Connecction Error", MessageBoxButton.YesNo, MessageBoxImage.Error);
+
             if (result == MessageBoxResult.Yes)
             {
                 CheckConnectivity();
@@ -109,7 +109,13 @@ namespace ChampSelectHelperApp
 
         private void CreatePerkTreeInfo(JArray perkTreeJArray)
         {
-
+            perkTrees = new PerkTreeInfo[perkTreeJArray.Count];
+            int i = 0;
+            foreach (JObject perkTree in perkTreeJArray)
+            {
+                perkTrees[i] = new PerkTreeInfo(perkTree);
+                i++;
+            }
         }
 
         private void InitializeElements()
@@ -274,6 +280,11 @@ namespace ChampSelectHelperApp
         private void primaryStyle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             string tag = (string)((Image)sender).Tag;
+            int tagInt = int.Parse(tag);
+
+            if (primaryStyleIndex == tagInt) return;
+            else primaryStyleIndex = tagInt;
+
             foreach (Image style in subStyleGrid.Children)
             {
                 style.Visibility = Visibility.Visible;
@@ -282,11 +293,35 @@ namespace ChampSelectHelperApp
                     style.Visibility = Visibility.Collapsed;
                 }
             }
+
+            ChangePrimaryStyle(tagInt);
         }
 
         private void subStyle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            string tag = (string)((Image)sender).Tag;
+            int tagInt = int.Parse(tag);
 
+            if (subStyleIndex == tagInt) return;
+            
+            subStyleIndex = tagInt;
+            ChangeSubStyle(tagInt);
+        }
+
+        private void ChangePrimaryStyle(int index)
+        {
+            keyStonesItemsControl.ItemsSource = perkTrees[index].Slots[0];
+            slotsItemsControl.ItemsSource = perkTrees[index].Slots.Skip(1);
+        }
+
+        private void ChangeSubStyle(int index)
+        {
+
+        }
+
+        private void slot_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show(((Image)sender).Name);
         }
     }
 }

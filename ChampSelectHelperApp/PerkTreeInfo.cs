@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace ChampSelectHelperApp
 {
-    class PerkTreeInfo
+    public class PerkTreeInfo
     {
         public int Id { get; private set; }
         public PerkInfo[][] Slots { get; private set; }
@@ -35,7 +35,7 @@ namespace ChampSelectHelperApp
         }
     }
 
-    class PerkInfo
+    public class PerkInfo
     {
         public int Id { get; private set; }
         public BitmapImage Icon { get; private set; }
