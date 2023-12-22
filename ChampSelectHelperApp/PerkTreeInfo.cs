@@ -1,9 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace ChampSelectHelperApp
@@ -39,11 +43,25 @@ namespace ChampSelectHelperApp
     {
         public int Id { get; private set; }
         public BitmapImage Icon { get; private set; }
+        public FormatConvertedBitmap GrayIcon { get; private set; }
+        public bool IsSelected { get; set; }
 
         public PerkInfo(JObject perk)
         {
+            IsSelected = false;
+
             Id = (int)perk["id"];
             Icon = new BitmapImage(new Uri(Program.PERKS_ICON_URL_START + (string)perk["icon"]));
+            GrayIcon = new FormatConvertedBitmap(Icon, PixelFormats.Gray8, BitmapPalettes.Gray256, 0.0);
+            /*using (HttpClient client = new())
+            {
+                Stream stream = client.GetStreamAsync(Program.PERKS_ICON_URL_START + (string)perk["icon"]).Result;
+                Icon = new BitmapImage();
+                Icon.BeginInit();
+                Icon.StreamSource = stream;
+                //Icon.CacheOption = BitmapCacheOption.None;
+                Icon.EndInit();
+            }*/
         }
     }
 }

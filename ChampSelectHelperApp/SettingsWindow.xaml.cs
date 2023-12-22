@@ -18,6 +18,8 @@ using System.Xml.Linq;
 using System.Reflection;
 using NETWORKLIST;
 using System.Collections.ObjectModel;
+using Microsoft.Win32;
+using System.ComponentModel;
 
 namespace ChampSelectHelperApp
 {
@@ -26,7 +28,7 @@ namespace ChampSelectHelperApp
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        private readonly NetworkListManager networkListManager = new();
+        private NetworkListManager networkListManager = new();
 
         private ChampInfo[] champions;
         private PerkTreeInfo[] perkTrees;
@@ -37,9 +39,13 @@ namespace ChampSelectHelperApp
         private int primaryStyleIndex = 2;
         private int subStyleIndex = 0;
 
+        private int[] savePerks = new int[8];
+
         public SettingsWindow()
         {
             InitializeComponent();
+
+            Closing += CloseWindow;
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
@@ -62,12 +68,12 @@ namespace ChampSelectHelperApp
             {
                 using (WebClient httpClient = new())
                 {
-                    string response = httpClient.DownloadString(Program.CHAMPIONS_JSON_URL);
-                    JObject parsedObject = JObject.Parse(response);
-                    CreateChampInfo(parsedObject);
-                    response = httpClient.DownloadString(Program.PERKS_JSON_URL);
+                    string response = httpClient.DownloadString(Program.PERKS_JSON_URL);
                     JArray parsedArray = JArray.Parse(response);
                     CreatePerkTreeInfo(parsedArray);
+                    response = httpClient.DownloadString(Program.CHAMPIONS_JSON_URL);
+                    JObject parsedObject = JObject.Parse(response);
+                    CreateChampInfo(parsedObject);
                 }
             }
             catch (WebException ex) 
@@ -130,6 +136,13 @@ namespace ChampSelectHelperApp
 
             championComboBox.Visibility = Visibility.Visible;
             championImage.Visibility = Visibility.Visible;
+        }
+
+        private void CloseWindow(object? sender, CancelEventArgs ev)
+        {
+            networkListManager = null;
+            champions = null;
+            perkTrees = null;
         }
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -311,7 +324,9 @@ namespace ChampSelectHelperApp
         private void ChangePrimaryStyle(int index)
         {
             keyStonesItemsControl.ItemsSource = perkTrees[index].Slots[0];
-            slotsItemsControl.ItemsSource = perkTrees[index].Slots.Skip(1);
+            primarySlot1ItemsControl.ItemsSource = perkTrees[index].Slots[1];
+            primarySlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
+            primarySlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
         }
 
         private void ChangeSubStyle(int index)
@@ -322,6 +337,30 @@ namespace ChampSelectHelperApp
         private void slot_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show(((Image)sender).Name);
+        }
+
+        private void perkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Image perkImage = (Image)sender;
+            MessageBox.Show((perkImage.TemplatedParent).ToString());
+            MessageBox.Show(perkImage.Source.ToString());
+            MessageBox.Show(((BitmapImage)perkImage.Source).IsDownloading.ToString());
+            MessageBox.Show(((ContentPresenter)perkImage.TemplatedParent).DataContext.ToString());
+        }
+
+        private void primarySlot1Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void primarySlot2Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
+        private void primarySlot3Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

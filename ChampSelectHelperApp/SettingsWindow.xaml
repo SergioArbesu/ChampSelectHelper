@@ -20,12 +20,14 @@
         <CheckBox x:Name="chromaRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,166,0,0" VerticalAlignment="Top" Width="120" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed"/>
         <Button x:Name="skinRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,112,0,0" VerticalAlignment="Top" Click="skinRndmDialogButton_Click" Height="20" Width="50"/>
         <Button x:Name="chromaRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,164,0,0" VerticalAlignment="Top" Click="chromaRndmDialogButton_Click" Height="20" Width="50"/>
-        <UniformGrid x:Name="perksUniformGrid" Margin="355,91,10,10" Columns="2">
+        <UniformGrid x:Name="perksUniformGrid" Margin="354,90,10,10" Columns="2">
             <Grid x:Name="primaryTreeGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="52"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <UniformGrid Grid.Row="0" Columns="5" Margin="15">
                     <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
@@ -46,30 +48,44 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <ItemsControl x:Name="slotsItemsControl" Grid.Row="2">
+                <ItemsControl x:Name="primarySlot1ItemsControl" Grid.Row="2" Margin="10">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="1" Rows="3"/>
+                            <UniformGrid Rows="1"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <ItemsControl Margin="10" ItemsSource="{Binding}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="35" MaxWidth="35" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                            <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="35" MaxWidth="35" MouseLeftButtonDown="perkImage_MouseLeftButtonDown"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                
+                <ItemsControl x:Name="primarySlot2ItemsControl" Grid.Row="3" Margin="10">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding GrayIcon}" Tag="{Binding Id}" MaxHeight="35" MaxWidth="35" MouseLeftButtonDown="perkImage_MouseLeftButtonDown"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl x:Name="primarySlot3ItemsControl" Grid.Row="4" Margin="10">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="35" MaxWidth="35" 
+                                   MouseLeftButtonDown="perkImage_MouseLeftButtonDown">
+                            </Image>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
             <Grid x:Name="subTreeGrid">
                 <Grid.RowDefinitions>
@@ -99,6 +115,80 @@
                 </UniformGrid>
             </Grid>
         </UniformGrid>
+        <Rectangle StrokeThickness="0" HorizontalAlignment="Left" Height="10" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <RadialGradientBrush GradientOrigin="1,1" Center="1,1" RadiusX="1" RadiusY="1">
+                    <RadialGradientBrush.GradientStops>
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </RadialGradientBrush.GradientStops>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle StrokeThickness="0" HorizontalAlignment="Center" Height="10" Width="402" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="White" Offset="0"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle StrokeThickness="0" HorizontalAlignment="Right" Height="10" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <RadialGradientBrush GradientOrigin="0,1" Center="0,1" RadiusX="1" RadiusY="1">
+                    <RadialGradientBrush.GradientStops>
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </RadialGradientBrush.GradientStops>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle StrokeThickness="0" HorizontalAlignment="Right" Height="296" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Center">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle StrokeThickness="0" HorizontalAlignment="Right" Height="10" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Bottom">
+            <Rectangle.Fill>
+                <RadialGradientBrush GradientOrigin="0,0" Center="0,0" RadiusX="1" RadiusY="1">
+                    <RadialGradientBrush.GradientStops>
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </RadialGradientBrush.GradientStops>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle StrokeThickness="0" HorizontalAlignment="Center" Height="10" Width="402" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Bottom">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle StrokeThickness="0" HorizontalAlignment="Left" Height="10" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Bottom">
+            <Rectangle.Fill>
+                <RadialGradientBrush GradientOrigin="1,0" Center="1,0" RadiusX="1" RadiusY="1">
+                    <RadialGradientBrush.GradientStops>
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </RadialGradientBrush.GradientStops>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle StrokeThickness="0" HorizontalAlignment="Left" Height="296" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Center">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="White" Offset="0"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle StrokeThickness="0" Fill="Black" Height="296" Width="402" Panel.ZIndex="-1" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <!-- Add a different color border to the uniform grid and fill it black -->
 
     </Grid>
 
