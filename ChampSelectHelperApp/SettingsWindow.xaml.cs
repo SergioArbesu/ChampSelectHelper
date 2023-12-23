@@ -337,30 +337,71 @@ namespace ChampSelectHelperApp
         private void slot_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show(((Image)sender).Name);
+            var test = (ContentPresenter)sender;
         }
 
-        private void perkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void keyStonesImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Image perkImage = (Image)sender;
-            MessageBox.Show((perkImage.TemplatedParent).ToString());
-            MessageBox.Show(perkImage.Source.ToString());
-            MessageBox.Show(((BitmapImage)perkImage.Source).IsDownloading.ToString());
-            MessageBox.Show(((ContentPresenter)perkImage.TemplatedParent).DataContext.ToString());
+            for (int i = 0; i < keyStonesItemsControl.Items.Count; i++)
+            {
+                Image image = (Image)VisualTreeHelper.GetChild(keyStonesItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                if (image == sender)
+                {
+                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                }
+                else
+                {
+                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                }
+            }
         }
 
         private void primarySlot1Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            for (int i = 0; i < primarySlot1ItemsControl.Items.Count; i++)
+            {
+                Image image = (Image)VisualTreeHelper.GetChild(primarySlot1ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                if (image == sender)
+                {
+                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                }
+                else
+                {
+                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                }
+            }
         }
 
         private void primarySlot2Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            
+            for (int i = 0; i < primarySlot2ItemsControl.Items.Count; i++)
+            {
+                Image image = (Image)VisualTreeHelper.GetChild(primarySlot2ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                if (image == sender)
+                {
+                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                }
+                else
+                {
+                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                }
+            }
         }
 
         private void primarySlot3Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            for (int i = 0; i < primarySlot3ItemsControl.Items.Count; i++)
+            {
+                Image image = (Image)VisualTreeHelper.GetChild(primarySlot3ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                if (image == sender)
+                {
+                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                }
+                else
+                {
+                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                }
+            }
         }
     }
 }

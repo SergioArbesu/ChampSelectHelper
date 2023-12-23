@@ -46,7 +46,8 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55"/>
+                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55" 
+                                       MouseLeftButtonDown="keyStonesImage_MouseLeftButtonDown"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -59,7 +60,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
-                                   MouseLeftButtonDown="perkImage_MouseLeftButtonDown"/>
+                                   MouseLeftButtonDown="primarySlot1Image_MouseLeftButtonDown"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -71,8 +72,8 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding GrayIcon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
-                                   MouseLeftButtonDown="perkImage_MouseLeftButtonDown"/>
+                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
+                                   MouseLeftButtonDown="primarySlot2Image_MouseLeftButtonDown"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -85,7 +86,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
-                                   MouseLeftButtonDown="perkImage_MouseLeftButtonDown">
+                                   MouseLeftButtonDown="primarySlot3Image_MouseLeftButtonDown">
                                 </Image>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
