@@ -20,175 +20,106 @@
         <CheckBox x:Name="chromaRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,166,0,0" VerticalAlignment="Top" Width="120" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed"/>
         <Button x:Name="skinRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,112,0,0" VerticalAlignment="Top" Click="skinRndmDialogButton_Click" Height="20" Width="50"/>
         <Button x:Name="chromaRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,164,0,0" VerticalAlignment="Top" Click="chromaRndmDialogButton_Click" Height="20" Width="50"/>
-        <UniformGrid x:Name="perksUniformGrid" Margin="354,90,10,10" Columns="2">
-            <Grid x:Name="primaryTreeGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="52"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <UniformGrid Grid.Row="0" Columns="5" Margin="15">
-                    <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
-                    <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
-                    <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
-                    <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
-                    <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
-                </UniformGrid>
-                <ItemsControl x:Name="keyStonesItemsControl" Grid.Row="1" Margin="8">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="1"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <ItemsControl x:Name="primarySlot1ItemsControl" Grid.Row="2" Margin="10">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="1"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="35" MaxWidth="35" MouseLeftButtonDown="perkImage_MouseLeftButtonDown"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <ItemsControl x:Name="primarySlot2ItemsControl" Grid.Row="3" Margin="10">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="1"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding GrayIcon}" Tag="{Binding Id}" MaxHeight="35" MaxWidth="35" MouseLeftButtonDown="perkImage_MouseLeftButtonDown"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <ItemsControl x:Name="primarySlot3ItemsControl" Grid.Row="4" Margin="10">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="1"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="35" MaxWidth="35" 
+        <!-- Adjust color of border background and border brush. Idea: make border brush change according to the color of the selected perkStyle -->
+        <Border Margin="354,90,10,10" BorderThickness="5" BorderBrush="#565049" Background="#130f16" CornerRadius="15">
+            <UniformGrid x:Name="perksUniformGrid" Columns="2">
+                <Grid x:Name="primaryTreeGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="52"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <UniformGrid Grid.Row="0" Columns="5" Margin="15">
+                        <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                        <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                        <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                        <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                        <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                    </UniformGrid>
+                    <ItemsControl x:Name="keyStonesItemsControl" Grid.Row="1" Margin="8">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl x:Name="primarySlot1ItemsControl" Grid.Row="2" Margin="10">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
+                                   MouseLeftButtonDown="perkImage_MouseLeftButtonDown"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl x:Name="primarySlot2ItemsControl" Grid.Row="3" Margin="10">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding GrayIcon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
+                                   MouseLeftButtonDown="perkImage_MouseLeftButtonDown"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl x:Name="primarySlot3ItemsControl" Grid.Row="4" Margin="10">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
                                    MouseLeftButtonDown="perkImage_MouseLeftButtonDown">
-                            </Image>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-            <Grid x:Name="subTreeGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="52"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
-                <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="33,15">
-                    <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
-                    <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
-                    <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
-                    <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
-                    <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown" Visibility="Collapsed"/>
-                </UniformGrid>
-                <UniformGrid Grid.Row="4" Columns="3" Rows="3" Margin="25,15">
-                    <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png"/>
-                    <Image Source="pack://application:,,,/Resources/Perks Icons/attackspeedicon.png"/>
-                    <Image Source="pack://application:,,,/Resources/Perks Icons/cdrscalingicon.png"/>
-                    <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png"/>
-                    <Image Source="pack://application:,,,/Resources/Perks Icons/armoricon.png"/>
-                    <Image Source="pack://application:,,,/Resources/Perks Icons/magicresicon.png"/>
-                    <Image Source="pack://application:,,,/Resources/Perks Icons/healthscalingicon.png"/>
-                    <Image Source="pack://application:,,,/Resources/Perks Icons/armoricon.png"/>
-                    <Image Source="pack://application:,,,/Resources/Perks Icons/magicresicon.png"/>
-                </UniformGrid>
-            </Grid>
-        </UniformGrid>
-        <Rectangle StrokeThickness="0" HorizontalAlignment="Left" Height="10" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Top">
-            <Rectangle.Fill>
-                <RadialGradientBrush GradientOrigin="1,1" Center="1,1" RadiusX="1" RadiusY="1">
-                    <RadialGradientBrush.GradientStops>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                    </RadialGradientBrush.GradientStops>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle StrokeThickness="0" HorizontalAlignment="Center" Height="10" Width="402" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Top">
-            <Rectangle.Fill>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="White" Offset="0"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle StrokeThickness="0" HorizontalAlignment="Right" Height="10" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Top">
-            <Rectangle.Fill>
-                <RadialGradientBrush GradientOrigin="0,1" Center="0,1" RadiusX="1" RadiusY="1">
-                    <RadialGradientBrush.GradientStops>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                    </RadialGradientBrush.GradientStops>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle StrokeThickness="0" HorizontalAlignment="Right" Height="296" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Center">
-            <Rectangle.Fill>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="Black" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle StrokeThickness="0" HorizontalAlignment="Right" Height="10" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Bottom">
-            <Rectangle.Fill>
-                <RadialGradientBrush GradientOrigin="0,0" Center="0,0" RadiusX="1" RadiusY="1">
-                    <RadialGradientBrush.GradientStops>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                    </RadialGradientBrush.GradientStops>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle StrokeThickness="0" HorizontalAlignment="Center" Height="10" Width="402" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Bottom">
-            <Rectangle.Fill>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                    <GradientStop Color="Black" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle StrokeThickness="0" HorizontalAlignment="Left" Height="10" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Bottom">
-            <Rectangle.Fill>
-                <RadialGradientBrush GradientOrigin="1,0" Center="1,0" RadiusX="1" RadiusY="1">
-                    <RadialGradientBrush.GradientStops>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                    </RadialGradientBrush.GradientStops>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle StrokeThickness="0" HorizontalAlignment="Left" Height="296" Width="10" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Center">
-            <Rectangle.Fill>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="White" Offset="0"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle StrokeThickness="0" Fill="Black" Height="296" Width="402" Panel.ZIndex="-1" Margin="{Binding Margin, ElementName=perksUniformGrid}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <!-- Add a different color border to the uniform grid and fill it black -->
+                                </Image>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                <Grid x:Name="subTreeGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="52"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="33,15">
+                        <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                        <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                        <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                        <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                        <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown" Visibility="Collapsed"/>
+                    </UniformGrid>
+                    <UniformGrid Grid.Row="4" Columns="3" Rows="3" Margin="25,15">
+                        <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png"/>
+                        <Image Source="pack://application:,,,/Resources/Perks Icons/attackspeedicon.png"/>
+                        <Image Source="pack://application:,,,/Resources/Perks Icons/cdrscalingicon.png"/>
+                        <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png"/>
+                        <Image Source="pack://application:,,,/Resources/Perks Icons/armoricon.png"/>
+                        <Image Source="pack://application:,,,/Resources/Perks Icons/magicresicon.png"/>
+                        <Image Source="pack://application:,,,/Resources/Perks Icons/healthscalingicon.png"/>
+                        <Image Source="pack://application:,,,/Resources/Perks Icons/armoricon.png"/>
+                        <Image Source="pack://application:,,,/Resources/Perks Icons/magicresicon.png"/>
+                    </UniformGrid>
+                </Grid>
+            </UniformGrid>
+        </Border>
 
     </Grid>
 

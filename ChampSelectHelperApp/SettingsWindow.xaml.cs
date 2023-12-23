@@ -45,7 +45,7 @@ namespace ChampSelectHelperApp
         {
             InitializeComponent();
 
-            Closing += CloseWindow;
+            //Closing += CloseWindow; to be decided if this is useful
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
