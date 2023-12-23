@@ -334,12 +334,6 @@ namespace ChampSelectHelperApp
 
         }
 
-        private void slot_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show(((Image)sender).Name);
-            var test = (ContentPresenter)sender;
-        }
-
         private void keyStonesImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             for (int i = 0; i < keyStonesItemsControl.Items.Count; i++)
