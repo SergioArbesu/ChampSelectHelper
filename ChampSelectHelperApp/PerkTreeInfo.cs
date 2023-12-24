@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Color = System.Drawing.Color;
 
 namespace ChampSelectHelperApp
 {
@@ -43,7 +45,7 @@ namespace ChampSelectHelperApp
     {
         public int Id { get; private set; }
         public BitmapImage Icon { get; private set; }
-        public FormatConvertedBitmap GrayIcon { get; private set; }
+        public BitmapImage GrayIcon { get; private set; }
         public bool IsSelected { get; set; }
 
         public PerkInfo(JObject perk)
@@ -52,16 +54,42 @@ namespace ChampSelectHelperApp
 
             Id = (int)perk["id"];
             Icon = new BitmapImage(new Uri(Program.PERKS_ICON_URL_START + (string)perk["icon"]));
-            GrayIcon = new FormatConvertedBitmap(Icon, PixelFormats.Gray8, BitmapPalettes.Gray256, 0.0);
-            /*using (HttpClient client = new())
+
+            //var test = new FormatConvertedBitmap(Icon, Icon.Format, Icon.Palette, 100);
+            //GrayIcon = new FormatConvertedBitmap(test, PixelFormats.Gray8, BitmapPalettes.Gray256Transparent, 100);
+
+            using (HttpClient client = new())
             {
-                Stream stream = client.GetStreamAsync(Program.PERKS_ICON_URL_START + (string)perk["icon"]).Result;
-                Icon = new BitmapImage();
-                Icon.BeginInit();
-                Icon.StreamSource = stream;
-                //Icon.CacheOption = BitmapCacheOption.None;
-                Icon.EndInit();
-            }*/
+                using Stream stream = client.GetStreamAsync(Program.PERKS_ICON_URL_START + (string)perk["icon"]).Result;
+                Bitmap bitmap = new Bitmap(stream);
+
+                Bitmap newBitmap = new Bitmap(bitmap.Width, bitmap.Height);
+
+                for (int x = 0; x < bitmap.Height; x++)
+                {
+                    for (int i = 0; i < bitmap.Width; i++)
+                    {
+                        Color oc = bitmap.GetPixel(i, x);
+                        int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+                        Color nc = Color.FromArgb(oc.A, grayScale, grayScale, grayScale);
+                        newBitmap.SetPixel(i, x, nc);
+                    }
+                }
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    newBitmap.Save(memoryStream, ImageFormat.Png);
+                    memoryStream.Position = 0;
+
+                    BitmapImage bitmapImg = new BitmapImage();
+                    bitmapImg.BeginInit();
+                    bitmapImg.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImg.StreamSource = memoryStream;
+                    bitmapImg.EndInit();
+                    bitmapImg.Freeze();
+                    GrayIcon = bitmapImg;
+                }
+            }
         }
     }
 }

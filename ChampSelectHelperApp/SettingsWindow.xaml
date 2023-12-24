@@ -21,7 +21,7 @@
         <Button x:Name="skinRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,112,0,0" VerticalAlignment="Top" Click="skinRndmDialogButton_Click" Height="20" Width="50"/>
         <Button x:Name="chromaRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,164,0,0" VerticalAlignment="Top" Click="chromaRndmDialogButton_Click" Height="20" Width="50"/>
         <!-- Adjust color of border background and border brush. Idea: make border brush change according to the color of the selected perkStyle -->
-        <Border Margin="354,90,10,10" BorderThickness="5" BorderBrush="#565049" Background="#130f16" CornerRadius="15">
+        <Border Margin="354,90,10,10" BorderThickness="5" BorderBrush="#565049" Background="Black" CornerRadius="15">
             <UniformGrid x:Name="perksUniformGrid" Columns="2">
                 <Grid x:Name="primaryTreeGrid">
                     <Grid.RowDefinitions>
@@ -46,7 +46,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55" 
+                                <Image Source="{Binding GrayIcon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55" 
                                        MouseLeftButtonDown="keyStonesImage_MouseLeftButtonDown"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
