@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Color = System.Drawing.Color;
@@ -19,25 +20,30 @@ namespace ChampSelectHelperApp
         public int Id { get; private set; }
         public PerkInfo[][] Slots { get; private set; }
 
-        public PerkTreeInfo(JObject perkTree)
+        public PerkTreeInfo() { }
+
+        public async Task CreatePerkTree(JObject perkTree)
         {
             Id = (int)perkTree["id"];
 
             JArray slots = (JArray)perkTree["slots"];
-            Slots = new PerkInfo[slots.Count][];
-            int i = 0;
-            foreach (JObject slot in slots)
+            Slots = new PerkInfo[4][];
+
+            List<Task> tasks = new List<Task>();
+            for (int i = 0; i < Slots.Length; i++)
             {
-                JArray perks = (JArray)slot["runes"];
+                JArray perks = (JArray)slots[i]["runes"];
                 Slots[i] = new PerkInfo[perks.Count];
-                int j = 0;
-                foreach (JObject perk in perks)
+                for (int j = 0; j < Slots[i].Length; j++)
                 {
-                    Slots[i][j] = new PerkInfo(perk);
-                    j++;
+                    PerkInfo perkInfo = new PerkInfo();
+                    Slots[i][j] = perkInfo;
+                    JObject perk = (JObject)perks[j];
+                    tasks.Add(Task.Run(() => perkInfo.CreatePerk(perk)));
                 }
-                i++;
             }
+
+            await Task.WhenAll(tasks);
         }
     }
 
@@ -48,31 +54,39 @@ namespace ChampSelectHelperApp
         public BitmapImage GrayIcon { get; private set; }
         public bool IsSelected { get; set; }
 
-        public PerkInfo(JObject perk)
+        //public PerkInfo(JObject perk)
+        public PerkInfo()
         {
             IsSelected = false;
+        }
 
+        public async Task CreatePerk(JObject perk)
+        {
             Id = (int)perk["id"];
-            Icon = new BitmapImage(new Uri(Program.PERKS_ICON_URL_START + (string)perk["icon"]));
-
-            //var test = new FormatConvertedBitmap(Icon, Icon.Format, Icon.Palette, 100);
-            //GrayIcon = new FormatConvertedBitmap(test, PixelFormats.Gray8, BitmapPalettes.Gray256Transparent, 100);
-
             using (HttpClient client = new())
+            using (Stream tempStream = await client.GetStreamAsync(Program.PERKS_ICON_URL_START + (string)perk["icon"]))
+            using (MemoryStream stream = new MemoryStream())
             {
-                using Stream stream = client.GetStreamAsync(Program.PERKS_ICON_URL_START + (string)perk["icon"]).Result;
-                Bitmap bitmap = new Bitmap(stream);
+                tempStream.CopyTo(stream);
 
+                Icon = new BitmapImage();
+                Icon.BeginInit();
+                Icon.CacheOption = BitmapCacheOption.OnLoad;
+                Icon.StreamSource = stream;
+                Icon.EndInit();
+                Icon.Freeze();
+                
+                Bitmap bitmap = new Bitmap(stream);
                 Bitmap newBitmap = new Bitmap(bitmap.Width, bitmap.Height);
 
-                for (int x = 0; x < bitmap.Height; x++)
+                for (int y = 0; y < bitmap.Height; y++)
                 {
-                    for (int i = 0; i < bitmap.Width; i++)
+                    for (int x = 0; x < bitmap.Width; x++)
                     {
-                        Color oc = bitmap.GetPixel(i, x);
+                        Color oc = bitmap.GetPixel(x, y);
                         int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
                         Color nc = Color.FromArgb(oc.A, grayScale, grayScale, grayScale);
-                        newBitmap.SetPixel(i, x, nc);
+                        newBitmap.SetPixel(x, y, nc);
                     }
                 }
 
@@ -81,13 +95,12 @@ namespace ChampSelectHelperApp
                     newBitmap.Save(memoryStream, ImageFormat.Png);
                     memoryStream.Position = 0;
 
-                    BitmapImage bitmapImg = new BitmapImage();
-                    bitmapImg.BeginInit();
-                    bitmapImg.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImg.StreamSource = memoryStream;
-                    bitmapImg.EndInit();
-                    bitmapImg.Freeze();
-                    GrayIcon = bitmapImg;
+                    GrayIcon = new BitmapImage();
+                    GrayIcon.BeginInit();
+                    GrayIcon.CacheOption = BitmapCacheOption.OnLoad;
+                    GrayIcon.StreamSource = memoryStream;
+                    GrayIcon.EndInit();
+                    GrayIcon.Freeze();
                 }
             }
         }

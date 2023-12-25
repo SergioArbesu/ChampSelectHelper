@@ -115,13 +115,19 @@ namespace ChampSelectHelperApp
 
         private void CreatePerkTreeInfo(JArray perkTreeJArray)
         {
-            perkTrees = new PerkTreeInfo[perkTreeJArray.Count];
-            int i = 0;
-            foreach (JObject perkTree in perkTreeJArray)
+            perkTrees = new PerkTreeInfo[5];
+
+            List<Task> tasks = new List<Task>();
+            for(int i = 0; i < perkTrees.Length; i++)
             {
-                perkTrees[i] = new PerkTreeInfo(perkTree);
-                i++;
+                //perkTrees[i] = new PerkTreeInfo(perkTree);
+                PerkTreeInfo perkTreeInfo = new PerkTreeInfo();
+                perkTrees[i] = perkTreeInfo;
+                JObject perkTree = (JObject)perkTreeJArray[i];
+                tasks.Add(Task.Run(() => perkTreeInfo.CreatePerkTree(perkTree)));
             }
+
+            Task.WaitAll(tasks.ToArray());
         }
 
         private void InitializeElements()
