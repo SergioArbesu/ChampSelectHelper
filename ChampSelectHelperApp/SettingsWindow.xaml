@@ -33,23 +33,23 @@
                     </Grid.RowDefinitions>
                     <UniformGrid x:Name="primaryStyleGrid" Grid.Row="0" Columns="5" Margin="15,8">
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
                             <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
                             <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
                             <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
                             <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
                             <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                     </UniformGrid>
@@ -126,25 +126,25 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="1.5*"/>
                     </Grid.RowDefinitions>
-                    <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="33,8">
+                    <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="32,8">
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
                             <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
                             <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
                             <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
                             <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
-                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="Collapsed">
+                                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}" Visibility="Collapsed">
                             <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                     </UniformGrid>
