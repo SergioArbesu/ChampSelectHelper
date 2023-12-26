@@ -350,12 +350,12 @@ namespace ChampSelectHelperApp
                 Image image = (Image)border.Child;
                 if (image == sender)
                 {
-                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                    image.Source = ((PerkInfo)image.DataContext).Icon;
                     border.BorderBrush = Brushes.White;
                 }
                 else
                 {
-                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
                     border.BorderBrush = Brushes.Transparent;
                 }
             }
@@ -369,12 +369,12 @@ namespace ChampSelectHelperApp
                 Image image = (Image)border.Child;
                 if (image == sender)
                 {
-                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                    image.Source = ((PerkInfo)image.DataContext).Icon;
                     border.BorderBrush = Brushes.White;
                 }
                 else
                 {
-                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
                     border.BorderBrush = Brushes.Transparent;
                 }
             }
@@ -388,12 +388,12 @@ namespace ChampSelectHelperApp
                 Image image = (Image)border.Child;
                 if (image == sender)
                 {
-                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                    image.Source = ((PerkInfo)image.DataContext).Icon;
                     border.BorderBrush = Brushes.White;
                 }
                 else
                 {
-                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
                     border.BorderBrush = Brushes.Transparent;
                 }
             }
@@ -407,12 +407,12 @@ namespace ChampSelectHelperApp
                 Image image = (Image)border.Child;
                 if (image == sender)
                 {
-                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                    image.Source = ((PerkInfo)image.DataContext).Icon;
                     border.BorderBrush = Brushes.White;
                 }
                 else
                 {
-                    image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
                     border.BorderBrush = Brushes.Transparent;
                 }
             }
