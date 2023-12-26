@@ -346,14 +346,17 @@ namespace ChampSelectHelperApp
         {
             for (int i = 0; i < keyStonesItemsControl.Items.Count; i++)
             {
-                Image image = (Image)VisualTreeHelper.GetChild(keyStonesItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Border border = (Border)VisualTreeHelper.GetChild(keyStonesItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Image image = (Image)border.Child;
                 if (image == sender)
                 {
                     image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                    border.BorderBrush = Brushes.White;
                 }
                 else
                 {
                     image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                    border.BorderBrush = Brushes.Transparent;
                 }
             }
         }
@@ -362,14 +365,17 @@ namespace ChampSelectHelperApp
         {
             for (int i = 0; i < primarySlot1ItemsControl.Items.Count; i++)
             {
-                Image image = (Image)VisualTreeHelper.GetChild(primarySlot1ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Border border = (Border)VisualTreeHelper.GetChild(primarySlot1ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Image image = (Image)border.Child;
                 if (image == sender)
                 {
                     image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                    border.BorderBrush = Brushes.White;
                 }
                 else
                 {
                     image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                    border.BorderBrush = Brushes.Transparent;
                 }
             }
         }
@@ -378,14 +384,17 @@ namespace ChampSelectHelperApp
         {
             for (int i = 0; i < primarySlot2ItemsControl.Items.Count; i++)
             {
-                Image image = (Image)VisualTreeHelper.GetChild(primarySlot2ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Border border = (Border)VisualTreeHelper.GetChild(primarySlot2ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Image image = (Image)border.Child;
                 if (image == sender)
                 {
                     image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                    border.BorderBrush = Brushes.White;
                 }
                 else
                 {
                     image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                    border.BorderBrush = Brushes.Transparent;
                 }
             }
         }
@@ -394,14 +403,17 @@ namespace ChampSelectHelperApp
         {
             for (int i = 0; i < primarySlot3ItemsControl.Items.Count; i++)
             {
-                Image image = (Image)VisualTreeHelper.GetChild(primarySlot3ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Border border = (Border)VisualTreeHelper.GetChild(primarySlot3ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Image image = (Image)border.Child;
                 if (image == sender)
                 {
                     image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).Icon;
+                    border.BorderBrush = Brushes.White;
                 }
                 else
                 {
                     image.Source = ((PerkInfo)((ContentPresenter)image.TemplatedParent).DataContext).GrayIcon;
+                    border.BorderBrush = Brushes.Transparent;
                 }
             }
         }

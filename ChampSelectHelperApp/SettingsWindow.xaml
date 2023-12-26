@@ -46,8 +46,11 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55" 
-                                       MouseLeftButtonDown="keyStonesImage_MouseLeftButtonDown"/>
+                                <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent"
+                                        Width="{Binding Path=ActualHeight, ElementName=keyStonesItemsControl}">
+                                    <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55" 
+                                           MouseLeftButtonDown="keyStonesImage_MouseLeftButtonDown"/>
+                                </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -59,8 +62,11 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
-                                   MouseLeftButtonDown="primarySlot1Image_MouseLeftButtonDown"/>
+                                <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent"
+                                        Width="{Binding Path=ActualHeight, ElementName=primarySlot1ItemsControl}">
+                                    <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
+                                           MouseLeftButtonDown="primarySlot1Image_MouseLeftButtonDown"/>
+                                </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -72,8 +78,11 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
-                                   MouseLeftButtonDown="primarySlot2Image_MouseLeftButtonDown"/>
+                                <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                        Width="{Binding Path=ActualHeight, ElementName=primarySlot2ItemsControl}">
+                                    <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
+                                           MouseLeftButtonDown="primarySlot2Image_MouseLeftButtonDown"/>
+                                </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -85,9 +94,11 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
-                                   MouseLeftButtonDown="primarySlot3Image_MouseLeftButtonDown">
-                                </Image>
+                                <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                        Width="{Binding Path=ActualHeight, ElementName=primarySlot3ItemsControl}">
+                                    <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
+                                           MouseLeftButtonDown="primarySlot3Image_MouseLeftButtonDown"/>
+                                </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
