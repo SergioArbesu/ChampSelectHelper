@@ -46,7 +46,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding GrayIcon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55" 
+                                <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55" 
                                        MouseLeftButtonDown="keyStonesImage_MouseLeftButtonDown"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

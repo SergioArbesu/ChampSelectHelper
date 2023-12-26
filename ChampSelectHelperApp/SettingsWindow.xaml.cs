@@ -36,8 +36,8 @@ namespace ChampSelectHelperApp
 
         private BitmapImage noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/Resources/noChamp.png"));
 
-        private int primaryStyleIndex = 2;
-        private int subStyleIndex = 0;
+        private int primaryStyleIndex = -1;
+        private int subStyleIndex = -1;
 
         private int[] savePerks = new int[8];
 
@@ -104,30 +104,32 @@ namespace ChampSelectHelperApp
         private void CreateChampInfo(JObject champJObject)
         {
             champions = new ChampInfo[champJObject.Count];
+            //Task[] tasks = new Task[champions.Length];
             int i = 0;
             foreach (var champion in champJObject)
             {
                 JObject value = (JObject)champion.Value;
-                champions[i] = new ChampInfo(value);
+                ChampInfo champInfo = new ChampInfo(value);
+                champions[i] = champInfo;
+                //tasks[i] = Task.Run(() => champInfo.CreateChampion(value));
                 i++;
             }
+            //Task.WaitAll(tasks);
         }
 
         private void CreatePerkTreeInfo(JArray perkTreeJArray)
         {
             perkTrees = new PerkTreeInfo[5];
-
-            List<Task> tasks = new List<Task>();
-            for(int i = 0; i < perkTrees.Length; i++)
+            Task[] tasks = new Task[5];
+            int i = 0;
+            foreach (JObject perkTree in perkTreeJArray)
             {
-                //perkTrees[i] = new PerkTreeInfo(perkTree);
                 PerkTreeInfo perkTreeInfo = new PerkTreeInfo();
                 perkTrees[i] = perkTreeInfo;
-                JObject perkTree = (JObject)perkTreeJArray[i];
-                tasks.Add(Task.Run(() => perkTreeInfo.CreatePerkTree(perkTree)));
+                tasks[i] = Task.Run(() => perkTreeInfo.CreatePerkTree(perkTree));
+                i++;
             }
-
-            Task.WaitAll(tasks.ToArray());
+            Task.WaitAll(tasks);
         }
 
         private void InitializeElements()

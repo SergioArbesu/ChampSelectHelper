@@ -34,12 +34,13 @@ namespace ChampSelectHelperApp
             {
                 JArray perks = (JArray)slots[i]["runes"];
                 Slots[i] = new PerkInfo[perks.Count];
-                for (int j = 0; j < Slots[i].Length; j++)
+                int j = 0;
+                foreach(JObject perk in perks)
                 {
                     PerkInfo perkInfo = new PerkInfo();
                     Slots[i][j] = perkInfo;
-                    JObject perk = (JObject)perks[j];
                     tasks.Add(Task.Run(() => perkInfo.CreatePerk(perk)));
+                    j++;
                 }
             }
 
@@ -67,7 +68,7 @@ namespace ChampSelectHelperApp
             using (Stream tempStream = await client.GetStreamAsync(Program.PERKS_ICON_URL_START + (string)perk["icon"]))
             using (MemoryStream stream = new MemoryStream())
             {
-                tempStream.CopyTo(stream);
+                await tempStream.CopyToAsync(stream);
 
                 Icon = new BitmapImage();
                 Icon.BeginInit();
