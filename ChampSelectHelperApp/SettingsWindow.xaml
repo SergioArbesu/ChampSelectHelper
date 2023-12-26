@@ -31,12 +31,27 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <UniformGrid Grid.Row="0" Columns="5" Margin="15">
-                        <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
-                        <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
-                        <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
-                        <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
-                        <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                    <UniformGrid x:Name="primaryStyleGrid" Grid.Row="0" Columns="5" Margin="15,8">
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                        </Border>
                     </UniformGrid>
                     <ItemsControl x:Name="keyStonesItemsControl" Grid.Row="1" Margin="8">
                         <ItemsControl.ItemsPanel>
@@ -109,16 +124,79 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1.5*"/>
                     </Grid.RowDefinitions>
-                    <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="33,15">
-                        <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
-                        <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
-                        <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
-                        <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
-                        <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown" Visibility="Collapsed"/>
+                    <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="33,8">
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                        </Border>
+                        <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
+                                Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="Collapsed">
+                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                        </Border>
                     </UniformGrid>
-                    <UniformGrid Grid.Row="4" Columns="3" Rows="3" Margin="25,15">
+                    <ItemsControl x:Name="subSlot1ItemsControl" Grid.Row="1" Margin="10,6">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                        Width="{Binding Path=ActualHeight, ElementName=subSlot1ItemsControl}">
+                                    <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
+                                           MouseLeftButtonDown="subSlot1Image_MouseLeftButtonDown"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl x:Name="subSlot2ItemsControl" Grid.Row="2" Margin="10,6">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                        Width="{Binding Path=ActualHeight, ElementName=subSlot2ItemsControl}">
+                                    <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
+                                           MouseLeftButtonDown="subSlot2Image_MouseLeftButtonDown"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl x:Name="subSlot3ItemsControl" Grid.Row="3" Margin="10,6">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                        Width="{Binding Path=ActualHeight, ElementName=subSlot3ItemsControl}">
+                                    <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
+                                           MouseLeftButtonDown="subSlot3Image_MouseLeftButtonDown"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <UniformGrid Grid.Row="4" Columns="3" Rows="3" Margin="25,5,25,10">
                         <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png"/>
                         <Image Source="pack://application:,,,/Resources/Perks Icons/attackspeedicon.png"/>
                         <Image Source="pack://application:,,,/Resources/Perks Icons/cdrscalingicon.png"/>

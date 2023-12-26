@@ -36,7 +36,7 @@ namespace ChampSelectHelperApp
 
         private BitmapImage noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/Resources/noChamp.png"));
 
-        private int primaryStyleIndex = -1;
+        private int primaryStyleIndex = -1; // substitute this variables with checking the to be saved variables
         private int subStyleIndex = -1;
 
         private int[] savePerks = new int[8];
@@ -300,46 +300,100 @@ namespace ChampSelectHelperApp
 
         private void primaryStyle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string tag = (string)((Image)sender).Tag;
-            int tagInt = int.Parse(tag);
-
-            if (primaryStyleIndex == tagInt) return;
-            else primaryStyleIndex = tagInt;
-
-            foreach (Image style in subStyleGrid.Children)
-            {
-                style.Visibility = Visibility.Visible;
-                if ((string)style.Tag == tag)
-                {
-                    style.Visibility = Visibility.Collapsed;
-                }
-            }
-
-            ChangePrimaryStyle(tagInt);
+            ChangePrimaryStyle(int.Parse((string)((Image)sender).Tag));
         }
 
         private void subStyle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string tag = (string)((Image)sender).Tag;
-            int tagInt = int.Parse(tag);
-
-            if (subStyleIndex == tagInt) return;
-            
-            subStyleIndex = tagInt;
-            ChangeSubStyle(tagInt);
+            ChangeSubStyle(int.Parse((string)((Image)sender).Tag));
         }
 
         private void ChangePrimaryStyle(int index)
         {
-            keyStonesItemsControl.ItemsSource = perkTrees[index].Slots[0];
-            primarySlot1ItemsControl.ItemsSource = perkTrees[index].Slots[1];
-            primarySlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
-            primarySlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
+            if (primaryStyleIndex == index) return;
+            primaryStyleIndex = index;
+
+            foreach (Border border in primaryStyleGrid.Children)
+            {
+                int tag = int.Parse((string)((Image)border.Child).Tag);
+                if (tag == index)
+                {
+                    border.BorderBrush = Brushes.White;
+                }
+                else
+                {
+                    border.BorderBrush = Brushes.Transparent;
+                }
+            }
+
+            foreach (Border border in subStyleGrid.Children)
+            {
+                int tag = int.Parse((string)((Image)border.Child).Tag);
+                if (tag == index)
+                {
+                    border.Visibility = Visibility.Collapsed;
+                }
+                else 
+                {
+                    border.Visibility = Visibility.Visible;
+                    if (tag == subStyleIndex) 
+                    {
+                        border.BorderBrush = Brushes.White;
+                    }
+                    else
+                    {
+                        border.BorderBrush = Brushes.Transparent;
+                    }
+                }
+            }
+
+            if (index == -1)
+            {
+                keyStonesItemsControl.ItemsSource = null;
+                primarySlot1ItemsControl.ItemsSource = null;
+                primarySlot2ItemsControl.ItemsSource = null;
+                primarySlot3ItemsControl.ItemsSource = null;
+            }
+            else 
+            {
+                keyStonesItemsControl.ItemsSource = perkTrees[index].Slots[0];
+                primarySlot1ItemsControl.ItemsSource = perkTrees[index].Slots[1];
+                primarySlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
+                primarySlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
+            }
+            if (index == subStyleIndex) ChangeSubStyle(-1);
         }
 
         private void ChangeSubStyle(int index)
         {
+            if (subStyleIndex == index) return;
+            subStyleIndex = index;
 
+            foreach (Border border in subStyleGrid.Children)
+            {
+                int tag = int.Parse((string)((Image)border.Child).Tag);
+                if (tag == index)
+                {
+                    border.BorderBrush = Brushes.White;
+                }
+                else
+                {
+                    border.BorderBrush = Brushes.Transparent;
+                }
+            }
+
+            if (index == -1)
+            {
+                subSlot1ItemsControl.ItemsSource = null;
+                subSlot2ItemsControl.ItemsSource = null;
+                subSlot3ItemsControl.ItemsSource = null;
+            }
+            else
+            {
+                subSlot1ItemsControl.ItemsSource = perkTrees[index].Slots[1];
+                subSlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
+                subSlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
+            }
         }
 
         private void keyStonesImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -404,6 +458,63 @@ namespace ChampSelectHelperApp
             for (int i = 0; i < primarySlot3ItemsControl.Items.Count; i++)
             {
                 Border border = (Border)VisualTreeHelper.GetChild(primarySlot3ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Image image = (Image)border.Child;
+                if (image == sender)
+                {
+                    image.Source = ((PerkInfo)image.DataContext).Icon;
+                    border.BorderBrush = Brushes.White;
+                }
+                else
+                {
+                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
+                    border.BorderBrush = Brushes.Transparent;
+                }
+            }
+        }
+
+        private void subSlot1Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < subSlot1ItemsControl.Items.Count; i++)
+            {
+                Border border = (Border)VisualTreeHelper.GetChild(subSlot1ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Image image = (Image)border.Child;
+                if (image == sender)
+                {
+                    image.Source = ((PerkInfo)image.DataContext).Icon;
+                    border.BorderBrush = Brushes.White;
+                }
+                else
+                {
+                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
+                    border.BorderBrush = Brushes.Transparent;
+                }
+            }
+        }
+
+        private void subSlot2Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < subSlot2ItemsControl.Items.Count; i++)
+            {
+                Border border = (Border)VisualTreeHelper.GetChild(subSlot2ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Image image = (Image)border.Child;
+                if (image == sender)
+                {
+                    image.Source = ((PerkInfo)image.DataContext).Icon;
+                    border.BorderBrush = Brushes.White;
+                }
+                else
+                {
+                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
+                    border.BorderBrush = Brushes.Transparent;
+                }
+            }
+        }
+
+        private void subSlot3Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < subSlot3ItemsControl.Items.Count; i++)
+            {
+                Border border = (Border)VisualTreeHelper.GetChild(subSlot3ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
                 Image image = (Image)border.Child;
                 if (image == sender)
                 {
