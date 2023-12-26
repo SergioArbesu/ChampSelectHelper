@@ -124,7 +124,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="1.7*"/>
                     </Grid.RowDefinitions>
                     <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="32,8">
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
@@ -148,7 +148,7 @@
                             <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                     </UniformGrid>
-                    <ItemsControl x:Name="subSlot1ItemsControl" Grid.Row="1" Margin="10,6">
+                    <ItemsControl x:Name="subSlot1ItemsControl" Grid.Row="1" Margin="10,5">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Rows="1"/>
@@ -164,7 +164,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <ItemsControl x:Name="subSlot2ItemsControl" Grid.Row="2" Margin="10,6">
+                    <ItemsControl x:Name="subSlot2ItemsControl" Grid.Row="2" Margin="10,5">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Rows="1"/>
@@ -180,7 +180,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <ItemsControl x:Name="subSlot3ItemsControl" Grid.Row="3" Margin="10,6">
+                    <ItemsControl x:Name="subSlot3ItemsControl" Grid.Row="3" Margin="10,5">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Rows="1"/>
@@ -196,16 +196,58 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <UniformGrid Grid.Row="4" Columns="3" Rows="3" Margin="25,5,25,10">
-                        <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png"/>
-                        <Image Source="pack://application:,,,/Resources/Perks Icons/attackspeedicon.png"/>
-                        <Image Source="pack://application:,,,/Resources/Perks Icons/cdrscalingicon.png"/>
-                        <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png"/>
-                        <Image Source="pack://application:,,,/Resources/Perks Icons/armoricon.png"/>
-                        <Image Source="pack://application:,,,/Resources/Perks Icons/magicresicon.png"/>
-                        <Image Source="pack://application:,,,/Resources/Perks Icons/healthscalingicon.png"/>
-                        <Image Source="pack://application:,,,/Resources/Perks Icons/armoricon.png"/>
-                        <Image Source="pack://application:,,,/Resources/Perks Icons/magicresicon.png"/>
+                    <UniformGrid Grid.Row="4" Rows="3" Margin="25,0,25,10">
+                        <UniformGrid x:Name="offensivePerkGrid" Columns="3" Margin="0,1">
+                            <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                    Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png"
+                                       MouseLeftButtonDown="offensivePerkImage_MouseLeftButtonDown"/>
+                            </Border>
+                            <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                    Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <Image Source="pack://application:,,,/Resources/Perks Icons/attackspeedicon.png"
+                                       MouseLeftButtonDown="offensivePerkImage_MouseLeftButtonDown"/>
+                            </Border>
+                            <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                    Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <Image Source="pack://application:,,,/Resources/Perks Icons/cdrscalingicon.png"
+                                       MouseLeftButtonDown="offensivePerkImage_MouseLeftButtonDown"/>
+                            </Border>
+                        </UniformGrid>
+                        <UniformGrid x:Name="flexPerkGrid" Columns="3" Margin="0,1">
+                            <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                    Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <Image Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png" 
+                                       MouseLeftButtonDown="flexPerkImage_MouseLeftButtonDown"/>
+                            </Border>
+                            <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                    Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <Image Source="pack://application:,,,/Resources/Perks Icons/armoricon.png"
+                                       MouseLeftButtonDown="flexPerkImage_MouseLeftButtonDown"/>
+                            </Border>
+                            <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                    Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <Image Source="pack://application:,,,/Resources/Perks Icons/magicresicon.png"
+                                       MouseLeftButtonDown="flexPerkImage_MouseLeftButtonDown"/>
+                            </Border>
+                        </UniformGrid>
+                        <UniformGrid x:Name="defensivePerkGrid" Columns="3" Margin="0,1">
+                            <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                    Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <Image Source="pack://application:,,,/Resources/Perks Icons/healthscalingicon.png" 
+                                       MouseLeftButtonDown="defensivePerkImage_MouseLeftButtonDown"/>
+                            </Border>
+                            <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                    Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <Image Source="pack://application:,,,/Resources/Perks Icons/armoricon.png"
+                                       MouseLeftButtonDown="defensivePerkImage_MouseLeftButtonDown"/>
+                            </Border>
+                            <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
+                                    Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <Image Source="pack://application:,,,/Resources/Perks Icons/magicresicon.png"
+                                       MouseLeftButtonDown="defensivePerkImage_MouseLeftButtonDown"/>
+                            </Border>
+                        </UniformGrid>
                     </UniformGrid>
                 </Grid>
             </UniformGrid>

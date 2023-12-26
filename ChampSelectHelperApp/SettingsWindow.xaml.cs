@@ -80,6 +80,7 @@ namespace ChampSelectHelperApp
             {
                 MessageBox.Show(ex.Message, ex.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
+                return;
             }
             InitializeElements();
         }
@@ -524,6 +525,54 @@ namespace ChampSelectHelperApp
                 else
                 {
                     image.Source = ((PerkInfo)image.DataContext).GrayIcon;
+                    border.BorderBrush = Brushes.Transparent;
+                }
+            }
+        }
+
+        private void offensivePerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            foreach(Border border in offensivePerkGrid.Children)
+            {
+                Image image = (Image)border.Child;
+                if (image == sender)
+                {
+                    border.BorderBrush = Brushes.White;
+                }
+                else
+                {
+                    border.BorderBrush = Brushes.Transparent;
+                }
+            }
+        }
+
+        private void flexPerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            foreach (Border border in flexPerkGrid.Children)
+            {
+                Image image = (Image)border.Child;
+                if (image == sender)
+                {
+                    border.BorderBrush = Brushes.White;
+                }
+                else
+                {
+                    border.BorderBrush = Brushes.Transparent;
+                }
+            }
+        }
+
+        private void defensivePerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            foreach (Border border in defensivePerkGrid.Children)
+            {
+                Image image = (Image)border.Child;
+                if (image == sender)
+                {
+                    border.BorderBrush = Brushes.White;
+                }
+                else
+                {
                     border.BorderBrush = Brushes.Transparent;
                 }
             }
