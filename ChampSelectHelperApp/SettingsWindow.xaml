@@ -8,21 +8,32 @@
         Height="450" Width="800" Icon="Resources/System Icons/icon.ico"
         ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Image x:Name="championImage" Height="63" Margin="10,10,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <ComboBox x:Name="championComboBox" Margin="85,38,0,0" Width="120" SelectionChanged="championComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBlock x:Name="championTextBlock" HorizontalAlignment="Left" Height="20" Margin="85,18,0,0" TextWrapping="Wrap" Text="Champion" VerticalAlignment="Top" Width="120"/>
-        <Image x:Name="skinImage" HorizontalAlignment="Left" Height="223" Margin="10,201,0,0" VerticalAlignment="Top" Width="335"/>
-        <ComboBox x:Name="skinComboBox" Margin="20,111,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <CheckBox x:Name="skinCheckBox" Content="Skin" HorizontalAlignment="Left" Height="20" Margin="20,91,0,0" VerticalAlignment="Top" Width="120" Checked="skinCheckBox_Changed" Unchecked="skinCheckBox_Changed"/>
-        <CheckBox x:Name="skinRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,114,0,0" VerticalAlignment="Top" Width="120" Checked="skinRndmCheckBox_Changed" Unchecked="skinRndmCheckBox_Changed"/>
-        <ComboBox x:Name="chromaComboBox" Margin="20,163,0,0" Width="120" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <CheckBox x:Name="chromaCheckBox" Content="Chroma" HorizontalAlignment="Left" Height="20" Margin="20,143,0,0" VerticalAlignment="Top" Width="120" Checked="chromaCheckBox_Changed" Unchecked="chromaCheckBox_Changed"/>
-        <CheckBox x:Name="chromaRndmCheckBox" Content="Random" HorizontalAlignment="Left" Height="20" Margin="145,166,0,0" VerticalAlignment="Top" Width="120" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed"/>
-        <Button x:Name="skinRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,112,0,0" VerticalAlignment="Top" Click="skinRndmDialogButton_Click" Height="20" Width="50"/>
-        <Button x:Name="chromaRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,164,0,0" VerticalAlignment="Top" Click="chromaRndmDialogButton_Click" Height="20" Width="50"/>
+        <Image x:Name="championImage" Width="63" Height="63" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBlock Text="Champion" HorizontalAlignment="Left" Width="120" Height="20" Margin="85,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <ComboBox x:Name="championComboBox" Margin="85,38,0,0" Width="120" Height="22" SelectionChanged="championComboBox_SelectionChanged" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox x:Name="skinCheckBox" Content="Skin" Width="120" Height="20" Margin="20,91,0,0" HorizontalAlignment="Left" 
+                  VerticalAlignment="Top" Checked="skinCheckBox_Changed" Unchecked="skinCheckBox_Changed" IsEnabled="False"/>
+        <ComboBox x:Name="skinComboBox" Margin="20,111,0,0" Width="120" Height="22" SelectionChanged="skinComboBox_SelectionChanged" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
+        <CheckBox x:Name="skinRndmCheckBox" Content="Random" Width="120" Height="20" Margin="145,114,0,0" HorizontalAlignment="Left" 
+                  VerticalAlignment="Top" Checked="skinRndmCheckBox_Changed" Unchecked="skinRndmCheckBox_Changed" IsEnabled="False"/>
+        <Button x:Name="skinRndmDialogButton" Content="Set Pool" Height="20" Width="50" Margin="218,112,0,0" HorizontalAlignment="Left" 
+                VerticalAlignment="Top" Click="skinRndmDialogButton_Click" IsEnabled="False"/>
+        <CheckBox x:Name="chromaCheckBox" Content="Chroma" Width="120" Height="20" Margin="20,143,0,0" HorizontalAlignment="Left" 
+                  VerticalAlignment="Top" Checked="chromaCheckBox_Changed" Unchecked="chromaCheckBox_Changed" IsEnabled="False"/>
+        <ComboBox x:Name="chromaComboBox" Width="120" Height="22" Margin="20,163,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
+        <CheckBox x:Name="chromaRndmCheckBox" Content="Random" Width="120" Height="20" Margin="145,166,0,0" HorizontalAlignment="Left" 
+                  VerticalAlignment="Top" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed" IsEnabled="False"/>
+        <Button x:Name="chromaRndmDialogButton" Content="Set Pool" Height="20" Width="50" Margin="218,164,0,0" HorizontalAlignment="Left" 
+                VerticalAlignment="Top" Click="chromaRndmDialogButton_Click" IsEnabled="False"/>
+        <!-- TODO: check if Image.IsEnabled=false is needed-->
+        <Image x:Name="skinImage" HorizontalAlignment="Left" Width="335" Height="223" Margin="10,201,0,0" VerticalAlignment="Top" IsEnabled="False"/>
         <!-- Adjust color of border background and border brush. Idea: make border brush change according to the color of the selected perkStyle -->
-        <Border Margin="354,90,10,10" BorderThickness="5" BorderBrush="#565049" Background="Black" CornerRadius="15" IsEnabled="False">
-            <UniformGrid x:Name="perksUniformGrid" Columns="2">
+        <CheckBox x:Name="perksCheckBox" Content="Runes" Width="120" Height="20" Margin="354,70,0,0" HorizontalAlignment="Left" 
+                  VerticalAlignment="Top" Checked="perksCheckBox_Changed" Unchecked="perksCheckBox_Changed" IsEnabled="False"/>
+        <Border Margin="354,90,10,10" BorderThickness="5" BorderBrush="#565049" Background="Black" CornerRadius="15">
+            <UniformGrid x:Name="perksGrid" Columns="2" Visibility="Hidden">
                 <Grid x:Name="primaryTreeGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="52"/>
@@ -34,23 +45,28 @@
                     <UniformGrid x:Name="primaryStyleGrid" Grid.Row="0" Columns="5" Margin="15,8">
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" 
+                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" 
+                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" 
+                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" 
+                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" 
+                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                     </UniformGrid>
                     <ItemsControl x:Name="keyStonesItemsControl" Grid.Row="1" Margin="8">
@@ -126,26 +142,31 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="1.7*"/>
                     </Grid.RowDefinitions>
-                    <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="32,8">
+                    <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="32,8" Visibility="Hidden">
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" 
+                                   MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" 
+                                   MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" 
+                                   MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                            <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" 
+                                   MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}" Visibility="Collapsed">
-                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" 
+                                   MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                     </UniformGrid>
                     <ItemsControl x:Name="subSlot1ItemsControl" Grid.Row="1" Margin="10,5">
@@ -252,12 +273,24 @@
                 </Grid>
             </UniformGrid>
         </Border>
-        <ComboBox x:Name="skinComboBox_Copiar" Margin="433,30,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <CheckBox x:Name="skinCheckBox_Copiar" Content="Skin" HorizontalAlignment="Left" Height="20" Margin="433,10,0,0" VerticalAlignment="Top" Width="120" Checked="skinCheckBox_Changed" Unchecked="skinCheckBox_Changed"/>
-        <CheckBox x:Name="perksCheckBox" Content="Runes" HorizontalAlignment="Left" Height="20" Margin="354,70,0,0" VerticalAlignment="Top" Width="120" Checked="perksCheckBox_Changed" Unchecked="perksCheckBox_Changed"/>
-        <ComboBox x:Name="skinComboBox_Copiar1" Margin="433,57,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Image x:Name="spell1Image" HorizontalAlignment="Left" Height="49" Margin="565,30,0,0" VerticalAlignment="Top" Width="49"/>
-        <Image x:Name="spell2Image" HorizontalAlignment="Left" Height="49" Margin="626,30,0,0" VerticalAlignment="Top" Width="49"/>
+        <CheckBox x:Name="spellsCheckBox" Content="Summoner Spells" Width="120" Height="20" Margin="433,10,0,0" HorizontalAlignment="Left" 
+                  VerticalAlignment="Top" Checked="spellsCheckBox_Changed" Unchecked="spellsCheckBox_Changed" IsEnabled="False"/>
+        <ComboBox x:Name="spell1ComboBox" Margin="433,30,0,0" Width="120" Height="22" SelectionChanged="spell1ComboBox_SelectionChanged" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
+        <ComboBox x:Name="spell2ComboBox" Margin="433,57,0,0" Width="120" Height="22" SelectionChanged="spell2ComboBox_SelectionChanged" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
+        <TextBlock Text="D" Width="49" Height="17" Margin="565,13,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
+        <Border BorderThickness="1" BorderBrush="DarkSlateGray" Width="49" Height="49" 
+                Margin="565,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Image x:Name="spell1Image"/>
+        </Border>
+        <TextBlock Text="F" Width="49" Height="17" Margin="626,13,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
+        <Border BorderThickness="1" BorderBrush="DarkSlateGray" Width="49" Height="49" 
+                Margin="626,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Image x:Name="spell2Image"/>
+        </Border>
 
     </Grid>
 

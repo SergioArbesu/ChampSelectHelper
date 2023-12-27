@@ -51,17 +51,6 @@ namespace ChampSelectHelperApp
             //Closing += CloseWindow; to be decided if this is useful
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
-
-            skinCheckBox.IsEnabled = false;
-            skinComboBox.IsEnabled = false;
-            skinRndmCheckBox.IsEnabled = false;
-            skinRndmDialogButton.IsEnabled = false;
-            skinImage.IsEnabled = false;
-
-            chromaCheckBox.IsEnabled = false;
-            chromaComboBox.IsEnabled = false;
-            chromaRndmCheckBox.IsEnabled = false;
-            chromaRndmDialogButton.IsEnabled = false;
         }
 
         public async void InitializeWindow()
@@ -146,13 +135,21 @@ namespace ChampSelectHelperApp
         private void InitializeElements()
         {
             //always use after having created champInfo
-            foreach (ChampInfo info in champions!)
+            foreach (ChampInfo champion in champions)
             {
-                championComboBox.Items.Add(info.Name);
+                championComboBox.Items.Add(champion.Name);
+            }
+
+            foreach (SpellInfo spell in spells)
+            {
+                spell1ComboBox.Items.Add(spell.Name);
+                spell2ComboBox.Items.Add(spell.Name);
             }
 
             championImage.Source = noChampImg;
 
+
+            //Display elements when the loading has ended
             championComboBox.Visibility = Visibility.Visible;
             championImage.Visibility = Visibility.Visible;
         }
@@ -172,7 +169,11 @@ namespace ChampSelectHelperApp
             {
                 championImage.Source = noChampImg;
                 skinCheckBox.IsChecked = false;
+                perksCheckBox.IsChecked = false;
+                spellsCheckBox.IsChecked = false;
                 skinCheckBox.IsEnabled = false;
+                perksCheckBox.IsEnabled = false;
+                spellsCheckBox.IsEnabled = false;
             }
             else
             {
@@ -181,8 +182,9 @@ namespace ChampSelectHelperApp
                 {
                     skinComboBox.Items.Add(skin.Name);
                 }
-                skinCheckBox.IsChecked = false;
                 skinCheckBox.IsEnabled = true;
+                perksCheckBox.IsEnabled = true;
+                spellsCheckBox.IsEnabled = true;
             }
         }
 
@@ -223,7 +225,7 @@ namespace ChampSelectHelperApp
             {
                 skinComboBox.IsEnabled = true;
                 skinRndmCheckBox.IsEnabled = true;
-                skinImage.IsEnabled = true;
+                skinImage.IsEnabled = true; //TODO: know if this is necessary (if not, clean the code here and everywhere else)
             }
             else
             {
@@ -308,6 +310,18 @@ namespace ChampSelectHelperApp
             //save it
             //TODO: add option to choose the regular chroma here and in dropdown
         }
+        private void perksCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            if (perksCheckBox.IsChecked == true)
+            {
+                perksGrid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ChangePrimaryStyle(-1);
+                perksGrid.Visibility = Visibility.Hidden;
+            }
+        }
 
         private void primaryStyle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -336,6 +350,17 @@ namespace ChampSelectHelperApp
                     border.BorderBrush = Brushes.Transparent;
                 }
             }
+            
+            if (index == -1)
+            {
+                keyStonesItemsControl.ItemsSource = null;
+                primarySlot1ItemsControl.ItemsSource = null;
+                primarySlot2ItemsControl.ItemsSource = null;
+                primarySlot3ItemsControl.ItemsSource = null;
+                subStyleGrid.Visibility = Visibility.Hidden;
+                ChangeSubStyle(-1);
+                return;
+            }
 
             foreach (Border border in subStyleGrid.Children)
             {
@@ -357,22 +382,15 @@ namespace ChampSelectHelperApp
                     }
                 }
             }
+            
+            keyStonesItemsControl.ItemsSource = perkTrees[index].Slots[0];
+            primarySlot1ItemsControl.ItemsSource = perkTrees[index].Slots[1];
+            primarySlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
+            primarySlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
 
-            if (index == -1)
-            {
-                keyStonesItemsControl.ItemsSource = null;
-                primarySlot1ItemsControl.ItemsSource = null;
-                primarySlot2ItemsControl.ItemsSource = null;
-                primarySlot3ItemsControl.ItemsSource = null;
-            }
-            else 
-            {
-                keyStonesItemsControl.ItemsSource = perkTrees[index].Slots[0];
-                primarySlot1ItemsControl.ItemsSource = perkTrees[index].Slots[1];
-                primarySlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
-                primarySlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
-            }
             if (index == subStyleIndex) ChangeSubStyle(-1);
+
+            subStyleGrid.Visibility = Visibility.Visible;
         }
 
         private void ChangeSubStyle(int index)
@@ -585,6 +603,48 @@ namespace ChampSelectHelperApp
                 {
                     border.BorderBrush = Brushes.Transparent;
                 }
+            }
+        }
+
+        private void spellsCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            if (spellsCheckBox.IsChecked == true)
+            {
+                spell1ComboBox.IsEnabled = true;
+                spell2ComboBox.IsEnabled = true;
+            }
+            else
+            {
+                spell1ComboBox.SelectedIndex = -1;
+                spell2ComboBox.SelectedIndex = -1;
+                spell1ComboBox.IsEnabled = false;
+                spell2ComboBox.IsEnabled = false;
+            }
+        }
+
+        private void spell1ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (spell1ComboBox.SelectedIndex == -1)
+            {
+                spell1Image.Source = null;
+            }
+            else
+            {
+                spell1Image.Source = spells[spell1ComboBox.SelectedIndex].Icon;
+                if (spell1ComboBox.SelectedIndex == spell2ComboBox.SelectedIndex) spell2ComboBox.SelectedIndex = -1;
+            }
+        }
+
+        private void spell2ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (spell2ComboBox.SelectedIndex == -1)
+            {
+                spell2Image.Source = null;
+            }
+            else
+            {
+                spell2Image.Source = spells[spell2ComboBox.SelectedIndex].Icon;
+                if (spell1ComboBox.SelectedIndex == spell2ComboBox.SelectedIndex) spell1ComboBox.SelectedIndex = -1;
             }
         }
     }
