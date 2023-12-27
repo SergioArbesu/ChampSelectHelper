@@ -64,24 +64,14 @@ namespace ChampSelectHelperApp
         public void InitializeWindow()
         {
             CheckConnectivity();
-            try
-            {
-                using (WebClient httpClient = new())
-                {
-                    string response = httpClient.DownloadString(Program.PERKS_JSON_URL);
-                    JArray parsedArray = JArray.Parse(response);
-                    CreatePerkTreeInfo(parsedArray);
-                    response = httpClient.DownloadString(Program.CHAMPIONS_JSON_URL);
-                    JObject parsedObject = JObject.Parse(response);
-                    CreateChampInfo(parsedObject);
-                }
-            }
-            catch (WebException ex) 
-            {
-                MessageBox.Show(ex.Message, ex.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
-                Close();
-                return;
-            }
+
+            string response = App.httpclient.GetStringAsync(Program.PERKS_JSON_URL).Result;
+            JArray parsedArray = JArray.Parse(response);
+            CreatePerkTreeInfo(parsedArray);
+            response = App.httpclient.GetStringAsync(Program.CHAMPIONS_JSON_URL).Result;
+            JObject parsedObject = JObject.Parse(response);
+            CreateChampInfo(parsedObject);
+
             InitializeElements();
         }
 
@@ -532,7 +522,7 @@ namespace ChampSelectHelperApp
 
         private void offensivePerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            foreach(Border border in offensivePerkGrid.Children)
+            foreach (Border border in offensivePerkGrid.Children)
             {
                 Image image = (Image)border.Child;
                 if (image == sender)

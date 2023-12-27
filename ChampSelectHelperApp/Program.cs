@@ -13,9 +13,10 @@ namespace ChampSelectHelperApp
         public static readonly string APP_DEVELOPER = "MrArbesu";
 
         public static readonly string CHAMPIONS_JSON_URL = "https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions.json";
+        public static readonly string SPELLS_JSON_URL = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/summoner-spells.json";
         public static readonly string PERKS_JSON_URL = "http://ddragon.leagueoflegends.com/cdn/12.10.1/data/en_US/runesReforged.json";
-        public static readonly string PERKS_ICON_URL_START = "https://ddragon.leagueoflegends.com/cdn/img/";
-        // Icon paths are added to https://ddragon.leagueoflegends.com/cdn/img/
+        public static readonly string ICON_URL_START = "https://ddragon.leagueoflegends.com/cdn/img/";
+        // icon paths are added to https://ddragon.leagueoflegends.com/cdn/img/
 
         public static readonly string WINDOWS_STARTUP_FLAG = "--systemstart";
         public static bool LAUNCHED_AT_STARTUP;
