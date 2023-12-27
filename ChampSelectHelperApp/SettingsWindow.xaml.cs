@@ -20,6 +20,7 @@ using NETWORKLIST;
 using System.Collections.ObjectModel;
 using Microsoft.Win32;
 using System.ComponentModel;
+using System.Net.Http;
 
 namespace ChampSelectHelperApp
 {
@@ -32,6 +33,8 @@ namespace ChampSelectHelperApp
 
         private ChampInfo[] champions;
         private PerkTreeInfo[] perkTrees;
+        private List<SpellInfo> spells;
+
         private Dictionary<int, ChampionSettings> champSettDict = new();
 
         private BitmapImage noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/Resources/noChamp.png"));
@@ -61,16 +64,19 @@ namespace ChampSelectHelperApp
             chromaRndmDialogButton.IsEnabled = false;
         }
 
-        public void InitializeWindow()
+        public async void InitializeWindow()
         {
             CheckConnectivity();
 
-            string response = App.httpclient.GetStringAsync(Program.PERKS_JSON_URL).Result;
-            JArray parsedArray = JArray.Parse(response);
-            CreatePerkTreeInfo(parsedArray);
-            response = App.httpclient.GetStringAsync(Program.CHAMPIONS_JSON_URL).Result;
-            JObject parsedObject = JObject.Parse(response);
-            CreateChampInfo(parsedObject);
+            string response = await App.httpclient.GetStringAsync(Program.PERKS_JSON_URL);
+            JArray parsedPerks = JArray.Parse(response);
+            CreatePerkTreeInfo(parsedPerks);
+            response = await App.httpclient.GetStringAsync(Program.CHAMPIONS_JSON_URL);
+            JObject parsedChampions = JObject.Parse(response);
+            CreateChampInfo(parsedChampions);
+            response = await App.httpclient.GetStringAsync(Program.SPELLS_JSON_URL);
+            JArray parsedSpells = JArray.Parse(response);
+            CreateSpellInfo(parsedSpells);
 
             InitializeElements();
         }
@@ -95,17 +101,14 @@ namespace ChampSelectHelperApp
         private void CreateChampInfo(JObject champJObject)
         {
             champions = new ChampInfo[champJObject.Count];
-            //Task[] tasks = new Task[champions.Length];
             int i = 0;
             foreach (var champion in champJObject)
             {
                 JObject value = (JObject)champion.Value;
                 ChampInfo champInfo = new ChampInfo(value);
                 champions[i] = champInfo;
-                //tasks[i] = Task.Run(() => champInfo.CreateChampion(value));
                 i++;
             }
-            //Task.WaitAll(tasks);
         }
 
         private void CreatePerkTreeInfo(JArray perkTreeJArray)
@@ -121,6 +124,23 @@ namespace ChampSelectHelperApp
                 i++;
             }
             Task.WaitAll(tasks);
+        }
+
+        private void CreateSpellInfo(JArray spellJArray)
+        {
+            spells = new List<SpellInfo>();
+            foreach (JObject spell in spellJArray)
+            {
+                JArray gameModes = (JArray)spell["gameModes"];
+                foreach (string gameMode in gameModes)
+                {
+                    if (gameMode == "CLASSIC")
+                    {
+                        spells.Add(new SpellInfo(spell));
+                        break;
+                    }
+                }
+            }
         }
 
         private void InitializeElements()

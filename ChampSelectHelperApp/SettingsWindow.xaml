@@ -21,7 +21,7 @@
         <Button x:Name="skinRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,112,0,0" VerticalAlignment="Top" Click="skinRndmDialogButton_Click" Height="20" Width="50"/>
         <Button x:Name="chromaRndmDialogButton" Content="Set Pool" HorizontalAlignment="Left" Margin="218,164,0,0" VerticalAlignment="Top" Click="chromaRndmDialogButton_Click" Height="20" Width="50"/>
         <!-- Adjust color of border background and border brush. Idea: make border brush change according to the color of the selected perkStyle -->
-        <Border Margin="354,90,10,10" BorderThickness="5" BorderBrush="#565049" Background="Black" CornerRadius="15">
+        <Border Margin="354,90,10,10" BorderThickness="5" BorderBrush="#565049" Background="Black" CornerRadius="15" IsEnabled="False">
             <UniformGrid x:Name="perksUniformGrid" Columns="2">
                 <Grid x:Name="primaryTreeGrid">
                     <Grid.RowDefinitions>
@@ -252,6 +252,12 @@
                 </Grid>
             </UniformGrid>
         </Border>
+        <ComboBox x:Name="skinComboBox_Copiar" Margin="433,30,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox x:Name="skinCheckBox_Copiar" Content="Skin" HorizontalAlignment="Left" Height="20" Margin="433,10,0,0" VerticalAlignment="Top" Width="120" Checked="skinCheckBox_Changed" Unchecked="skinCheckBox_Changed"/>
+        <CheckBox x:Name="perksCheckBox" Content="Runes" HorizontalAlignment="Left" Height="20" Margin="354,70,0,0" VerticalAlignment="Top" Width="120" Checked="perksCheckBox_Changed" Unchecked="perksCheckBox_Changed"/>
+        <ComboBox x:Name="skinComboBox_Copiar1" Margin="433,57,0,0" Width="120" SelectionChanged="skinComboBox_SelectionChanged" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image x:Name="spell1Image" HorizontalAlignment="Left" Height="49" Margin="565,30,0,0" VerticalAlignment="Top" Width="49"/>
+        <Image x:Name="spell2Image" HorizontalAlignment="Left" Height="49" Margin="626,30,0,0" VerticalAlignment="Top" Width="49"/>
 
     </Grid>
 

@@ -53,12 +53,11 @@ namespace ChampSelectHelperApp
         public int Id { get; private set; }
         public BitmapImage Icon { get; private set; }
         public BitmapImage GrayIcon { get; private set; }
-        public bool IsSelected { get; set; }
+        //public bool IsSelected { get; set; }
 
-        //public PerkInfo(JObject perk)
         public PerkInfo()
         {
-            IsSelected = false;
+            //IsSelected = false;
         }
 
         public async Task CreatePerk(JObject perk)
