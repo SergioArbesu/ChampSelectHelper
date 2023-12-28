@@ -10,19 +10,19 @@ using System.Windows;
 
 namespace ChampSelectHelperApp
 {
-    static class FyleSystem
+    public class FyleSystem
     {
-        private static readonly RegistryKey BOOT_KEY = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-        private static readonly string APP_DATA_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        private readonly RegistryKey BOOT_KEY = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+        private readonly string APP_DATA_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             Program.APP_DEVELOPER, Program.APP_NAME);
 
-        public static bool LaunchesAtStartup()
+        public bool LaunchesAtStartup()
         {
             // Update path to current executable if we moved.
             return BOOT_KEY.GetValue(Program.APP_NAME) is not null;
         }
 
-        public static void ToggleLaunchAtStartup()
+        public void ToggleLaunchAtStartup()
         {
             if (LaunchesAtStartup())
             {
@@ -34,12 +34,12 @@ namespace ChampSelectHelperApp
             }
         }
 
-        public static void StoreInFyle(string fyleName, string body, bool overwrite)
+        public void StoreInFyle(string fyleName, string body, bool overwrite)
         {
 
         }
 
-        public static string GetFyleContent(string fyleName)
+        public string GetFyleContent(string fyleName)
         {
             return "";
         }

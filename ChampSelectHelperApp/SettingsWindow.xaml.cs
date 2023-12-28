@@ -35,14 +35,20 @@ namespace ChampSelectHelperApp
         private PerkTreeInfo[] perkTrees;
         private List<SpellInfo> spells;
 
-        private Dictionary<int, ChampionSettings> champSettDict = new();
+        private Dictionary<int, ChampionSettings> settingsDict = new();
 
         private BitmapImage noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/Resources/noChamp.png"));
 
         private int primaryStyleIndex = -1; // substitute this variables with checking the to be saved variables
         private int subStyleIndex = -1;
 
-        private int[] savePerks = new int[8];
+        // if what is being saved are chromas, saves the skin of origin
+        private List<int> saveSkinsOrChromas = new List<int>();
+        private int saveOriginSkin = -1; // -1 means that skins are being saved
+
+        private int[] saveStyles = new int[2] {-1,-1};
+        private int[] savePerks = new int[9] {-1,-1,-1,-1,-1,-1,-1,-1,-1};
+        private int[] saveSpells = new int[2] {-1,-1};
 
         public SettingsWindow()
         {
@@ -159,6 +165,51 @@ namespace ChampSelectHelperApp
             networkListManager = null;
             champions = null;
             perkTrees = null;
+        }
+
+        private void SaveChampion()
+        {
+            ChampionSettings settings = new ChampionSettings(
+                champions[championComboBox.SelectedIndex].Id,
+                saveStyles,
+                savePerks,
+                saveSpells,
+                saveSkinsOrChromas,
+                saveOriginSkin
+                );
+            settingsDict[settings.id] = settings;
+            // save in file
+        }
+
+        private void SaveSkinsOrChromas()
+        {
+
+        }
+
+        private void SavePerks()
+        {
+            int first = savePerks[0];
+            if (first == -1)
+            {
+                for (int i = 1; i < savePerks.Length; i++)
+                {
+                    if (savePerks[i] != -1) return;
+                }
+            }
+            else
+            {
+                for (int i = 1; i <= savePerks.Length; i++)
+                {
+                    if (savePerks[i] == -1) return;
+                }
+            }
+
+            SaveChampion();
+        }
+
+        private void SaveSpells()
+        {
+
         }
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -335,8 +386,8 @@ namespace ChampSelectHelperApp
 
         private void ChangePrimaryStyle(int index)
         {
-            if (primaryStyleIndex == index) return;
-            primaryStyleIndex = index;
+            if (saveStyles[0] == perkTrees[index].Id) return;
+            saveStyles[0] = perkTrees[index].Id;
 
             foreach (Border border in primaryStyleGrid.Children)
             {
@@ -395,8 +446,8 @@ namespace ChampSelectHelperApp
 
         private void ChangeSubStyle(int index)
         {
-            if (subStyleIndex == index) return;
-            subStyleIndex = index;
+            if (saveStyles[1] == perkTrees[index].Id) return;
+            saveStyles[1] = perkTrees[index].Id;
 
             foreach (Border border in subStyleGrid.Children)
             {
@@ -423,6 +474,9 @@ namespace ChampSelectHelperApp
                 subSlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
                 subSlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
             }
+
+            savePerks[4] = -1;
+            savePerks[5] = -1;
         }
 
         private void keyStonesImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
