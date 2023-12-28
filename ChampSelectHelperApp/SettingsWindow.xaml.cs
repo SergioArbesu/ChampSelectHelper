@@ -226,18 +226,18 @@ namespace ChampSelectHelperApp
                 skinCheckBox.IsEnabled = false;
                 perksCheckBox.IsEnabled = false;
                 spellsCheckBox.IsEnabled = false;
+                return;
             }
-            else
+            
+            championImage.Source = champions[championComboBox.SelectedIndex].Icon;
+            foreach (SkinInfo skin in champions[championComboBox.SelectedIndex].Skins)
             {
-                championImage.Source = champions[championComboBox.SelectedIndex].Icon;
-                foreach (SkinInfo skin in champions[championComboBox.SelectedIndex].Skins)
-                {
-                    skinComboBox.Items.Add(skin.Name);
-                }
-                skinCheckBox.IsEnabled = true;
-                perksCheckBox.IsEnabled = true;
-                spellsCheckBox.IsEnabled = true;
+                skinComboBox.Items.Add(skin.Name);
             }
+            skinCheckBox.IsEnabled = true;
+            perksCheckBox.IsEnabled = true;
+            spellsCheckBox.IsEnabled = true;
+            // set all the controls and save variables to the saved settings of the champion
         }
 
         private void skinCheckBox_Changed(object sender, RoutedEventArgs e)
@@ -258,6 +258,10 @@ namespace ChampSelectHelperApp
                 skinRndmCheckBox.IsEnabled = false;
                 skinImage.IsEnabled = false;
                 chromaCheckBox.IsEnabled = false;
+
+                saveSkinsOrChromas.Clear();
+                saveOriginSkin = -1;
+                //call saving methods
             }
         }
 
@@ -269,32 +273,31 @@ namespace ChampSelectHelperApp
             if (skinComboBox.SelectedIndex == -1)
             {
                 skinImage.Source = null;
+                return;
+            }
+            
+            CheckConnectivity();
+            skinImage.Source = new BitmapImage(new Uri(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
+
+            ChromaInfo[]? chromas = champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
+            if (chromas is null)
+            {
+                chromaComboBox.IsEnabled = false;
+                chromaRndmCheckBox.IsEnabled = false;
             }
             else
             {
-                CheckConnectivity();
-                skinImage.Source = new BitmapImage(new Uri(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
-
-                ChromaInfo[]? chromas = champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
-                if (chromas is null)
+                foreach (ChromaInfo chroma in chromas)
                 {
-                    chromaComboBox.IsEnabled = false;
-                    chromaRndmCheckBox.IsEnabled = false;
+                    chromaComboBox.Items.Add(chroma.Name);
                 }
-                else
-                {
-                    foreach (ChromaInfo chroma in chromas)
-                    {
-                        chromaComboBox.Items.Add(chroma.Name);
-                    }
-                    chromaCheckBox.IsEnabled = true;
-                }
-
-                saveOriginSkin = -1;
-                saveSkinsOrChromas.Clear();
-                saveSkinsOrChromas.Add(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Id);
-                //call saving method
+                chromaCheckBox.IsEnabled = true;
             }
+
+            saveOriginSkin = -1;
+            saveSkinsOrChromas.Clear();
+            saveSkinsOrChromas.Add(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Id);
+            //call saving method
         }
 
         private void skinRndmCheckBox_Changed(object sender, RoutedEventArgs e)
@@ -316,17 +319,24 @@ namespace ChampSelectHelperApp
 
         private void chromaCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-            if (chromaCheckBox.IsChecked != true)
+            if (chromaCheckBox.IsChecked == true)
+            {
+                chromaComboBox.IsEnabled = true;
+                chromaRndmCheckBox.IsEnabled = true;
+            }
+            else
             {
                 chromaComboBox.SelectedIndex = -1;
                 chromaRndmCheckBox.IsChecked = false;
                 chromaComboBox.IsEnabled = false;
                 chromaRndmCheckBox.IsEnabled = false;
-            }
-            else
-            {
-                chromaComboBox.IsEnabled = true;
-                chromaRndmCheckBox.IsEnabled = true;
+
+                if (skinComboBox.SelectedIndex != -1)
+                {
+                    saveOriginSkin = -1;
+                    saveSkinsOrChromas.Clear();
+                    saveSkinsOrChromas.Add(saveOriginSkin);
+                }
             }
         }
 
