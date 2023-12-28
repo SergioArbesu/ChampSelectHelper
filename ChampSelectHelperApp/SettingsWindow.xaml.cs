@@ -564,47 +564,112 @@ namespace ChampSelectHelperApp
 
         private void keyStonesImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeSlotPerkItemsControl(keyStonesItemsControl, sender);
+            int id = (int)((Image)sender).Tag;
+            if (savePerks[0] == id) return;
+            savePerks[0] = id;
 
-            savePerks[0] = (int)((Image)sender).Tag;
+            ChangeSlotPerkItemsControl(keyStonesItemsControl, sender);
         }
 
         private void primarySlot1Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeSlotPerkItemsControl(primarySlot1ItemsControl, sender);
+            int id = (int)((Image)sender).Tag;
+            if (savePerks[1] == id) return;
+            savePerks[1] = id;
 
-            savePerks[1] = (int)((Image)sender).Tag;
+            ChangeSlotPerkItemsControl(primarySlot1ItemsControl, sender);
         }
 
         private void primarySlot2Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeSlotPerkItemsControl(primarySlot2ItemsControl, sender);
+            int id = (int)((Image)sender).Tag;
+            if (savePerks[2] == id) return;
+            savePerks[2] = id;
 
-            savePerks[2] = (int)((Image)sender).Tag;
+            ChangeSlotPerkItemsControl(primarySlot2ItemsControl, sender);
         }
 
         private void primarySlot3Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeSlotPerkItemsControl(primarySlot3ItemsControl, sender);
+            int id = (int)((Image)sender).Tag;
+            if (savePerks[3] == id) return;
+            savePerks[3] = id;
 
-            savePerks[3] = (int)((Image)sender).Tag;
+            ChangeSlotPerkItemsControl(primarySlot3ItemsControl, sender);
         }
 
         //TODO: add logic so there can only be two subtree perks at the same time
 
         private void subSlot1Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeSlotPerkItemsControl(subSlot1ItemsControl, sender);
+            ChangeSubSlotPerkItemsControl(subSlot1ItemsControl, sender);
         }
 
         private void subSlot2Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeSlotPerkItemsControl(subSlot2ItemsControl, sender);
+            ChangeSubSlotPerkItemsControl(subSlot2ItemsControl, sender);
         }
 
         private void subSlot3Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeSlotPerkItemsControl(subSlot3ItemsControl, sender);
+            ChangeSubSlotPerkItemsControl(subSlot3ItemsControl, sender);
+        }
+
+        private void ChangeSubSlotPerkItemsControl(ItemsControl itemsControl, object sender)
+        {
+            bool present = false;
+            for (int i = 0; i < itemsControl.Items.Count; i++)
+            {
+                Border border = (Border)VisualTreeHelper.GetChild(itemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Image image = (Image)border.Child;
+                int id = (int)image.Tag;
+                if (savePerks[4] == id)
+                {
+                    (savePerks[4], savePerks[5]) = (savePerks[5], savePerks[4]);
+                    present = true;
+                    break;
+                }
+                else if (savePerks[5] == id)
+                {
+                    present = true;
+                    break;
+                }
+            }
+
+            if (present)
+            {
+                int idSelected = (int)((Image)sender).Tag;
+                if (savePerks[5] == idSelected) return;
+                savePerks[5] = idSelected;
+
+                ChangeSlotPerkItemsControl(itemsControl, sender);
+                return;
+            }
+
+            if (savePerks[5] != -1)
+            {
+                List<ItemsControl> itemsControls = new List<ItemsControl>() { subSlot1ItemsControl, subSlot2ItemsControl, subSlot3ItemsControl };
+                itemsControls.Remove(itemsControl);
+                bool changed = false;
+                for (int i = 0; i < itemsControls[0].Items.Count; i++)
+                {
+                    Border border = (Border)VisualTreeHelper.GetChild(itemsControls[0].ItemContainerGenerator.ContainerFromIndex(i), 0);
+                    Image image = (Image)border.Child;
+                    int id = (int)image.Tag;
+                    if (savePerks[4] == id)
+                    {
+                        ChangeSlotPerkItemsControl(itemsControls[0], null);
+                        changed = true;
+                    }
+                }
+
+                if (!changed) ChangeSlotPerkItemsControl(itemsControls[1], null);
+            }
+
+            savePerks[4] = savePerks[5];
+            savePerks[5] = (int)((Image)sender).Tag;
+
+            ChangeSlotPerkItemsControl(itemsControl, sender);
         }
 
         private void ChangeSlotPerkItemsControl(ItemsControl itemsControl, object sender)
@@ -628,23 +693,29 @@ namespace ChampSelectHelperApp
 
         private void offensivePerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeMinorPerkGrid(offensivePerkGrid, sender);
+            int id = int.Parse((string)((Image)sender).Tag);
+            if (savePerks[6] == id) return;
+            savePerks[6] = id;
 
-            savePerks[6] = int.Parse((string)((Image)sender).Tag);
+            ChangeMinorPerkGrid(offensivePerkGrid, sender);
         }
 
         private void flexPerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeMinorPerkGrid(flexPerkGrid, sender);
+            int id = int.Parse((string)((Image)sender).Tag);
+            if (savePerks[7] == id) return;
+            savePerks[7] = id;
 
-            savePerks[7] = int.Parse((string)((Image)sender).Tag);
+            ChangeMinorPerkGrid(flexPerkGrid, sender);
         }
 
         private void defensivePerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ChangeMinorPerkGrid(defensivePerkGrid, sender);
+            int id = int.Parse((string)((Image)sender).Tag);
+            if (savePerks[8] == id) return;
+            savePerks[8] = id;
 
-            savePerks[8] = int.Parse((string)((Image)sender).Tag);
+            ChangeMinorPerkGrid(defensivePerkGrid, sender);
         }
 
         private void ChangeMinorPerkGrid(UniformGrid grid, object? sender)
