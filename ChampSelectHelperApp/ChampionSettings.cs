@@ -10,18 +10,18 @@ namespace ChampSelectHelperApp
     {
         public int id;
         public int[] stylesId;
-        public int[] selectedPerkId;
+        public int[] perksId;
         public int[] spellsId;
         public List<int> skinsOrChromasId;
         public int originSkinId;
 
-        public ChampionSettings(int id, int[] stylesId, int[] selectedPerkId, int[] spellsId, List<int> skinsChromasId, int originSkinId)
+        public ChampionSettings(int id, int[] stylesId, int[] perksId, int[] spellsId, List<int> skinsOrChromasId, int originSkinId)
         {
             this.id = id;
             this.stylesId = stylesId;
-            this.selectedPerkId = selectedPerkId;
+            this.perksId = perksId;
             this.spellsId = spellsId;
-            this.skinsOrChromasId = skinsChromasId;
+            this.skinsOrChromasId = skinsOrChromasId;
             this.originSkinId = originSkinId;
         }
     }

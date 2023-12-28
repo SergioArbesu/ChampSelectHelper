@@ -210,7 +210,7 @@ namespace ChampSelectHelperApp
 
         private void SaveSpells()
         {
-
+            //reconsider if saving should be done this way
         }
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -237,6 +237,27 @@ namespace ChampSelectHelperApp
                 skinCheckBox.IsEnabled = true;
                 perksCheckBox.IsEnabled = true;
                 spellsCheckBox.IsEnabled = true;
+            }
+        }
+
+        private void skinCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            if (skinCheckBox.IsChecked == true)
+            {
+                skinComboBox.IsEnabled = true;
+                skinRndmCheckBox.IsEnabled = true;
+                skinImage.IsEnabled = true; //TODO: know if this is necessary (if not, clean the code here and everywhere else)
+            }
+            else
+            {
+                skinComboBox.SelectedIndex = -1;
+                skinRndmCheckBox.IsChecked = false;
+                chromaCheckBox.IsChecked = false;
+
+                skinComboBox.IsEnabled = false;
+                skinRndmCheckBox.IsEnabled = false;
+                skinImage.IsEnabled = false;
+                chromaCheckBox.IsEnabled = false;
             }
         }
 
@@ -268,27 +289,11 @@ namespace ChampSelectHelperApp
                     }
                     chromaCheckBox.IsEnabled = true;
                 }
-            }
-        }
 
-        private void skinCheckBox_Changed(object sender, RoutedEventArgs e)
-        {
-            if (skinCheckBox.IsChecked == true)
-            {
-                skinComboBox.IsEnabled = true;
-                skinRndmCheckBox.IsEnabled = true;
-                skinImage.IsEnabled = true; //TODO: know if this is necessary (if not, clean the code here and everywhere else)
-            }
-            else
-            {
-                skinComboBox.SelectedIndex = -1;
-                skinRndmCheckBox.IsChecked = false;
-                chromaCheckBox.IsChecked = false;
-
-                skinComboBox.IsEnabled = false;
-                skinRndmCheckBox.IsEnabled = false;
-                skinImage.IsEnabled = false;
-                chromaCheckBox.IsEnabled = false;
+                saveOriginSkin = -1;
+                saveSkinsOrChromas.Clear();
+                saveSkinsOrChromas.Add(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Id);
+                //call saving method
             }
         }
 
@@ -325,6 +330,17 @@ namespace ChampSelectHelperApp
             }
         }
 
+        private void chromaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (chromaComboBox.SelectedIndex != -1)
+            {
+                saveOriginSkin = champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Id;
+                saveSkinsOrChromas.Clear();
+                saveSkinsOrChromas.Add(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas[chromaComboBox.SelectedIndex].Id);
+                //call saving method
+            }
+        }
+
         private void chromaRndmCheckBox_Changed(object sender, RoutedEventArgs e)
         {
             if (chromaRndmCheckBox.IsChecked == true)
@@ -345,23 +361,54 @@ namespace ChampSelectHelperApp
             List<CheckBoxListItem> checkBoxList = new();
             foreach (SkinInfo skin in champions[championComboBox.SelectedIndex].Skins)
             {
-                checkBoxList.Add(new CheckBoxListItem(false, skin.Name, skin.Id));
+                checkBoxList.Add(new CheckBoxListItem(saveSkinsOrChromas.Contains(skin.Id), skin.Name, skin.Id));
             }
+
             new CheckBoxListWindow(this, checkBoxList, "Random Skins Pool").ShowDialog();
+
             //save it
+            saveOriginSkin = -1;
+            UpdateSaveSkinsOrChromas(checkBoxList);
         }
 
         private void chromaRndmDialogButton_Click(object sender, RoutedEventArgs e)
         {
             List<CheckBoxListItem> checkBoxList = new();
-            foreach (ChromaInfo chroma in champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas!)
+            SkinInfo skin = champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex];
+            checkBoxList.Add(new CheckBoxListItem(saveSkinsOrChromas.Contains(skin.Id), "No Chroma", skin.Id));
+            foreach (ChromaInfo chroma in skin.Chromas)
             {
-                checkBoxList.Add(new CheckBoxListItem(false, chroma.Name, chroma.Id));
+                checkBoxList.Add(new CheckBoxListItem(saveSkinsOrChromas.Contains(chroma.Id), chroma.Name, chroma.Id));
             }
+
             new CheckBoxListWindow(this, checkBoxList, "Random Chromas Pool").ShowDialog();
+
             //save it
-            //TODO: add option to choose the regular chroma here and in dropdown
+            saveOriginSkin = skin.Id;
+            UpdateSaveSkinsOrChromas(checkBoxList);
         }
+
+        private void UpdateSaveSkinsOrChromas(List<CheckBoxListItem> checkBoxList)
+        {
+            List<int> ids = new List<int>();
+            foreach (CheckBoxListItem checkBoxItem in checkBoxList)
+            {
+                if (checkBoxItem.IsChecked)
+                {
+                    ids.Add(checkBoxItem.Id);
+                }
+            }
+            if (ids.Count == 0)
+            {
+                MessageBox.Show("No elements were selected", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                saveSkinsOrChromas = ids;
+            }
+            //call save method
+        }
+
         private void perksCheckBox_Changed(object sender, RoutedEventArgs e)
         {
             if (perksCheckBox.IsChecked == true)

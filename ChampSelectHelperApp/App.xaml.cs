@@ -85,7 +85,7 @@ namespace ChampSelectHelperApp
 
         public void ShowMessageWindow(string text)
         {
-
+            // what was this for lol
         }
 
         private void OpenSettingsWindow()
@@ -96,6 +96,7 @@ namespace ChampSelectHelperApp
             var settWindow = new SettingsWindow();
             settWindow.Show();
             settWindow.InitializeWindow();
+            //add try catch block for and add a messagebox when an error is thrown
         }
     }
 }

@@ -14,15 +14,16 @@
                   HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <CheckBox x:Name="skinCheckBox" Content="Skin" Width="120" Height="20" Margin="20,91,0,0" HorizontalAlignment="Left" 
                   VerticalAlignment="Top" Checked="skinCheckBox_Changed" Unchecked="skinCheckBox_Changed" IsEnabled="False"/>
-        <ComboBox x:Name="skinComboBox" Margin="20,111,0,0" Width="120" Height="22" SelectionChanged="skinComboBox_SelectionChanged" 
-                  HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
+        <ComboBox x:Name="skinComboBox" Margin="20,111,0,0" Width="120" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  SelectionChanged="skinComboBox_SelectionChanged" IsEnabled="False"/>
         <CheckBox x:Name="skinRndmCheckBox" Content="Random" Width="120" Height="20" Margin="145,114,0,0" HorizontalAlignment="Left" 
                   VerticalAlignment="Top" Checked="skinRndmCheckBox_Changed" Unchecked="skinRndmCheckBox_Changed" IsEnabled="False"/>
         <Button x:Name="skinRndmDialogButton" Content="Set Pool" Height="20" Width="50" Margin="218,112,0,0" HorizontalAlignment="Left" 
                 VerticalAlignment="Top" Click="skinRndmDialogButton_Click" IsEnabled="False"/>
         <CheckBox x:Name="chromaCheckBox" Content="Chroma" Width="120" Height="20" Margin="20,143,0,0" HorizontalAlignment="Left" 
                   VerticalAlignment="Top" Checked="chromaCheckBox_Changed" Unchecked="chromaCheckBox_Changed" IsEnabled="False"/>
-        <ComboBox x:Name="chromaComboBox" Width="120" Height="22" Margin="20,163,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
+        <ComboBox x:Name="chromaComboBox" Width="120" Height="22" Margin="20,163,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  SelectionChanged="chromaComboBox_SelectionChanged" IsEnabled="False"/>
         <CheckBox x:Name="chromaRndmCheckBox" Content="Random" Width="120" Height="20" Margin="145,166,0,0" HorizontalAlignment="Left" 
                   VerticalAlignment="Top" Checked="chromaRndmCheckBox_Changed" Unchecked="chromaRndmCheckBox_Changed" IsEnabled="False"/>
         <Button x:Name="chromaRndmDialogButton" Content="Set Pool" Height="20" Width="50" Margin="218,164,0,0" HorizontalAlignment="Left" 
