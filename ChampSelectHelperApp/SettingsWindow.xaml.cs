@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Win32;
 using System.ComponentModel;
 using System.Net.Http;
+using System.Windows.Controls.Primitives;
 
 namespace ChampSelectHelperApp
 {
@@ -371,6 +372,14 @@ namespace ChampSelectHelperApp
             {
                 ChangePrimaryStyle(-1);
                 perksGrid.Visibility = Visibility.Hidden;
+
+                ChangeMinorPerkGrid(offensivePerkGrid, null);
+                ChangeMinorPerkGrid(flexPerkGrid, null);
+                ChangeMinorPerkGrid(defensivePerkGrid, null);
+
+                savePerks[6] = -1;
+                savePerks[7] = -1;
+                savePerks[8] = -1;
             }
         }
 
@@ -386,32 +395,32 @@ namespace ChampSelectHelperApp
 
         private void ChangePrimaryStyle(int index)
         {
-            if (saveStyles[0] == perkTrees[index].Id) return;
-            saveStyles[0] = perkTrees[index].Id;
-
-            foreach (Border border in primaryStyleGrid.Children)
-            {
-                int tag = int.Parse((string)((Image)border.Child).Tag);
-                if (tag == index)
-                {
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    border.BorderBrush = Brushes.Transparent;
-                }
-            }
-            
             if (index == -1)
             {
+                if (saveStyles[0] == -1) return;
+                saveStyles[0] = -1;
+
+                ChangeStyleGrid(primaryStyleGrid, index);
+
                 keyStonesItemsControl.ItemsSource = null;
                 primarySlot1ItemsControl.ItemsSource = null;
                 primarySlot2ItemsControl.ItemsSource = null;
                 primarySlot3ItemsControl.ItemsSource = null;
+
                 subStyleGrid.Visibility = Visibility.Hidden;
                 ChangeSubStyle(-1);
+
+                savePerks[0] = -1;
+                savePerks[1] = -1;
+                savePerks[2] = -1;
+                savePerks[3] = -1;
                 return;
             }
+
+            if (saveStyles[0] == perkTrees[index].Id) return;
+            saveStyles[0] = perkTrees[index].Id;
+
+            ChangeStyleGrid(primaryStyleGrid, index);
 
             foreach (Border border in subStyleGrid.Children)
             {
@@ -433,23 +442,56 @@ namespace ChampSelectHelperApp
                     }
                 }
             }
+
+            if (index == subStyleIndex) ChangeSubStyle(-1);
+
+            subStyleGrid.Visibility = Visibility.Visible;
             
             keyStonesItemsControl.ItemsSource = perkTrees[index].Slots[0];
             primarySlot1ItemsControl.ItemsSource = perkTrees[index].Slots[1];
             primarySlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
             primarySlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
 
-            if (index == subStyleIndex) ChangeSubStyle(-1);
-
-            subStyleGrid.Visibility = Visibility.Visible;
+            savePerks[0] = -1;
+            savePerks[1] = -1;
+            savePerks[2] = -1;
+            savePerks[3] = -1;
         }
 
         private void ChangeSubStyle(int index)
         {
+            if (index == -1)
+            {
+                if (saveStyles[1] == -1) return;
+                saveStyles[1] = -1;
+
+                ChangeStyleGrid(subStyleGrid, index);
+
+                subSlot1ItemsControl.ItemsSource = null;
+                subSlot2ItemsControl.ItemsSource = null;
+                subSlot3ItemsControl.ItemsSource = null;
+
+                savePerks[4] = -1;
+                savePerks[5] = -1;
+                return;
+            }
+
             if (saveStyles[1] == perkTrees[index].Id) return;
             saveStyles[1] = perkTrees[index].Id;
 
-            foreach (Border border in subStyleGrid.Children)
+            ChangeStyleGrid(subStyleGrid, index);
+
+            subSlot1ItemsControl.ItemsSource = perkTrees[index].Slots[1];
+            subSlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
+            subSlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
+
+            savePerks[4] = -1;
+            savePerks[5] = -1;
+        }
+
+        private void ChangeStyleGrid(UniformGrid grid, int index)
+        {
+            foreach (Border border in grid.Children)
             {
                 int tag = int.Parse((string)((Image)border.Child).Tag);
                 if (tag == index)
@@ -461,143 +503,58 @@ namespace ChampSelectHelperApp
                     border.BorderBrush = Brushes.Transparent;
                 }
             }
-
-            if (index == -1)
-            {
-                subSlot1ItemsControl.ItemsSource = null;
-                subSlot2ItemsControl.ItemsSource = null;
-                subSlot3ItemsControl.ItemsSource = null;
-            }
-            else
-            {
-                subSlot1ItemsControl.ItemsSource = perkTrees[index].Slots[1];
-                subSlot2ItemsControl.ItemsSource = perkTrees[index].Slots[2];
-                subSlot3ItemsControl.ItemsSource = perkTrees[index].Slots[3];
-            }
-
-            savePerks[4] = -1;
-            savePerks[5] = -1;
         }
 
         private void keyStonesImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            for (int i = 0; i < keyStonesItemsControl.Items.Count; i++)
-            {
-                Border border = (Border)VisualTreeHelper.GetChild(keyStonesItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
-                Image image = (Image)border.Child;
-                if (image == sender)
-                {
-                    image.Source = ((PerkInfo)image.DataContext).Icon;
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
-                    border.BorderBrush = Brushes.Transparent;
-                }
-            }
+            ChangeSlotPerkItemsControl(keyStonesItemsControl, sender);
+
+            savePerks[0] = int.Parse((string)((Image)sender).Tag);
         }
 
         private void primarySlot1Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            for (int i = 0; i < primarySlot1ItemsControl.Items.Count; i++)
-            {
-                Border border = (Border)VisualTreeHelper.GetChild(primarySlot1ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
-                Image image = (Image)border.Child;
-                if (image == sender)
-                {
-                    image.Source = ((PerkInfo)image.DataContext).Icon;
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
-                    border.BorderBrush = Brushes.Transparent;
-                }
-            }
+            ChangeSlotPerkItemsControl(primarySlot1ItemsControl, sender);
+
+            savePerks[1] = int.Parse((string)((Image)sender).Tag);
         }
 
         private void primarySlot2Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            for (int i = 0; i < primarySlot2ItemsControl.Items.Count; i++)
-            {
-                Border border = (Border)VisualTreeHelper.GetChild(primarySlot2ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
-                Image image = (Image)border.Child;
-                if (image == sender)
-                {
-                    image.Source = ((PerkInfo)image.DataContext).Icon;
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
-                    border.BorderBrush = Brushes.Transparent;
-                }
-            }
+            ChangeSlotPerkItemsControl(primarySlot2ItemsControl, sender);
+
+            savePerks[2] = int.Parse((string)((Image)sender).Tag);
         }
 
         private void primarySlot3Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            for (int i = 0; i < primarySlot3ItemsControl.Items.Count; i++)
-            {
-                Border border = (Border)VisualTreeHelper.GetChild(primarySlot3ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
-                Image image = (Image)border.Child;
-                if (image == sender)
-                {
-                    image.Source = ((PerkInfo)image.DataContext).Icon;
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
-                    border.BorderBrush = Brushes.Transparent;
-                }
-            }
+            ChangeSlotPerkItemsControl(primarySlot3ItemsControl, sender);
+
+            savePerks[3] = int.Parse((string)((Image)sender).Tag);
         }
+
+        //TODO: add logic so there can only be two subtree perks at the same time
 
         private void subSlot1Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            for (int i = 0; i < subSlot1ItemsControl.Items.Count; i++)
-            {
-                Border border = (Border)VisualTreeHelper.GetChild(subSlot1ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
-                Image image = (Image)border.Child;
-                if (image == sender)
-                {
-                    image.Source = ((PerkInfo)image.DataContext).Icon;
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
-                    border.BorderBrush = Brushes.Transparent;
-                }
-            }
+            ChangeSlotPerkItemsControl(subSlot1ItemsControl, sender);
         }
 
         private void subSlot2Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            for (int i = 0; i < subSlot2ItemsControl.Items.Count; i++)
-            {
-                Border border = (Border)VisualTreeHelper.GetChild(subSlot2ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
-                Image image = (Image)border.Child;
-                if (image == sender)
-                {
-                    image.Source = ((PerkInfo)image.DataContext).Icon;
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    image.Source = ((PerkInfo)image.DataContext).GrayIcon;
-                    border.BorderBrush = Brushes.Transparent;
-                }
-            }
+            ChangeSlotPerkItemsControl(subSlot2ItemsControl, sender);
         }
 
         private void subSlot3Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            for (int i = 0; i < subSlot3ItemsControl.Items.Count; i++)
+            ChangeSlotPerkItemsControl(subSlot3ItemsControl, sender);
+        }
+
+        private void ChangeSlotPerkItemsControl(ItemsControl itemsControl, object sender)
+        {
+            for (int i = 0; i < itemsControl.Items.Count; i++)
             {
-                Border border = (Border)VisualTreeHelper.GetChild(subSlot3ItemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
+                Border border = (Border)VisualTreeHelper.GetChild(itemsControl.ItemContainerGenerator.ContainerFromIndex(i), 0);
                 Image image = (Image)border.Child;
                 if (image == sender)
                 {
@@ -614,39 +571,28 @@ namespace ChampSelectHelperApp
 
         private void offensivePerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            foreach (Border border in offensivePerkGrid.Children)
-            {
-                Image image = (Image)border.Child;
-                if (image == sender)
-                {
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    border.BorderBrush = Brushes.Transparent;
-                }
-            }
+            ChangeMinorPerkGrid(offensivePerkGrid, sender);
+
+            savePerks[6] = int.Parse((string)((Image)sender).Tag);
         }
 
         private void flexPerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            foreach (Border border in flexPerkGrid.Children)
-            {
-                Image image = (Image)border.Child;
-                if (image == sender)
-                {
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    border.BorderBrush = Brushes.Transparent;
-                }
-            }
+            ChangeMinorPerkGrid(flexPerkGrid, sender);
+
+            savePerks[7] = int.Parse((string)((Image)sender).Tag);
         }
 
         private void defensivePerkImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            foreach (Border border in defensivePerkGrid.Children)
+            ChangeMinorPerkGrid(defensivePerkGrid, sender);
+
+            savePerks[8] = int.Parse((string)((Image)sender).Tag);
+        }
+
+        private void ChangeMinorPerkGrid(UniformGrid grid, object? sender)
+        {
+            foreach (Border border in grid.Children)
             {
                 Image image = (Image)border.Child;
                 if (image == sender)
