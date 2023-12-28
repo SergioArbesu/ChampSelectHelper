@@ -509,28 +509,28 @@ namespace ChampSelectHelperApp
         {
             ChangeSlotPerkItemsControl(keyStonesItemsControl, sender);
 
-            savePerks[0] = int.Parse((string)((Image)sender).Tag);
+            savePerks[0] = (int)((Image)sender).Tag;
         }
 
         private void primarySlot1Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ChangeSlotPerkItemsControl(primarySlot1ItemsControl, sender);
 
-            savePerks[1] = int.Parse((string)((Image)sender).Tag);
+            savePerks[1] = (int)((Image)sender).Tag;
         }
 
         private void primarySlot2Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ChangeSlotPerkItemsControl(primarySlot2ItemsControl, sender);
 
-            savePerks[2] = int.Parse((string)((Image)sender).Tag);
+            savePerks[2] = (int)((Image)sender).Tag;
         }
 
         private void primarySlot3Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ChangeSlotPerkItemsControl(primarySlot3ItemsControl, sender);
 
-            savePerks[3] = int.Parse((string)((Image)sender).Tag);
+            savePerks[3] = (int)((Image)sender).Tag;
         }
 
         //TODO: add logic so there can only be two subtree perks at the same time
