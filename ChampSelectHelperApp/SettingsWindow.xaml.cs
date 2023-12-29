@@ -179,7 +179,10 @@ namespace ChampSelectHelperApp
                 saveOriginSkin
                 );
             settingsDict[settings.id] = settings;
+
             // save in file
+            string json = JsonConvert.SerializeObject(settingsDict);
+            FileSystem.StoreInFile("save.json", json, false);
         }
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

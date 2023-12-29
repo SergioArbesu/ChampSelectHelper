@@ -25,8 +25,8 @@ namespace ChampSelectHelperApp
         public static bool LaunchesAtStartup()
         {
             return BOOT_KEY.GetValue(Program.APP_NAME) is not null;
+            // check if it should add a key reseting when the key exists in case the app changed directory
         }
-
 
         // Toggles wether or not the app will launch at system startup
         public static void ToggleLaunchAtStartup()
@@ -41,12 +41,12 @@ namespace ChampSelectHelperApp
             }
         }
 
-        public static void StoreInFile(string fileName, string body, bool overwrite)
+        public static void StoreInFile(string fileName, string body, bool append)
         {
-            /*using (StreamWriter sw = new StreamWriter())
+            using (StreamWriter sw = new StreamWriter(Path.Combine(DATA_DIRECTORY, fileName), append))
             {
-
-            }*/
+                sw.Write(body);
+            }
         }
 
         public static string GetFileContent(string fileName)
