@@ -182,37 +182,6 @@ namespace ChampSelectHelperApp
             // save in file
         }
 
-        private void SaveSkinsOrChromas()
-        {
-
-        }
-
-        private void SavePerks()
-        {
-            int first = savePerks[0];
-            if (first == -1)
-            {
-                for (int i = 1; i < savePerks.Length; i++)
-                {
-                    if (savePerks[i] != -1) return;
-                }
-            }
-            else
-            {
-                for (int i = 1; i <= savePerks.Length; i++)
-                {
-                    if (savePerks[i] == -1) return;
-                }
-            }
-
-            SaveChampion();
-        }
-
-        private void SaveSpells()
-        {
-            //reconsider if saving should be done this way
-        }
-
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             skinComboBox.Items.Clear();
@@ -261,7 +230,8 @@ namespace ChampSelectHelperApp
 
                 saveSkinsOrChromas.Clear();
                 saveOriginSkin = -1;
-                //call saving methods
+
+                SaveChampion();
             }
         }
 
@@ -297,7 +267,8 @@ namespace ChampSelectHelperApp
             saveOriginSkin = -1;
             saveSkinsOrChromas.Clear();
             saveSkinsOrChromas.Add(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Id);
-            //call saving method
+
+            SaveChampion();
         }
 
         private void skinRndmCheckBox_Changed(object sender, RoutedEventArgs e)
@@ -336,6 +307,8 @@ namespace ChampSelectHelperApp
                     saveOriginSkin = -1;
                     saveSkinsOrChromas.Clear();
                     saveSkinsOrChromas.Add(saveOriginSkin);
+
+                    SaveChampion();
                 }
             }
         }
@@ -347,7 +320,8 @@ namespace ChampSelectHelperApp
                 saveOriginSkin = champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Id;
                 saveSkinsOrChromas.Clear();
                 saveSkinsOrChromas.Add(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas[chromaComboBox.SelectedIndex].Id);
-                //call saving method
+
+                SaveChampion();
             }
         }
 
@@ -369,6 +343,7 @@ namespace ChampSelectHelperApp
         private void skinRndmDialogButton_Click(object sender, RoutedEventArgs e)
         {
             List<CheckBoxListItem> checkBoxList = new();
+
             foreach (SkinInfo skin in champions[championComboBox.SelectedIndex].Skins)
             {
                 checkBoxList.Add(new CheckBoxListItem(saveSkinsOrChromas.Contains(skin.Id), skin.Name, skin.Id));
@@ -386,6 +361,7 @@ namespace ChampSelectHelperApp
             List<CheckBoxListItem> checkBoxList = new();
             SkinInfo skin = champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex];
             checkBoxList.Add(new CheckBoxListItem(saveSkinsOrChromas.Contains(skin.Id), "No Chroma", skin.Id));
+
             foreach (ChromaInfo chroma in skin.Chromas)
             {
                 checkBoxList.Add(new CheckBoxListItem(saveSkinsOrChromas.Contains(chroma.Id), chroma.Name, chroma.Id));
@@ -415,8 +391,9 @@ namespace ChampSelectHelperApp
             else
             {
                 saveSkinsOrChromas = ids;
+
+                SaveChampion();
             }
-            //call save method
         }
 
         private void perksCheckBox_Changed(object sender, RoutedEventArgs e)
@@ -437,6 +414,8 @@ namespace ChampSelectHelperApp
                 savePerks[6] = -1;
                 savePerks[7] = -1;
                 savePerks[8] = -1;
+
+                SaveChampion();
             }
         }
 
@@ -457,7 +436,7 @@ namespace ChampSelectHelperApp
                 if (saveStyles[0] == -1) return;
                 saveStyles[0] = -1;
 
-                ChangeStyleGrid(primaryStyleGrid, index);
+                ChangeStyleGrid(primaryStyleGrid, -1);
 
                 keyStonesItemsControl.ItemsSource = null;
                 primarySlot1ItemsControl.ItemsSource = null;
@@ -522,7 +501,7 @@ namespace ChampSelectHelperApp
                 if (saveStyles[1] == -1) return;
                 saveStyles[1] = -1;
 
-                ChangeStyleGrid(subStyleGrid, index);
+                ChangeStyleGrid(subStyleGrid, -1);
 
                 subSlot1ItemsControl.ItemsSource = null;
                 subSlot2ItemsControl.ItemsSource = null;
@@ -568,6 +547,8 @@ namespace ChampSelectHelperApp
             if (savePerks[0] == id) return;
             savePerks[0] = id;
 
+            SavePerks();
+
             ChangeSlotPerkItemsControl(keyStonesItemsControl, sender);
         }
 
@@ -576,6 +557,8 @@ namespace ChampSelectHelperApp
             int id = (int)((Image)sender).Tag;
             if (savePerks[1] == id) return;
             savePerks[1] = id;
+
+            SavePerks();
 
             ChangeSlotPerkItemsControl(primarySlot1ItemsControl, sender);
         }
@@ -586,6 +569,8 @@ namespace ChampSelectHelperApp
             if (savePerks[2] == id) return;
             savePerks[2] = id;
 
+            SavePerks();
+
             ChangeSlotPerkItemsControl(primarySlot2ItemsControl, sender);
         }
 
@@ -595,10 +580,10 @@ namespace ChampSelectHelperApp
             if (savePerks[3] == id) return;
             savePerks[3] = id;
 
+            SavePerks();
+
             ChangeSlotPerkItemsControl(primarySlot3ItemsControl, sender);
         }
-
-        //TODO: add logic so there can only be two subtree perks at the same time
 
         private void subSlot1Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -642,6 +627,8 @@ namespace ChampSelectHelperApp
                 if (savePerks[5] == idSelected) return;
                 savePerks[5] = idSelected;
 
+                SavePerks();
+
                 ChangeSlotPerkItemsControl(itemsControl, sender);
                 return;
             }
@@ -668,6 +655,8 @@ namespace ChampSelectHelperApp
 
             savePerks[4] = savePerks[5];
             savePerks[5] = (int)((Image)sender).Tag;
+
+            SavePerks();
 
             ChangeSlotPerkItemsControl(itemsControl, sender);
         }
@@ -697,6 +686,8 @@ namespace ChampSelectHelperApp
             if (savePerks[6] == id) return;
             savePerks[6] = id;
 
+            SavePerks();
+
             ChangeMinorPerkGrid(offensivePerkGrid, sender);
         }
 
@@ -706,6 +697,8 @@ namespace ChampSelectHelperApp
             if (savePerks[7] == id) return;
             savePerks[7] = id;
 
+            SavePerks();
+
             ChangeMinorPerkGrid(flexPerkGrid, sender);
         }
 
@@ -714,6 +707,8 @@ namespace ChampSelectHelperApp
             int id = int.Parse((string)((Image)sender).Tag);
             if (savePerks[8] == id) return;
             savePerks[8] = id;
+
+            SavePerks();
 
             ChangeMinorPerkGrid(defensivePerkGrid, sender);
         }
@@ -734,6 +729,16 @@ namespace ChampSelectHelperApp
             }
         }
 
+        private void SavePerks()
+        {
+            for (int i = 0; i <= savePerks.Length; i++)
+            {
+                if (savePerks[i] == -1) return;
+            }
+
+            SaveChampion();
+        }
+
         private void spellsCheckBox_Changed(object sender, RoutedEventArgs e)
         {
             if (spellsCheckBox.IsChecked == true)
@@ -747,6 +752,8 @@ namespace ChampSelectHelperApp
                 spell2ComboBox.SelectedIndex = -1;
                 spell1ComboBox.IsEnabled = false;
                 spell2ComboBox.IsEnabled = false;
+
+                SaveChampion();
             }
         }
 
@@ -755,11 +762,17 @@ namespace ChampSelectHelperApp
             if (spell1ComboBox.SelectedIndex == -1)
             {
                 spell1Image.Source = null;
+
+                saveSpells[0] = -1;
             }
             else
             {
                 spell1Image.Source = spells[spell1ComboBox.SelectedIndex].Icon;
                 if (spell1ComboBox.SelectedIndex == spell2ComboBox.SelectedIndex) spell2ComboBox.SelectedIndex = -1;
+
+                saveSpells[0] = spells[spell1ComboBox.SelectedIndex].Id;
+
+                SaveSpells();
             }
         }
 
@@ -768,11 +781,25 @@ namespace ChampSelectHelperApp
             if (spell2ComboBox.SelectedIndex == -1)
             {
                 spell2Image.Source = null;
+
+                saveSpells[1] = -1;
             }
             else
             {
                 spell2Image.Source = spells[spell2ComboBox.SelectedIndex].Icon;
                 if (spell1ComboBox.SelectedIndex == spell2ComboBox.SelectedIndex) spell1ComboBox.SelectedIndex = -1;
+
+                saveSpells[1] = spells[spell1ComboBox.SelectedIndex].Id;
+
+                SaveSpells();
+            }
+        }
+
+        private void SaveSpells()
+        {
+            if (saveSpells[0] != -1 && saveSpells[1] != -1)
+            {
+                SaveChampion();
             }
         }
     }

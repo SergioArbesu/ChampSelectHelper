@@ -18,7 +18,7 @@ namespace ChampSelectHelperApp
         public static readonly string ICON_URL_START = "https://ddragon.leagueoflegends.com/cdn/img/";
         // icon paths are added to https://ddragon.leagueoflegends.com/cdn/img/
 
-        public static readonly string WINDOWS_STARTUP_FLAG = "--systemstart";
+        public static readonly string WINDOWS_STARTUP_FLAG = "--systemstartup";
         public static bool LAUNCHED_AT_STARTUP;
 
         private static App instance;

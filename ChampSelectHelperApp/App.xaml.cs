@@ -27,7 +27,7 @@ namespace ChampSelectHelperApp
     /// </summary>
     public partial class App : System.Windows.Application
     {
-        public static HttpClient httpclient = new();
+        public static readonly HttpClient httpclient = new HttpClient();
 
         private NotifyIcon icon;
 
