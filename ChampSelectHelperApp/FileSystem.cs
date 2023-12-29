@@ -43,10 +43,10 @@ namespace ChampSelectHelperApp
 
         public static void StoreInFile(string fileName, string body, bool overwrite)
         {
-            using (StreamWriter sw = new StreamWriter())
+            /*using (StreamWriter sw = new StreamWriter())
             {
 
-            }
+            }*/
         }
 
         public static string GetFileContent(string fileName)

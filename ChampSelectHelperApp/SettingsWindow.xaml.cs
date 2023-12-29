@@ -731,7 +731,7 @@ namespace ChampSelectHelperApp
 
         private void SavePerks()
         {
-            for (int i = 0; i <= savePerks.Length; i++)
+            for (int i = 0; i < savePerks.Length; i++)
             {
                 if (savePerks[i] == -1) return;
             }
