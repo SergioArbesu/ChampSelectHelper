@@ -52,8 +52,6 @@ namespace ChampSelectHelperApp
         {
             InitializeComponent();
 
-            //Closing += CloseWindow; to be decided if this is useful
-
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
             settingsDict = JsonConvert.DeserializeObject<Dictionary<int, ChampionSettings>>(FileSystem.GetFileContent("save.json"));
@@ -157,13 +155,6 @@ namespace ChampSelectHelperApp
             //Display elements when the loading has ended
             championComboBox.Visibility = Visibility.Visible;
             championImage.Visibility = Visibility.Visible;
-        }
-
-        private void CloseWindow(object? sender, CancelEventArgs ev)
-        {
-            networkListManager = null;
-            champions = null;
-            perkTrees = null;
         }
 
         private void SaveChampion()
@@ -360,7 +351,6 @@ namespace ChampSelectHelperApp
             {
                 skinComboBox.IsEnabled = true;
                 skinRndmCheckBox.IsEnabled = true;
-                skinImage.IsEnabled = true; //TODO: know if this is necessary (if not, clean the code here and everywhere else)
             }
             else
             {
@@ -370,7 +360,6 @@ namespace ChampSelectHelperApp
 
                 skinComboBox.IsEnabled = false;
                 skinRndmCheckBox.IsEnabled = false;
-                skinImage.IsEnabled = false;
                 chromaCheckBox.IsEnabled = false;
 
                 saveSkinsOrChromas = new();
