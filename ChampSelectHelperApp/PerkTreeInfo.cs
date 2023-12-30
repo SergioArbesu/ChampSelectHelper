@@ -15,9 +15,9 @@ using Color = System.Drawing.Color;
 
 namespace ChampSelectHelperApp
 {
-    public class PerkTreeInfo
+    public class PerkTreeInfo : Info
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public PerkInfo[][] Slots { get; private set; }
 
         public PerkTreeInfo() { }
@@ -48,9 +48,9 @@ namespace ChampSelectHelperApp
         }
     }
 
-    public class PerkInfo
+    public class PerkInfo : Info
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public BitmapImage Icon { get; private set; }
         public BitmapImage GrayIcon { get; private set; }
         //public bool IsSelected { get; set; }

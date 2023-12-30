@@ -8,14 +8,14 @@ using System.Windows.Media.Imaging;
 
 namespace ChampSelectHelperApp
 {
-    class ChampInfo
+    class ChampInfo : Info
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public BitmapImage Icon { get; set; }
-        public SkinInfo[] Skins { get; set; }
+        public List<SkinInfo> Skins { get; set; }
 
-        public ChampInfo(int id, string name, string iconUri, SkinInfo[] skins)
+        public ChampInfo(int id, string name, string iconUri, List<SkinInfo> skins)
         {
             Id = id;
             Name = name;
@@ -30,24 +30,22 @@ namespace ChampSelectHelperApp
             Icon = new BitmapImage(new Uri((string)champion["icon"]));
 
             JArray skins = (JArray)champion["skins"];
-            Skins = new SkinInfo[skins.Count];
-            int i = 0;
+            Skins = new List<SkinInfo>(skins.Count);
             foreach (JObject skin in skins)
             {
-                Skins[i] = new SkinInfo(skin);
-                i++;
+                Skins.Add(new SkinInfo(skin));
             }
         }
     }
 
-    class SkinInfo
+    class SkinInfo : Info
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string IconUri { get; set; }
-        public ChromaInfo[]? Chromas { get; set; }
+        public List<ChromaInfo>? Chromas { get; set; }
 
-        public SkinInfo(int id, string name, string iconUri, ChromaInfo[]? chromas)
+        public SkinInfo(int id, string name, string iconUri, List<ChromaInfo>? chromas)
         {
             Id = id;
             Name = name;
@@ -64,12 +62,10 @@ namespace ChampSelectHelperApp
             JArray chromas = (JArray)skin["chromas"];
             if (chromas.HasValues && chromas[0].Type == JTokenType.Object)
             {
-                Chromas = new ChromaInfo[chromas.Count];
-                int i = 0;
+                Chromas = new List<ChromaInfo>(chromas.Count);
                 foreach (JObject chroma in chromas)
                 {
-                    Chromas[i] = new ChromaInfo(chroma);
-                    i++;
+                    Chromas.Add(new ChromaInfo(chroma));
                 }
             }
             else
@@ -79,7 +75,7 @@ namespace ChampSelectHelperApp
         }
     }
 
-    class ChromaInfo
+    class ChromaInfo : Info
     {
         public int Id { get; set; }
         public string Name { get; set; }

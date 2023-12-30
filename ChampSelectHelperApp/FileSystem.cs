@@ -24,8 +24,12 @@ namespace ChampSelectHelperApp
         // Checks wether or not the app will launch at system startup
         public static bool LaunchesAtStartup()
         {
-            return BOOT_KEY.GetValue(Program.APP_NAME) is not null;
-            // check if it should add a key reseting when the key exists in case the app changed directory
+            bool exists = BOOT_KEY.GetValue(Program.APP_NAME) is not null;
+
+            // Update path to current location in case it changed
+            if (exists) BOOT_KEY.SetValue(Program.APP_NAME, Assembly.GetExecutingAssembly().Location + " " + Program.WINDOWS_STARTUP_FLAG);
+
+            return exists;
         }
 
         // Toggles wether or not the app will launch at system startup
@@ -41,7 +45,8 @@ namespace ChampSelectHelperApp
             }
         }
 
-        public static void StoreInFile(string fileName, string body, bool append)
+        // Saves a string in a file in the AppData directory
+        public static void SaveInFile(string fileName, string body, bool append)
         {
             using (StreamWriter sw = new StreamWriter(Path.Combine(DATA_DIRECTORY, fileName), append))
             {
@@ -49,9 +54,17 @@ namespace ChampSelectHelperApp
             }
         }
 
+        // Returns the string contained in a file located in the AppData directory. If the file doesn't exist, returns an empty string.
         public static string GetFileContent(string fileName)
         {
-            return "";
+            string path = Path.Combine(DATA_DIRECTORY, fileName);
+
+            if (!File.Exists(path)) return "";
+
+            using (StreamReader sr = new StreamReader(path))
+            {
+                return sr.ReadToEnd();
+            }
         }
     }
 }

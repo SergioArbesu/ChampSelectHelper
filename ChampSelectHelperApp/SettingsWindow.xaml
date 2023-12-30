@@ -46,17 +46,17 @@
                     <UniformGrid x:Name="primaryStyleGrid" Grid.Row="0" Columns="5" Margin="15,8">
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" 
+                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/precision.png" 
                                    MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" 
+                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/domination.png" 
                                    MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" 
+                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" 
                                    MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
@@ -66,7 +66,7 @@
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" 
+                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" 
                                    MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                     </UniformGrid>
