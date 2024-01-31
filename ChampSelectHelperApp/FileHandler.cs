@@ -10,13 +10,13 @@ using System.Windows;
 
 namespace ChampSelectHelperApp
 {
-    public static class FileSystem
+    public static class FileHandler
     {
         private static readonly RegistryKey BOOT_KEY = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
         private static readonly string DATA_DIRECTORY = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             Program.APP_DEVELOPER, Program.APP_NAME);
 
-        static FileSystem()
+        static FileHandler()
         {
             if(!Directory.Exists(DATA_DIRECTORY)) Directory.CreateDirectory(DATA_DIRECTORY);
         }

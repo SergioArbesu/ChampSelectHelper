@@ -54,7 +54,7 @@ namespace ChampSelectHelperApp
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
-            settingsDict = JsonConvert.DeserializeObject<Dictionary<int, ChampionSettings>>(FileSystem.GetFileContent("save.json"));
+            settingsDict = JsonConvert.DeserializeObject<Dictionary<int, ChampionSettings>>(FileHandler.GetFileContent("save.json"));
             if (settingsDict is null) settingsDict = new();
         }
 
@@ -178,7 +178,7 @@ namespace ChampSelectHelperApp
 
             // save in file
             string json = JsonConvert.SerializeObject(settingsDict);
-            FileSystem.SaveInFile("save.json", json, false);
+            FileHandler.SaveInFile("save.json", json, false);
         }
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

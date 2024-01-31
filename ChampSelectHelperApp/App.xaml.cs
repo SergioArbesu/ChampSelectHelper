@@ -43,20 +43,24 @@ namespace ChampSelectHelperApp
 
             ContextMenuStrip contextMenu = new ContextMenuStrip();
             ToolStripLabel label = new ToolStripLabel();
-            ToolStripMenuItem openSettings = new ToolStripMenuItem();
             ToolStripMenuItem launchAtStartup = new ToolStripMenuItem();
+            ToolStripMenuItem openSettings = new ToolStripMenuItem();
             ToolStripMenuItem quitApp = new ToolStripMenuItem();
             icon.ContextMenuStrip = contextMenu;
 
             icon.MouseClick += (sender, ev) => { if (ev.Button == MouseButtons.Left) OpenSettingsWindow(); };
-
-            contextMenu.RenderMode = ToolStripRenderMode.System;
 
             label.Text = Program.APP_NAME + " v" + Program.APP_VERSION;
             label.Font = new Font(label.Font, FontStyle.Bold);
             contextMenu.Items.Add(label);
 
             contextMenu.Items.Add(new ToolStripSeparator());
+
+            launchAtStartup.Text = "Launch At System Startup";
+            launchAtStartup.CheckOnClick = true;
+            launchAtStartup.Checked = FileHandler.LaunchesAtStartup();
+            launchAtStartup.CheckedChanged += (sender, ev) => FileHandler.ToggleLaunchAtStartup();
+            contextMenu.Items.Add(launchAtStartup);
 
             openSettings.Text = "Settings";
             using (Stream stream = GetResourceStream(new Uri(@"pack://application:,,,/Resources/System Icons/settings.ico")).Stream)
@@ -65,12 +69,6 @@ namespace ChampSelectHelperApp
             }
             openSettings.Click += (sender, ev) => OpenSettingsWindow();
             contextMenu.Items.Add(openSettings);
-
-            launchAtStartup.Text = "Launch At System Startup";
-            launchAtStartup.CheckOnClick = true;
-            launchAtStartup.Checked = FileSystem.LaunchesAtStartup();
-            launchAtStartup.CheckedChanged += (sender, ev) => FileSystem.ToggleLaunchAtStartup();
-            contextMenu.Items.Add(launchAtStartup);
 
             quitApp.Text = "Quit";
             using (Stream stream = GetResourceStream(new Uri(@"pack://application:,,,/Resources/System Icons/quit.ico")).Stream)
