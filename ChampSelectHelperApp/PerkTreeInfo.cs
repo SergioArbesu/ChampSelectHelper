@@ -64,7 +64,7 @@ namespace ChampSelectHelperApp
         {
             Id = (int)perk["id"];
 
-            using (Stream tempStream = await App.httpclient.GetStreamAsync(Program.ICON_URL_START + (string)perk["icon"]))
+            using (Stream tempStream = await App.httpclient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perk["icon"]))
             using (MemoryStream stream = new MemoryStream())
             {
                 await tempStream.CopyToAsync(stream);

@@ -30,6 +30,15 @@ namespace ChampSelectHelperApp
     /// </summary>
     public partial class SettingsWindow : Window
     {
+        public static readonly string CHAMPIONS_JSON_URL = "https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions.json";
+        public static readonly string SPELLS_JSON_URL = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/summoner-spells.json";
+        public static readonly string DDRAGON_VERSION = "https://ddragon.leagueoflegends.com/api/versions.json";
+        public static string PERKS_JSON_URL = "http://ddragon.leagueoflegends.com/cdn/12.10.1/data/en_US/runesReforged.json";
+        public static readonly string ICON_URL_START = "https://ddragon.leagueoflegends.com/cdn/img/";
+        // icon paths are added to https://ddragon.leagueoflegends.com/cdn/img/
+
+        public static SettingsWindow? Current { get; private set; } //singleton
+
         private NetworkListManager networkListManager = new();
 
         private List<ChampInfo> champions;
@@ -48,9 +57,16 @@ namespace ChampSelectHelperApp
         private int[] savePerks = new int[9] {-1,-1,-1,-1,-1,-1,-1,-1,-1};
         private int[] saveSpells = new int[2] {-1,-1};
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (Current == this) Current = null;
+        }
+
         public SettingsWindow()
         {
             InitializeComponent();
+
+            Current = this;
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
@@ -62,13 +78,16 @@ namespace ChampSelectHelperApp
         {
             CheckConnectivity();
 
-            string response = await App.httpclient.GetStringAsync(Program.PERKS_JSON_URL);
+            string response = await App.httpclient.GetStringAsync(DDRAGON_VERSION);
+            JArray parsedVersions = JArray.Parse(response);
+            PERKS_JSON_URL = $"http://ddragon.leagueoflegends.com/cdn/{(string)parsedVersions[0]}/data/en_US/runesReforged.json";
+            response = await App.httpclient.GetStringAsync(PERKS_JSON_URL);
             JArray parsedPerks = JArray.Parse(response);
             CreatePerkTreeInfo(parsedPerks);
-            response = await App.httpclient.GetStringAsync(Program.CHAMPIONS_JSON_URL);
+            response = await App.httpclient.GetStringAsync(CHAMPIONS_JSON_URL);
             JObject parsedChampions = JObject.Parse(response);
             CreateChampInfo(parsedChampions);
-            response = await App.httpclient.GetStringAsync(Program.SPELLS_JSON_URL);
+            response = await App.httpclient.GetStringAsync(SPELLS_JSON_URL);
             JArray parsedSpells = JArray.Parse(response);
             CreateSpellInfo(parsedSpells);
 

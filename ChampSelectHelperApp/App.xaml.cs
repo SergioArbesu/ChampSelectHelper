@@ -95,13 +95,24 @@ namespace ChampSelectHelperApp
 
         private void OpenSettingsWindow()
         {
-            //create window with empty elements
-            //load all the info
-            //make visible all the elements
-            var settWindow = new SettingsWindow();
-            settWindow.Show();
-            settWindow.InitializeWindow();
-            //add try catch block for and add a messagebox when an error is thrown
+            if (SettingsWindow.Current is not null)
+            {
+                if (!SettingsWindow.Current.IsActive)
+                    SettingsWindow.Current.Activate();
+
+                if (!SettingsWindow.Current.IsFocused)
+                    SettingsWindow.Current.Focus();
+            }
+            else
+            {
+                //create window with empty elements
+                //load all the info
+                //make visible all the elements
+                var settWindow = new SettingsWindow();
+                settWindow.Show();
+                settWindow.InitializeWindow();
+                //add try catch block for and add a messagebox when an error is thrown
+            }
         }
     }
 }
