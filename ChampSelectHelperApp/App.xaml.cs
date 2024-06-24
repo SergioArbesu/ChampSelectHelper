@@ -110,7 +110,7 @@ namespace ChampSelectHelperApp
                 //make visible all the elements
                 var settWindow = new SettingsWindow();
                 settWindow.Show();
-                settWindow.InitializeWindow();
+                var task = settWindow.InitializeWindow();
                 //add try catch block for and add a messagebox when an error is thrown
             }
         }

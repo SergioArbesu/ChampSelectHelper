@@ -33,7 +33,7 @@ namespace ChampSelectHelperApp
         public static readonly string CHAMPIONS_JSON_URL = "https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions.json";
         public static readonly string SPELLS_JSON_URL = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/summoner-spells.json";
         public static readonly string DDRAGON_VERSION = "https://ddragon.leagueoflegends.com/api/versions.json";
-        public static string PERKS_JSON_URL = "http://ddragon.leagueoflegends.com/cdn/12.10.1/data/en_US/runesReforged.json";
+        public static string PERKS_JSON_URL;
         public static readonly string ICON_URL_START = "https://ddragon.leagueoflegends.com/cdn/img/";
         // icon paths are added to https://ddragon.leagueoflegends.com/cdn/img/
 
@@ -74,22 +74,15 @@ namespace ChampSelectHelperApp
             if (settingsDict is null) settingsDict = new();
         }
 
-        public async void InitializeWindow()
+        public async Task InitializeWindow()
         {
             CheckConnectivity();
+            
+            var champTask = CreateChampInfoAsync();
+            var perkTask = CreatePerkTreeInfoAsync();
+            var spellTask = CreateSpellInfoAsync();
 
-            string response = await App.httpclient.GetStringAsync(DDRAGON_VERSION);
-            JArray parsedVersions = JArray.Parse(response);
-            PERKS_JSON_URL = $"http://ddragon.leagueoflegends.com/cdn/{(string)parsedVersions[0]}/data/en_US/runesReforged.json";
-            response = await App.httpclient.GetStringAsync(PERKS_JSON_URL);
-            JArray parsedPerks = JArray.Parse(response);
-            CreatePerkTreeInfo(parsedPerks);
-            response = await App.httpclient.GetStringAsync(CHAMPIONS_JSON_URL);
-            JObject parsedChampions = JObject.Parse(response);
-            CreateChampInfo(parsedChampions);
-            response = await App.httpclient.GetStringAsync(SPELLS_JSON_URL);
-            JArray parsedSpells = JArray.Parse(response);
-            CreateSpellInfo(parsedSpells);
+            await Task.WhenAll(champTask, perkTask, spellTask);
 
             InitializeElements();
         }
@@ -111,10 +104,13 @@ namespace ChampSelectHelperApp
             }
         }
 
-        private void CreateChampInfo(JObject champJObject)
+        private async Task CreateChampInfoAsync()
         {
-            champions = new List<ChampInfo>(champJObject.Count);
-            foreach (var champion in champJObject)
+            string response = await App.httpclient.GetStringAsync(CHAMPIONS_JSON_URL);
+            JObject parsedChampions = JObject.Parse(response);
+
+            champions = new List<ChampInfo>(parsedChampions.Count);
+            foreach (var champion in parsedChampions)
             {
                 JObject value = (JObject)champion.Value;
                 ChampInfo champInfo = new ChampInfo(value);
@@ -122,26 +118,36 @@ namespace ChampSelectHelperApp
             }
         }
 
-        private void CreatePerkTreeInfo(JArray perkTreeJArray)
+        private async Task CreatePerkTreeInfoAsync()
         {
+            string versionResponse = await App.httpclient.GetStringAsync(DDRAGON_VERSION);
+            JArray parsedVersions = JArray.Parse(versionResponse);
+            PERKS_JSON_URL = $"http://ddragon.leagueoflegends.com/cdn/{(string)parsedVersions[0]}/data/en_US/runesReforged.json";
+
+            string perkResponse = await App.httpclient.GetStringAsync(PERKS_JSON_URL);
+            JArray parsedPerks = JArray.Parse(perkResponse);
+
             perkTrees = new List<PerkTreeInfo>(5);
             Task[] tasks = new Task[5];
             int i = 0;
-            foreach (JObject perkTree in perkTreeJArray)
+            foreach (JObject perkTree in parsedPerks)
             {
                 PerkTreeInfo perkTreeInfo = new PerkTreeInfo();
                 perkTrees.Add(perkTreeInfo);
                 tasks[i] = Task.Run(() => perkTreeInfo.CreatePerkTree(perkTree));
                 i++;
             }
-            Task.WaitAll(tasks);
+            await Task.WhenAll(tasks);
             perkTrees.Sort((x, y) => x.Id.CompareTo(y.Id));
         }
 
-        private void CreateSpellInfo(JArray spellJArray)
+        private async Task CreateSpellInfoAsync()
         {
+            string spellResponse = await App.httpclient.GetStringAsync(SPELLS_JSON_URL);
+            JArray parsedSpells = JArray.Parse(spellResponse);
+
             spells = new List<SpellInfo>();
-            foreach (JObject spell in spellJArray)
+            foreach (JObject spell in parsedSpells)
             {
                 JArray gameModes = (JArray)spell["gameModes"];
                 foreach (string gameMode in gameModes)
@@ -174,6 +180,8 @@ namespace ChampSelectHelperApp
             //Display elements when the loading has ended
             championComboBox.Visibility = Visibility.Visible;
             championImage.Visibility = Visibility.Visible;
+
+            //TODO: trigger event to stop loading animation and show window
         }
 
         private void SaveChampion()
@@ -319,6 +327,7 @@ namespace ChampSelectHelperApp
         private void SelectPrimaryPerkImage(int save, int styleId, int[] savedPerks, ItemsControl itemsControl)
         {
             int index = IndexOfId(perkTrees[IndexOfId(perkTrees, styleId)].Slots[save], savedPerks[save]);
+            if (index == -1) return;
             itemsControl.UpdateLayout();
             Image image = (Image)((Border)VisualTreeHelper.GetChild(
                 itemsControl.ItemContainerGenerator.ContainerFromIndex(index), 0)).Child;
@@ -944,7 +953,7 @@ namespace ChampSelectHelperApp
             if (spell1ComboBox.SelectedIndex == -1)
             {
                 spell1Image.Source = null;
-
+                
                 saveSpells[0] = -1;
             }
             else

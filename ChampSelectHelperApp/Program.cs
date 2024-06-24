@@ -23,16 +23,15 @@ namespace ChampSelectHelperApp
         [STAThread]
         static void Main(string[] args)
         {
-            if (mutex.WaitOne(TimeSpan.Zero, false))
-            {
-                LAUNCHED_AT_STARTUP = args.Contains(WINDOWS_STARTUP_FLAG);
+            if (!mutex.WaitOne(TimeSpan.Zero, false)) return;
 
-                instance = new App();
-                instance.InitializeComponent();
-                instance.Run();
+            LAUNCHED_AT_STARTUP = args.Contains(WINDOWS_STARTUP_FLAG);
 
-                mutex.ReleaseMutex();
-            }
+            instance = new App();
+            instance.InitializeComponent();
+            instance.Run();
+
+            mutex.ReleaseMutex();
         }
     }
 }

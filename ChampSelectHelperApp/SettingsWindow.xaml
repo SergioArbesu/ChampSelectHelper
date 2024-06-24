@@ -147,17 +147,17 @@
                     <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="32,8" Visibility="Hidden">
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/precision.png" 
+                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/precision.png" 
                                    MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/domination.png" 
+                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/domination.png" 
                                    MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" 
+                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" 
                                    MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
@@ -167,7 +167,7 @@
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}" Visibility="Collapsed">
-                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" 
+                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" 
                                    MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                     </UniformGrid>
