@@ -12,7 +12,7 @@ namespace ChampSelectHelperApp
 {
     public static class FileHandler
     {
-        private static readonly RegistryKey BOOT_KEY = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+        private static readonly RegistryKey BOOT_KEY = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
         private static readonly string DATA_DIRECTORY = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             Program.APP_DEVELOPER, Program.APP_NAME);
 
@@ -27,7 +27,7 @@ namespace ChampSelectHelperApp
             bool exists = BOOT_KEY.GetValue(Program.APP_NAME) is not null;
 
             // Update path to current location in case it changed
-            if (exists) BOOT_KEY.SetValue(Program.APP_NAME, Assembly.GetExecutingAssembly().Location + " " + Program.WINDOWS_STARTUP_FLAG);
+            if (exists) BOOT_KEY.SetValue(Program.APP_NAME, "\"" + Environment.ProcessPath + "\" " + Program.WINDOWS_STARTUP_FLAG);
 
             return exists;
         }
@@ -41,7 +41,7 @@ namespace ChampSelectHelperApp
             }
             else
             {
-                BOOT_KEY.SetValue(Program.APP_NAME, Assembly.GetExecutingAssembly().Location + " " + Program.WINDOWS_STARTUP_FLAG);
+                BOOT_KEY.SetValue(Program.APP_NAME, "\"" + Environment.ProcessPath + "\" " + Program.WINDOWS_STARTUP_FLAG);
             }
         }
 

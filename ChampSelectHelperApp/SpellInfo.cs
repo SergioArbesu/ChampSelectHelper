@@ -22,7 +22,7 @@ namespace ChampSelectHelperApp
 
             string path = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default" 
                 + ((string)spell["iconPath"]).ToLowerInvariant().Substring(21);
-            Icon = new BitmapImage(new Uri(path));
+            Icon = HelperFunctions.CreateBitmapImage(path);
         }
     }
 }

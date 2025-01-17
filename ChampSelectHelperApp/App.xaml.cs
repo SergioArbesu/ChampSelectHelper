@@ -19,6 +19,7 @@ using Cursors = System.Windows.Input.Cursors;
 //using System.Windows.Controls;
 
 using System.Threading;
+using System.Diagnostics;
 
 namespace ChampSelectHelperApp
 {
@@ -27,9 +28,9 @@ namespace ChampSelectHelperApp
     /// </summary>
     public partial class App : System.Windows.Application
     {
-        public static readonly HttpClient httpclient = new HttpClient();
-
         private NotifyIcon icon;
+        public static bool settsOpen = false;
+        public static bool settsLoaded = false;
 
         public App()
         {
@@ -67,7 +68,7 @@ namespace ChampSelectHelperApp
             {
                 openSettings.Image = Image.FromStream(stream);
             }
-            openSettings.Click += (sender, ev) => OpenSettingsWindow();
+            openSettings.Click += async (sender, ev) => { if (settsOpen) return; else settsOpen = true; await OpenSettingsWindow(); };
             contextMenu.Items.Add(openSettings);
 
             quitApp.Text = "Quit";
@@ -93,7 +94,7 @@ namespace ChampSelectHelperApp
             // what was this for lol
         }
 
-        private void OpenSettingsWindow()
+        private async Task OpenSettingsWindow()
         {
             if (SettingsWindow.Current is not null)
             {
@@ -108,9 +109,15 @@ namespace ChampSelectHelperApp
                 //create window with empty elements
                 //load all the info
                 //make visible all the elements
+                settsLoaded = false;
+                var loadingWindow = new LoadingWindow();
                 var settWindow = new SettingsWindow();
+                loadingWindow.Show();
                 settWindow.Show();
-                var task = settWindow.InitializeWindow();
+                await settWindow.InitializeWindow();
+                settsLoaded = true;
+                loadingWindow.Close();
+                //var task = Task.Run(settWindow.InitializeWindow).ContinueWith((x) => { settsLoaded = true; Dispatcher.Invoke(loadingWindow.Close); });
                 //add try catch block for and add a messagebox when an error is thrown
             }
         }

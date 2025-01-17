@@ -22,6 +22,7 @@ using Microsoft.Win32;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics;
 
 namespace ChampSelectHelperApp
 {
@@ -39,7 +40,8 @@ namespace ChampSelectHelperApp
 
         public static SettingsWindow? Current { get; private set; } //singleton
 
-        private NetworkListManager networkListManager = new();
+        private NetworkListManager networkListManager = new NetworkListManager();
+        public static HttpClient httpClient;
 
         private List<ChampInfo> champions;
         private List<PerkTreeInfo> perkTrees;
@@ -47,7 +49,7 @@ namespace ChampSelectHelperApp
 
         private Dictionary<int, ChampionSettings> settingsDict;
 
-        private BitmapImage noChampImg = new BitmapImage(new Uri(@"pack://application:,,,/Resources/noChamp.png"));
+        private BitmapImage noChampImg = HelperFunctions.CreateBitmapImage(@"pack://application:,,,/Resources/noChamp.png");
 
         // if what is being saved are chromas, saves the skin of origin
         private List<int> saveSkinsOrChromas = new List<int>();
@@ -60,6 +62,18 @@ namespace ChampSelectHelperApp
         private void Window_Closed(object sender, EventArgs e)
         {
             if (Current == this) Current = null;
+            for (int i = 0; i < champions.Count; i++) champions[i].Icon = null;
+            champions = null;
+            perkTrees = null;
+            spells = null;
+            settingsDict = null;
+            noChampImg = null;
+            networkListManager = null;
+            httpClient.Dispose();
+            httpClient = null;
+            championImage = null;
+            skinImage = null;
+            App.settsOpen = false;
         }
 
         public SettingsWindow()
@@ -67,6 +81,7 @@ namespace ChampSelectHelperApp
             InitializeComponent();
 
             Current = this;
+            httpClient = new HttpClient();
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
@@ -85,6 +100,10 @@ namespace ChampSelectHelperApp
             await Task.WhenAll(champTask, perkTask, spellTask);
 
             InitializeElements();
+
+            ShowInTaskbar = true;
+            WindowStyle = WindowStyle.SingleBorderWindow;
+            WindowState = WindowState.Normal;
         }
 
         private void CheckConnectivity()
@@ -94,19 +113,13 @@ namespace ChampSelectHelperApp
             var result = MessageBox.Show("There was a problem while trying to connect to the internet. Check your internet " +
                 "connection.\n\nDo you want to retry?", "Connecction Error", MessageBoxButton.YesNo, MessageBoxImage.Error);
 
-            if (result == MessageBoxResult.Yes)
-            {
-                CheckConnectivity();
-            }
-            else
-            {
-                Close();
-            }
+            if (result == MessageBoxResult.Yes) CheckConnectivity();
+            else Close();
         }
 
         private async Task CreateChampInfoAsync()
         {
-            string response = await App.httpclient.GetStringAsync(CHAMPIONS_JSON_URL);
+            string response = await httpClient.GetStringAsync(CHAMPIONS_JSON_URL);
             JObject parsedChampions = JObject.Parse(response);
 
             champions = new List<ChampInfo>(parsedChampions.Count);
@@ -120,11 +133,11 @@ namespace ChampSelectHelperApp
 
         private async Task CreatePerkTreeInfoAsync()
         {
-            string versionResponse = await App.httpclient.GetStringAsync(DDRAGON_VERSION);
+            string versionResponse = await httpClient.GetStringAsync(DDRAGON_VERSION);
             JArray parsedVersions = JArray.Parse(versionResponse);
             PERKS_JSON_URL = $"http://ddragon.leagueoflegends.com/cdn/{(string)parsedVersions[0]}/data/en_US/runesReforged.json";
 
-            string perkResponse = await App.httpclient.GetStringAsync(PERKS_JSON_URL);
+            string perkResponse = await httpClient.GetStringAsync(PERKS_JSON_URL);
             JArray parsedPerks = JArray.Parse(perkResponse);
 
             perkTrees = new List<PerkTreeInfo>(5);
@@ -134,7 +147,7 @@ namespace ChampSelectHelperApp
             {
                 PerkTreeInfo perkTreeInfo = new PerkTreeInfo();
                 perkTrees.Add(perkTreeInfo);
-                tasks[i] = Task.Run(() => perkTreeInfo.CreatePerkTree(perkTree));
+                tasks[i] = Task.Run(() => perkTreeInfo.CreatePerkTreeAsync(perkTree));
                 i++;
             }
             await Task.WhenAll(tasks);
@@ -143,7 +156,7 @@ namespace ChampSelectHelperApp
 
         private async Task CreateSpellInfoAsync()
         {
-            string spellResponse = await App.httpclient.GetStringAsync(SPELLS_JSON_URL);
+            string spellResponse = await httpClient.GetStringAsync(SPELLS_JSON_URL);
             JArray parsedSpells = JArray.Parse(spellResponse);
 
             spells = new List<SpellInfo>();
@@ -409,7 +422,7 @@ namespace ChampSelectHelperApp
             }
             
             CheckConnectivity();
-            skinImage.Source = new BitmapImage(new Uri(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri));
+            skinImage.Source = HelperFunctions.CreateBitmapImage(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri);
 
             List<ChromaInfo>? chromas = champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
             if (chromas is null)

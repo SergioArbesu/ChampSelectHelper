@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Height="450" Width="800" Icon="Resources/System Icons/icon.ico"
         ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
-        Closed="Window_Closed">
+        Closed="Window_Closed"
+        ShowInTaskbar="False" WindowState="Minimized" WindowStyle="None">
     <Grid>
         <Image x:Name="championImage" Width="63" Height="63" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBlock Text="Champion" HorizontalAlignment="Left" Width="120" Height="20" Margin="85,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>

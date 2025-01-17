@@ -19,7 +19,7 @@ namespace ChampSelectHelperApp
         {
             Id = id;
             Name = name;
-            Icon = new BitmapImage(new Uri(iconUri));
+            Icon = HelperFunctions.CreateBitmapImage(iconUri);
             Skins = skins;
         }
 
@@ -68,10 +68,7 @@ namespace ChampSelectHelperApp
                     Chromas.Add(new ChromaInfo(chroma));
                 }
             }
-            else
-            {
-                Chromas = null;
-            }
+            else Chromas = null;
         }
     }
 

@@ -22,7 +22,7 @@ namespace ChampSelectHelperApp
 
         public PerkTreeInfo() { }
 
-        public async Task CreatePerkTree(JObject perkTree)
+        public async Task CreatePerkTreeAsync(JObject perkTree)
         {
             Id = (int)perkTree["id"];
 
@@ -39,7 +39,7 @@ namespace ChampSelectHelperApp
                 {
                     PerkInfo perkInfo = new PerkInfo();
                     Slots[i][j] = perkInfo;
-                    tasks.Add(Task.Run(() => perkInfo.CreatePerk(perk)));
+                    tasks.Add(perkInfo.CreatePerkAsync(perk));
                     j++;
                 }
             }
@@ -60,11 +60,13 @@ namespace ChampSelectHelperApp
             //IsSelected = false;
         }
 
-        public async Task CreatePerk(JObject perk)
+        public async Task CreatePerkAsync(JObject perk)
         {
             Id = (int)perk["id"];
 
-            using (Stream tempStream = await App.httpclient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perk["icon"]))
+            Bitmap bitmap;
+
+            using (Stream tempStream = await SettingsWindow.httpClient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perk["icon"]))
             using (MemoryStream stream = new MemoryStream())
             {
                 await tempStream.CopyToAsync(stream);
@@ -74,35 +76,36 @@ namespace ChampSelectHelperApp
                 Icon.CacheOption = BitmapCacheOption.OnLoad;
                 Icon.StreamSource = stream;
                 Icon.EndInit();
-                Icon.Freeze();
                 
-                Bitmap bitmap = new Bitmap(stream);
-                Bitmap newBitmap = new Bitmap(bitmap.Width, bitmap.Height);
+                bitmap = new Bitmap(stream);
+            }
+            Icon.Freeze();
 
-                for (int y = 0; y < bitmap.Height; y++)
+            Bitmap newBitmap = new Bitmap(bitmap.Width, bitmap.Height);
+
+            for (int y = 0; y < bitmap.Height; y++)
+            {
+                for (int x = 0; x < bitmap.Width; x++)
                 {
-                    for (int x = 0; x < bitmap.Width; x++)
-                    {
-                        Color oc = bitmap.GetPixel(x, y);
-                        int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
-                        Color nc = Color.FromArgb(oc.A, grayScale, grayScale, grayScale);
-                        newBitmap.SetPixel(x, y, nc);
-                    }
-                }
-
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    newBitmap.Save(memoryStream, ImageFormat.Png);
-                    memoryStream.Position = 0;
-
-                    GrayIcon = new BitmapImage();
-                    GrayIcon.BeginInit();
-                    GrayIcon.CacheOption = BitmapCacheOption.OnLoad;
-                    GrayIcon.StreamSource = memoryStream;
-                    GrayIcon.EndInit();
-                    GrayIcon.Freeze();
+                    Color oc = bitmap.GetPixel(x, y);
+                    int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+                    Color nc = Color.FromArgb(oc.A, grayScale, grayScale, grayScale);
+                    newBitmap.SetPixel(x, y, nc);
                 }
             }
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                newBitmap.Save(memoryStream, ImageFormat.Png);
+                memoryStream.Position = 0;
+
+                GrayIcon = new BitmapImage();
+                GrayIcon.BeginInit();
+                GrayIcon.CacheOption = BitmapCacheOption.OnLoad;
+                GrayIcon.StreamSource = memoryStream;
+                GrayIcon.EndInit();
+            }
+            GrayIcon.Freeze();
         }
     }
 }
