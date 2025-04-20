@@ -49,7 +49,7 @@ namespace ChampSelectHelperApp
             ToolStripMenuItem quitApp = new ToolStripMenuItem();
             icon.ContextMenuStrip = contextMenu;
 
-            icon.MouseClick += (sender, ev) => { if (ev.Button == MouseButtons.Left) OpenSettingsWindow(); };
+            icon.MouseClick += async (sender, ev) => { if (ev.Button == MouseButtons.Left) await OpenSettingsWindow(); };
 
             label.Text = Program.APP_NAME + " v" + Program.APP_VERSION;
             label.Font = new Font(label.Font, FontStyle.Bold);

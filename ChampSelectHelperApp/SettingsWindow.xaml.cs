@@ -41,7 +41,7 @@ namespace ChampSelectHelperApp
         public static SettingsWindow? Current { get; private set; } //singleton
 
         private NetworkListManager networkListManager = new NetworkListManager();
-        public static HttpClient httpClient;
+        private HttpClient httpClient;
 
         private List<ChampInfo> champions;
         private List<PerkTreeInfo> perkTrees;
@@ -85,8 +85,7 @@ namespace ChampSelectHelperApp
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
-            settingsDict = JsonConvert.DeserializeObject<Dictionary<int, ChampionSettings>>(FileHandler.GetFileContent("save.json"));
-            if (settingsDict is null) settingsDict = new();
+            settingsDict = JsonConvert.DeserializeObject<Dictionary<int, ChampionSettings>>(FileHandler.GetFileContent("save.json")) ?? new();
         }
 
         public async Task InitializeWindow()
@@ -101,6 +100,7 @@ namespace ChampSelectHelperApp
 
             InitializeElements();
 
+            //TODO: change the loading window to be the same as this window
             ShowInTaskbar = true;
             WindowStyle = WindowStyle.SingleBorderWindow;
             WindowState = WindowState.Normal;
@@ -147,7 +147,7 @@ namespace ChampSelectHelperApp
             {
                 PerkTreeInfo perkTreeInfo = new PerkTreeInfo();
                 perkTrees.Add(perkTreeInfo);
-                tasks[i] = Task.Run(() => perkTreeInfo.CreatePerkTreeAsync(perkTree));
+                tasks[i] = Task.Run(() => perkTreeInfo.CreatePerkTreeAsync(perkTree, httpClient));
                 i++;
             }
             await Task.WhenAll(tasks);
@@ -191,10 +191,9 @@ namespace ChampSelectHelperApp
             championImage.Source = noChampImg;
 
             //Display elements when the loading has ended
+            //TODO: revise this
             championComboBox.Visibility = Visibility.Visible;
             championImage.Visibility = Visibility.Visible;
-
-            //TODO: trigger event to stop loading animation and show window
         }
 
         private void SaveChampion()
@@ -213,16 +212,19 @@ namespace ChampSelectHelperApp
                                saveSkinsOrChromas,
                                saveOriginSkin
                                );
+                Debug.Print(JsonConvert.SerializeObject(settings));
                 settingsDict[settings.id] = settings;
             }
 
             // save in file
             string json = JsonConvert.SerializeObject(settingsDict);
             FileHandler.SaveInFile("save.json", json, false);
+            Debug.Print(savePerks[3].ToString());
         }
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             skinComboBox.Items.Clear();
 
             if (championComboBox.SelectedIndex == -1)
@@ -234,12 +236,15 @@ namespace ChampSelectHelperApp
                 skinCheckBox.IsEnabled = false;
                 perksCheckBox.IsEnabled = false;
                 spellsCheckBox.IsEnabled = false;
+
                 return;
 
             }
+
+            ChampInfo champion = champions[championComboBox.SelectedIndex];
             
-            championImage.Source = champions[championComboBox.SelectedIndex].Icon;
-            foreach (SkinInfo skin in champions[championComboBox.SelectedIndex].Skins)
+            championImage.Source = champion.Icon;
+            foreach (SkinInfo skin in champion.Skins)
             {
                 skinComboBox.Items.Add(skin.Name);
             }
@@ -248,7 +253,6 @@ namespace ChampSelectHelperApp
             spellsCheckBox.IsEnabled = true;
 
             // set all the controls and save variables to the saved settings of the champion
-            ChampInfo champion = champions[championComboBox.SelectedIndex];
             if (!settingsDict.TryGetValue(champion.Id, out ChampionSettings settings))
             {
                 saveSkinsOrChromas = new List<int>();
@@ -260,9 +264,12 @@ namespace ChampSelectHelperApp
                 skinCheckBox.IsChecked = false;
                 perksCheckBox.IsChecked = false;
                 spellsCheckBox.IsChecked = false;
+
                 return;
             }
-            
+            Debug.Print("found in dict");
+
+            Debug.Print("spellsID[0]: " + settings.spellsId[0].ToString());
             if (settings.skinsOrChromasId.Count != 0)
             {
                 skinCheckBox.IsChecked = true;
@@ -295,8 +302,8 @@ namespace ChampSelectHelperApp
             {
                 perksCheckBox.IsChecked = true;
 
-                ChangeSubStyle(IndexOfId(perkTrees, settings.stylesId[1]));
                 ChangePrimaryStyle(IndexOfId(perkTrees, settings.stylesId[0]));
+                ChangeSubStyle(IndexOfId(perkTrees, settings.stylesId[1]));
 
                 SelectPrimaryPerkImage(0, settings.stylesId[0], settings.perksId, keyStonesItemsControl);
                 SelectPrimaryPerkImage(1, settings.stylesId[0], settings.perksId, primarySlot1ItemsControl);
@@ -306,9 +313,12 @@ namespace ChampSelectHelperApp
                 SelectMinorPerkImage(settings.perksId[6], offensivePerkGrid);
                 SelectMinorPerkImage(settings.perksId[7], flexPerkGrid);
                 SelectMinorPerkImage(settings.perksId[8], defensivePerkGrid);
+
+                Debug.Print("perks updated");
             }
             else perksCheckBox.IsChecked = false;
 
+            Debug.Print("spellsID[0]: " + settings.spellsId[0].ToString());
             if (settings.spellsId[0] != -1)
             {
                 spellsCheckBox.IsChecked = true;
@@ -318,11 +328,7 @@ namespace ChampSelectHelperApp
             }
             else spellsCheckBox.IsChecked = false;
 
-            saveSkinsOrChromas = settings.skinsOrChromasId;
-            saveOriginSkin = settings.originSkinId;
-            saveStyles = settings.stylesId;
-            savePerks = settings.perksId;
-            saveSpells = settings.spellsId;
+            Debug.Print(savePerks[3].ToString());
         }
 
         private int IndexOfId(IEnumerable<Info> info, int id)
@@ -666,14 +672,7 @@ namespace ChampSelectHelperApp
                 else 
                 {
                     border.Visibility = Visibility.Visible;
-                    if (perkTrees[i].Id == saveStyles[1]) 
-                    {
-                        border.BorderBrush = Brushes.White;
-                    }
-                    else
-                    {
-                        border.BorderBrush = Brushes.Transparent;
-                    }
+                    border.BorderBrush = perkTrees[i].Id == saveStyles[1] ? Brushes.White : Brushes.Transparent;
                 }
             }
 
@@ -731,14 +730,7 @@ namespace ChampSelectHelperApp
             foreach (Border border in grid.Children)
             {
                 int tag = int.Parse((string)((Image)border.Child).Tag);
-                if (tag == index)
-                {
-                    border.BorderBrush = Brushes.White;
-                }
-                else
-                {
-                    border.BorderBrush = Brushes.Transparent;
-                }
+                border.BorderBrush = tag == index ? Brushes.White : Brushes.Transparent;
             }
         }
 
@@ -803,7 +795,7 @@ namespace ChampSelectHelperApp
 
         private void ChangeSubSlotPerkItemsControl(ItemsControl itemsControl, object sender)
         {
-            bool present = false;
+            bool isPresent = false;
             itemsControl.UpdateLayout();
             for (int i = 0; i < itemsControl.Items.Count; i++)
             {
@@ -813,17 +805,17 @@ namespace ChampSelectHelperApp
                 if (savePerks[4] == id)
                 {
                     (savePerks[4], savePerks[5]) = (savePerks[5], savePerks[4]);
-                    present = true;
+                    isPresent = true;
                     break;
                 }
                 else if (savePerks[5] == id)
                 {
-                    present = true;
+                    isPresent = true;
                     break;
                 }
             }
 
-            if (present)
+            if (isPresent)
             {
                 int idSelected = (int)((Image)sender).Tag;
                 if (savePerks[5] == idSelected) return;
@@ -976,6 +968,7 @@ namespace ChampSelectHelperApp
 
                 saveSpells[0] = spells[spell1ComboBox.SelectedIndex].Id;
 
+                Debug.Print("SaveSpells() call in spell1combobox");
                 SaveSpells();
             }
         }
@@ -995,6 +988,7 @@ namespace ChampSelectHelperApp
 
                 saveSpells[1] = spells[spell2ComboBox.SelectedIndex].Id;
 
+                Debug.Print("SaveSpells() call in spell2combobox");
                 SaveSpells();
             }
         }
@@ -1003,6 +997,7 @@ namespace ChampSelectHelperApp
         {
             if (saveSpells[0] != -1 && saveSpells[1] != -1)
             {
+                Debug.Print("SaveChampion() call in SaveSpells()");
                 SaveChampion();
             }
         }

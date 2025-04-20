@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace ChampSelectHelperApp
 {
-    class SpellInfo : Info
+    public class SpellInfo : Info
     {
         public int Id { get; set; }
         public string Name { get; private set; }

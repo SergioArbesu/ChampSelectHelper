@@ -22,7 +22,7 @@ namespace ChampSelectHelperApp
 
         public PerkTreeInfo() { }
 
-        public async Task CreatePerkTreeAsync(JObject perkTree)
+        public async Task CreatePerkTreeAsync(JObject perkTree, HttpClient httpClient)
         {
             Id = (int)perkTree["id"];
 
@@ -39,7 +39,7 @@ namespace ChampSelectHelperApp
                 {
                     PerkInfo perkInfo = new PerkInfo();
                     Slots[i][j] = perkInfo;
-                    tasks.Add(perkInfo.CreatePerkAsync(perk));
+                    tasks.Add(perkInfo.CreatePerkAsync(perk, httpClient));
                     j++;
                 }
             }
@@ -60,13 +60,13 @@ namespace ChampSelectHelperApp
             //IsSelected = false;
         }
 
-        public async Task CreatePerkAsync(JObject perk)
+        public async Task CreatePerkAsync(JObject perk, HttpClient httpClient)
         {
             Id = (int)perk["id"];
 
             Bitmap bitmap;
 
-            using (Stream tempStream = await SettingsWindow.httpClient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perk["icon"]))
+            using (Stream tempStream = await httpClient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perk["icon"]))
             using (MemoryStream stream = new MemoryStream())
             {
                 await tempStream.CopyToAsync(stream);

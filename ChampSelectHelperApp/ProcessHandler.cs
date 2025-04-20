@@ -12,12 +12,12 @@ namespace ChampSelectHelperApp
 {
     public static class ProcessHandler
     {
-        public static (string authToken, string port)? GetLeagueProcessStatus()
+        public static (string? authToken, string? port) GetLeagueProcessInfo()
         {
             Process[] processes = Process.GetProcessesByName("LeagueClientUx");
-            if (processes.Length <= 0) return null;
+            if (processes.Length <= 0) return (null, null);
 
-            using (ManagementObjectCollection moc = 
+            using (ManagementObjectCollection moc =
                 new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = "
                 + processes[0].Id.ToString()).Get())
             {
