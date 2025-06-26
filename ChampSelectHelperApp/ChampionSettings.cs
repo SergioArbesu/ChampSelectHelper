@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChampSelectHelperApp
 {
-    class ChampionSettings
+    public class ChampionSettings
     {
         public int id;
         public int[] stylesId;

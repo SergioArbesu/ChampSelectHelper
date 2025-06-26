@@ -62,7 +62,6 @@ namespace ChampSelectHelperApp
         private void Window_Closed(object sender, EventArgs e)
         {
             if (Current == this) Current = null;
-            for (int i = 0; i < champions.Count; i++) champions[i].Icon = null;
             champions = null;
             perkTrees = null;
             spells = null;
@@ -85,7 +84,7 @@ namespace ChampSelectHelperApp
 
             Title = Program.APP_NAME + " v" + Program.APP_VERSION;
 
-            settingsDict = JsonConvert.DeserializeObject<Dictionary<int, ChampionSettings>>(FileHandler.GetFileContent("save.json")) ?? new();
+            settingsDict = FileHandler.GetChampionSettings();
         }
 
         public async Task InitializeWindow()
@@ -217,8 +216,7 @@ namespace ChampSelectHelperApp
             }
 
             // save in file
-            string json = JsonConvert.SerializeObject(settingsDict);
-            FileHandler.SaveInFile("save.json", json, false);
+            FileHandler.SaveChampionSettings(settingsDict);
             Debug.Print(savePerks[3].ToString());
         }
 
@@ -238,12 +236,11 @@ namespace ChampSelectHelperApp
                 spellsCheckBox.IsEnabled = false;
 
                 return;
-
             }
 
             ChampInfo champion = champions[championComboBox.SelectedIndex];
             
-            championImage.Source = champion.Icon;
+            championImage.Source = HelperFunctions.CreateBitmapImage(champion.IconUri);
             foreach (SkinInfo skin in champion.Skins)
             {
                 skinComboBox.Items.Add(skin.Name);

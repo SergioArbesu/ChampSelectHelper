@@ -12,14 +12,14 @@ namespace ChampSelectHelperApp
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public BitmapImage Icon { get; set; }
+        public string IconUri { get; set; }
         public List<SkinInfo> Skins { get; set; }
 
         public ChampInfo(int id, string name, string iconUri, List<SkinInfo> skins)
         {
             Id = id;
             Name = name;
-            Icon = HelperFunctions.CreateBitmapImage(iconUri);
+            IconUri = iconUri;
             Skins = skins;
         }
 
@@ -27,7 +27,7 @@ namespace ChampSelectHelperApp
         {
             Id = (int)champion["id"];
             Name = (string)champion["name"];
-            Icon = new BitmapImage(new Uri((string)champion["icon"]));
+            IconUri = (string)champion["icon"];
 
             JArray skins = (JArray)champion["skins"];
             Skins = new List<SkinInfo>(skins.Count);

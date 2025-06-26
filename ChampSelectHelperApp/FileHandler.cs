@@ -7,11 +7,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
 
 namespace ChampSelectHelperApp
 {
     public static class FileHandler
     {
+        public static readonly string CHAMPION_SETINGS_SAVE_FILE = "championsettings.json";
+
         private static readonly RegistryKey BOOT_KEY = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
         private static readonly string DATA_DIRECTORY = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             Program.APP_DEVELOPER, Program.APP_NAME);
@@ -65,6 +68,18 @@ namespace ChampSelectHelperApp
             {
                 return sr.ReadToEnd();
             }
+        }
+
+        public static void SaveChampionSettings(Dictionary<int, ChampionSettings> settingsDict)
+        {
+            string json = JsonConvert.SerializeObject(settingsDict);
+            SaveInFile(CHAMPION_SETINGS_SAVE_FILE, json, false);
+        }
+
+        public static Dictionary<int, ChampionSettings> GetChampionSettings()
+        {
+            string json = GetFileContent(CHAMPION_SETINGS_SAVE_FILE);
+            return JsonConvert.DeserializeObject<Dictionary<int, ChampionSettings>>(json) ?? new();
         }
     }
 }

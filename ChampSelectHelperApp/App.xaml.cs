@@ -29,11 +29,18 @@ namespace ChampSelectHelperApp
     public partial class App : System.Windows.Application
     {
         private NotifyIcon icon;
+        private LeagueConnection leagueConn;
         public static bool settsOpen = false;
         public static bool settsLoaded = false;
 
         public App()
         {
+            Debug.WriteLine("check2");
+
+            // #######
+            // Start System Tray Icon configuration
+            // #######
+
             icon = new NotifyIcon();
             icon.Text = Program.APP_NAME;
             icon.Visible = true;
@@ -79,7 +86,15 @@ namespace ChampSelectHelperApp
             quitApp.Click += (sender, ev) => Shutdown();
             contextMenu.Items.Add(quitApp);
 
+            // #######
+            // End System Tray Icon configuration
+            // #######
+
             if (!Program.LAUNCHED_AT_STARTUP) ShowNotification(Program.APP_NAME + " is running in the background.");
+
+            Debug.WriteLine("check");
+
+            leagueConn = new LeagueConnection();
         }
 
         public void ShowNotification(string text)

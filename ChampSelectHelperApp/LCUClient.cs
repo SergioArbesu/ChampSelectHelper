@@ -6,6 +6,7 @@ using System.Management;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.WebSockets;
 using System.Security.Authentication;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -13,8 +14,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Animation;
 using Newtonsoft.Json.Linq;
-using SuperSocket.WebSocket;
-using WebSocket4Net;
+//using SuperSocket.WebSocket;
+//using WebSocket4Net;
+using Websocket.Client;
 
 namespace ChampSelectHelperApp
 {
@@ -24,42 +26,51 @@ namespace ChampSelectHelperApp
 
         private HttpClient? httpClient;
 
-        private WebSocket? websocket;
-        private Dictionary<string, Action<LCUEventArgs>> suscribers; //make this a custom event implementation
+        //private WebSocket? websocket2;
+        private WebsocketClient? websocket;
+        private Dictionary<string, Action<LCUEventArgs>> subscribers; //make this a custom event implementation
 
-        private string? authToken;
-        private string? port;
+        private string? authToken, port;
 
         public bool IsConnected { get; private set; }
 
         public LCUClient(int retryDelay = 5000)
         {
             RETRY_DELAY = retryDelay;
-            suscribers = new();
+            subscribers = new();
+        }
+
+        public void Connect()
+        {
             Task.Run(TryConnectOrRetry);
         }
 
-        public async Task<string> SendRequest(string httpMethod, string path, string? body = null)
+        public async Task<string?> SendRequest(string httpMethod, string path, string? body = null)
         {
-            if (!IsConnected) throw new InvalidOperationException("Client is not connected");
+            if (!IsConnected) return null;
             if (httpMethod != "GET" && httpMethod != "POST" && httpMethod != "PUT" && httpMethod != "PATCH" && httpMethod != "DELETE") 
                 throw new ArgumentException("HTTP method is not supported");
 
-            var response = await httpClient.SendAsync(new HttpRequestMessage(new HttpMethod(httpMethod), path)
-            { Content = body is null ? null : new StringContent(body, null, "application/json") });
+            var response = await httpClient.SendAsync(new HttpRequestMessage(new HttpMethod(httpMethod), "https://127.0.0.1:" + port + path)
+            { Content = (body is null) ? null : new StringContent(body, Encoding.UTF8, "application/json") });
 
             string responseStr = await response.Content.ReadAsStringAsync();
             return responseStr;
         }
 
-        public void SuscribeEvent(string eventName, Action<LCUEventArgs> args)
+        public void SubscribeEvent(string eventName, Action<LCUEventArgs> eventHandler)
         {
-            suscribers[eventName] = args;
+            subscribers[eventName] = eventHandler;
         }
 
-        public void UnsuscribeEvent(string eventName)
+        public void UnsubscribeEvent(string eventName)
         {
-            suscribers.Remove(eventName);
+            subscribers.Remove(eventName);
+        }
+
+        public void UnsubscribeAllEvents()
+        {
+            subscribers.Clear();
         }
 
         private async Task TryConnectOrRetry()
@@ -67,6 +78,7 @@ namespace ChampSelectHelperApp
             await TryConnect();
             while (!IsConnected)
             {
+                Debug.WriteLine("retrying connection");
                 await Task.Delay(RETRY_DELAY);
                 await TryConnect();
             }
@@ -80,45 +92,62 @@ namespace ChampSelectHelperApp
             if (authToken is null || port is null) return;
 
             // http client initalization
-            httpClient = new HttpClient(new HttpClientHandler()
+            httpClient = new HttpClient(new HttpClientHandler
             {
-                ClientCertificateOptions = ClientCertificateOption.Manual, //check if I need this
-                ServerCertificateCustomValidationCallback = (a, b, c, d) => true
+                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
             });
-            httpClient.BaseAddress = new Uri($"https://127.0.0.1:{port}/");
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", 
+                Convert.ToBase64String(Encoding.UTF8.GetBytes("riot:" + authToken)));
 
             // websocket initialization
-            websocket = new WebSocket($"wss://127.0.0.1:{port}/");
-            websocket.Security.Credential = new NetworkCredential("riot", authToken);
-            websocket.Security.RemoteCertificateValidationCallback = (a,b,c,d) => true;
-            websocket.AddSubProtocol("wamp");
-            websocket.PackageHandler += LCUMessageReceived;
-            websocket.Closed += Disconnect;
+            websocket = new WebsocketClient(new Uri($"wss://127.0.0.1:{port}/"), () =>
+            {
+                ClientWebSocket socket = new ClientWebSocket
+                {
+                    Options =
+                    {
+                        Credentials = new NetworkCredential("riot", authToken),
+                        RemoteCertificateValidationCallback = (a,b,c,d) => true
+                    }
+                };
+                socket.Options.AddSubProtocol("wamp");
+                return socket;
+            });
 
-            await websocket.OpenAsync();
-            websocket.StartReceive();
+            websocket.MessageReceived.Subscribe(LCUMessageReceived);
+            websocket.DisconnectionHappened.Subscribe(Disconnection);
 
             IsConnected = true;
 
-            foreach (string key in suscribers.Keys)
+            await websocket.Start();
+
+            Debug.WriteLine("websocket connected");
+
+
+            foreach (string key in subscribers.Keys)
             {
-                await websocket.SendAsync($"[5, \"{key}\"]");
+                await websocket.SendInstant($"[5, \"{key}\"]");
             }
         }
 
-        private async ValueTask LCUMessageReceived(object sender, WebSocketPackage args)
+        private void LCUMessageReceived(ResponseMessage msg)
         {
-            var messageArray = JArray.Parse(args.Message);
+            if (msg.Text is null) return;
+
+            Debug.WriteLine(msg.Text);
+
+            var messageArray = JArray.Parse(msg.Text);
 
             if (messageArray.Count < 3) return;
             if ((int)messageArray[0] != 8) return;
             
             string lcuEvent = (string)messageArray[1];
-            if (!suscribers.ContainsKey(lcuEvent)) return;
+            
+            if (!subscribers.TryGetValue(lcuEvent, out var subscriber)) return;
 
             JObject lcuEventArgs = (JObject)messageArray[2];
-            suscribers[lcuEvent].Invoke(new LCUEventArgs()
+            subscriber.Invoke(new LCUEventArgs()
             {
                 Path = (string)lcuEventArgs["uri"],
                 EventType = (string)lcuEventArgs["eventType"],
@@ -126,7 +155,7 @@ namespace ChampSelectHelperApp
             });
         }
 
-        private void Disconnect(object? sender, EventArgs args)
+        private void Disconnection(DisconnectionInfo info)
         {
             IsConnected = false;
             if (httpClient is not null)
@@ -136,12 +165,14 @@ namespace ChampSelectHelperApp
             }
             if (websocket is not null)
             {
-                websocket.PackageHandler -= LCUMessageReceived;
-                websocket.Closed -= Disconnect;
+                websocket.Dispose();
                 websocket = null;
 
             }
             authToken = null; port = null;
+
+            Debug.WriteLine("websocket disconnected");
+
             Task.Run(TryConnectOrRetry);
         }
 
@@ -150,9 +181,9 @@ namespace ChampSelectHelperApp
             Process[] processes = Process.GetProcessesByName("LeagueClientUx");
             if (processes.Length <= 0) return (null, null);
 
-            using (ManagementObjectCollection moc =
-                new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = "
-                + processes[0].Id.ToString()).Get())
+            using (var mos = new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = "
+                + processes[0].Id.ToString()))
+            using (var moc = mos.Get())
             {
                 string commandOutput = (string)moc.OfType<ManagementObject>().First()["CommandLine"];
 
