@@ -45,9 +45,9 @@ namespace ChampSelectHelperApp
             Task.Run(TryConnectOrRetry);
         }
 
-        public async Task<string?> SendRequest(string httpMethod, string path, string? body = null)
+        public async Task<string> SendRequest(string httpMethod, string path, string? body = null)
         {
-            if (!IsConnected) return null;
+            if (!IsConnected) return "";
             if (httpMethod != "GET" && httpMethod != "POST" && httpMethod != "PUT" && httpMethod != "PATCH" && httpMethod != "DELETE") 
                 throw new ArgumentException("HTTP method is not supported");
 

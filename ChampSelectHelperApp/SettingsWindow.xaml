@@ -211,7 +211,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <!-- Stat Perks have to be hardcoded becuase they don't appear in the runes datadragon json -->
+                    <!-- Stat Perks have to be hardcoded becuase they don't appear in the datadragon runesReforged.json -->
                     <UniformGrid Grid.Row="4" Rows="3" Margin="25,0,25,10">
                         <UniformGrid x:Name="offensivePerkGrid" Columns="3" Margin="0,1">
                             <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 

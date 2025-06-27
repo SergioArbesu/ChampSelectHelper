@@ -128,8 +128,8 @@ namespace ChampSelectHelperApp
                 var loadingWindow = new LoadingWindow();
                 var settWindow = new SettingsWindow();
                 loadingWindow.Show();
-                settWindow.Show();
                 await settWindow.InitializeWindow();
+                settWindow.Show();
                 settsLoaded = true;
                 loadingWindow.Close();
                 //var task = Task.Run(settWindow.InitializeWindow).ContinueWith((x) => { settsLoaded = true; Dispatcher.Invoke(loadingWindow.Close); });

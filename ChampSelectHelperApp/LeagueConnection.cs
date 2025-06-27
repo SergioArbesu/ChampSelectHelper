@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,7 +39,14 @@ namespace ChampSelectHelperApp
 
             if (settings.skinsOrChromasId.Count > 0)
             {
-
+                int r = Random.Shared.Next(settings.skinsOrChromasId.Count);
+                int skinId = settings.skinsOrChromasId[r];
+                var skinData = new
+                {
+                    selectedSkinId = skinId
+                };
+                string body = JsonConvert.SerializeObject(skinData);
+                var response = await lcuclient.SendRequest("PATCH", "/lol-champ-select/v1/session/my-selection", body);
             }
 
             if (settings.spellsId[0] != -1)
@@ -54,7 +62,19 @@ namespace ChampSelectHelperApp
 
             if (settings.perksId[0] != -1)
             {
-
+                string currentPage = await lcuclient.SendRequest("GET", "/lol-perks/v1/currentpage");
+                int idCurrentPage = (int)JObject.Parse(currentPage)["id"];
+                await lcuclient.SendRequest("DELETE", $"/lol-perks/v1/pages/{idCurrentPage}");
+                var runesData = new
+                {
+                    name = "ChampSelect Helper Rune Page",
+                    primaryStyleId = settings.stylesId[0],
+                    subStyleId = settings.stylesId[1],
+                    selectedPerkIds = settings.perksId,
+                    current = true
+                };
+                string body = JsonConvert.SerializeObject(runesData);
+                await lcuclient.SendRequest("POST", "/lol-perks/v1/pages", body);
             }
         }
 
