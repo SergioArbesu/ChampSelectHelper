@@ -18,13 +18,24 @@ namespace ChampSelectHelperApp
     public class PerkTreeInfo : Info
     {
         public int Id { get; set; }
+        public BitmapImage Icon { get; set; }
         public PerkInfo[][] Slots { get; private set; }
-
-        public PerkTreeInfo() { }
 
         public async Task CreatePerkTreeAsync(JObject perkTree, HttpClient httpClient)
         {
             Id = (int)perkTree["id"];
+            using (Stream tempStream = await httpClient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perkTree["icon"]))
+            using (MemoryStream stream = new MemoryStream())
+            {
+                await tempStream.CopyToAsync(stream);
+
+                Icon = new BitmapImage();
+                Icon.BeginInit();
+                Icon.CacheOption = BitmapCacheOption.OnLoad;
+                Icon.StreamSource = stream;
+                Icon.EndInit();
+            }
+            Icon.Freeze();
 
             JArray slots = (JArray)perkTree["slots"];
             Slots = new PerkInfo[4][];

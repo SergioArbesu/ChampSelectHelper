@@ -48,28 +48,23 @@
                     <UniformGrid x:Name="primaryStyleGrid" Grid.Row="0" Columns="5" Margin="15,8">
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/precision.png" 
-                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="0" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/domination.png" 
-                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="1" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" 
-                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="2" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" 
-                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="3" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="4" Source="pack://application:,,,/Resources/Perks Icons/inspiration.png" 
-                                   MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
+                            <Image Tag="4" MouseLeftButtonDown="primaryStyle_MouseLeftButtonDown"/>
                         </Border>
                     </UniformGrid>
                     <ItemsControl x:Name="keyStonesItemsControl" Grid.Row="1" Margin="8">
@@ -148,23 +143,19 @@
                     <UniformGrid x:Name="subStyleGrid" Grid.Row="0" Columns="4" Margin="32,8" Visibility="Hidden">
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="0" Source="pack://application:,,,/Resources/Perks Icons/precision.png" 
-                                   MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                            <Image Tag="0" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="1" Source="pack://application:,,,/Resources/Perks Icons/domination.png" 
-                                   MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                            <Image Tag="1" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="2" Source="pack://application:,,,/Resources/Perks Icons/sorcery.png" 
-                                   MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                            <Image Tag="2" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Image Tag="3" Source="pack://application:,,,/Resources/Perks Icons/resolve.png" 
-                                   MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
+                            <Image Tag="3" MouseLeftButtonDown="subStyle_MouseLeftButtonDown"/>
                         </Border>
                         <Border BorderThickness="2" Padding="5" CornerRadius="90" BorderBrush="Transparent" 
                                 Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}" Visibility="Collapsed">
@@ -220,6 +211,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <!-- Stat Perks have to be hardcoded becuase they don't appear in the runes datadragon json -->
                     <UniformGrid Grid.Row="4" Rows="3" Margin="25,0,25,10">
                         <UniformGrid x:Name="offensivePerkGrid" Columns="3" Margin="0,1">
                             <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 

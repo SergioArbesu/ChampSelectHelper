@@ -146,8 +146,7 @@ namespace ChampSelectHelperApp
             {
                 PerkTreeInfo perkTreeInfo = new PerkTreeInfo();
                 perkTrees.Add(perkTreeInfo);
-                tasks[i] = Task.Run(() => perkTreeInfo.CreatePerkTreeAsync(perkTree, httpClient));
-                i++;
+                tasks[i++] = Task.Run(() => perkTreeInfo.CreatePerkTreeAsync(perkTree, httpClient));
             }
             await Task.WhenAll(tasks);
             perkTrees.Sort((x, y) => x.Id.CompareTo(y.Id));
@@ -180,6 +179,12 @@ namespace ChampSelectHelperApp
             {
                 championComboBox.Items.Add(champion.Name);
             }
+
+            int i = 0;
+            foreach (Border border in primaryStyleGrid.Children) ((Image)border.Child).Source = perkTrees[i++].Icon;
+
+            i = 0;
+            foreach (Border border in subStyleGrid.Children) ((Image)border.Child).Source = perkTrees[i++].Icon;
 
             foreach (SpellInfo spell in spells)
             {
