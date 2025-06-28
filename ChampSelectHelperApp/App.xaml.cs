@@ -129,8 +129,11 @@ namespace ChampSelectHelperApp
                 var settWindow = new SettingsWindow();
                 loadingWindow.Show();
                 await settWindow.InitializeWindow();
-                settWindow.Show();
-                settsLoaded = true;
+                if (SettingsWindow.Current is not null)
+                {
+                    settWindow.Show();
+                    settsLoaded = true;
+                }
                 loadingWindow.Close();
                 //var task = Task.Run(settWindow.InitializeWindow).ContinueWith((x) => { settsLoaded = true; Dispatcher.Invoke(loadingWindow.Close); });
                 //add try catch block for and add a messagebox when an error is thrown

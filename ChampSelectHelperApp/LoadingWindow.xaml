@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:ChampSelectHelperApp"
         xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d"
-        Title="Loading..." Height="200" Width="200"
+        Title="Loading..." Height="300" Width="300" SizeToContent="Height"
         Icon="Resources/System Icons/icon.ico" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Closing="LoadingWindow_Closing" ShowInTaskbar="False">
     <Grid>
-        <Image gif:AnimationBehavior.SourceUri="/Resources/gears.gif" />
+        <Image gif:AnimationBehavior.SourceUri="/Resources/loading.gif" Stretch="Uniform"/>
 
     </Grid>
 </Window>

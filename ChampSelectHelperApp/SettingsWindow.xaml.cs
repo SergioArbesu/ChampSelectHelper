@@ -89,7 +89,7 @@ namespace ChampSelectHelperApp
 
         public async Task InitializeWindow()
         {
-            CheckConnectivity();
+            if (!CheckConnectivity()) return;
             
             var champTask = CreateChampInfoAsync();
             var perkTask = CreatePerkTreeInfoAsync();
@@ -98,22 +98,19 @@ namespace ChampSelectHelperApp
             await Task.WhenAll(champTask, perkTask, spellTask);
 
             InitializeElements();
-
-            //TODO: change the loading window to be the same as this window
-            ShowInTaskbar = true;
-            WindowStyle = WindowStyle.SingleBorderWindow;
-            WindowState = WindowState.Normal;
         }
 
-        private void CheckConnectivity()
+        private bool CheckConnectivity()
         {
-            if (networkListManager.IsConnectedToInternet) return;
+            if (networkListManager.IsConnectedToInternet) return true;
 
             var result = MessageBox.Show("There was a problem while trying to connect to the internet. Check your internet " +
                 "connection.\n\nDo you want to retry?", "Connecction Error", MessageBoxButton.YesNo, MessageBoxImage.Error);
 
-            if (result == MessageBoxResult.Yes) CheckConnectivity();
-            else Close();
+            if (result == MessageBoxResult.Yes) return CheckConnectivity();
+            
+            Close();
+            return false;
         }
 
         private async Task CreateChampInfoAsync()
