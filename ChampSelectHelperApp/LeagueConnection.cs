@@ -62,12 +62,16 @@ namespace ChampSelectHelperApp
 
             if (settings.perksId[0] != -1)
             {
-                string currentPage = await lcuclient.SendRequest("GET", "/lol-perks/v1/currentpage");
-                int idCurrentPage = (int)JObject.Parse(currentPage)["id"];
+                string response = await lcuclient.SendRequest("GET", "/lol-perks/v1/pages");
+                JArray pages = JArray.Parse(response);
+                JObject currentPage = (JObject)pages[0];
+                if ((bool)currentPage["isTemporary"]) currentPage = (JObject)pages[1];
+                int idCurrentPage = (int)currentPage["id"];
                 await lcuclient.SendRequest("DELETE", $"/lol-perks/v1/pages/{idCurrentPage}");
+
                 var runesData = new
                 {
-                    name = "ChampSelect Helper Rune Page",
+                    name = "Champ Select Helper",
                     primaryStyleId = settings.stylesId[0],
                     subStyleId = settings.stylesId[1],
                     selectedPerkIds = settings.perksId,
