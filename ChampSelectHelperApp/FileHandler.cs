@@ -11,8 +11,7 @@ namespace ChampSelectHelperApp
         public static readonly string CHAMPION_SETINGS_SAVE_FILE = "championsettings.json";
 
         private static readonly RegistryKey BOOT_KEY = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
-        private static readonly string DATA_DIRECTORY = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            Program.APP_DEVELOPER, Program.APP_NAME);
+        private static readonly string DATA_DIRECTORY = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Program.APP_NAME);
 
         static FileHandler()
         {
