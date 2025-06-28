@@ -49,6 +49,8 @@ namespace ChampSelectHelperApp
         private int[] savePerks = new int[9] {-1,-1,-1,-1,-1,-1,-1,-1,-1};
         private int[] saveSpells = new int[2] {-1,-1};
 
+        private bool canSave = true;
+
         private void Window_Closed(object sender, EventArgs e)
         {
             if (Current == this) Current = null;
@@ -188,6 +190,8 @@ namespace ChampSelectHelperApp
 
         private void SaveChampion()
         {
+            if (!canSave) return;
+
             if (saveSkinsOrChromas.Count == 0 && savePerks[0] == -1 && saveSpells[0] == -1)
             {
                 settingsDict.Remove(champions[championComboBox.SelectedIndex].Id);
@@ -213,6 +217,7 @@ namespace ChampSelectHelperApp
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            canSave = false;
 
             skinComboBox.Items.Clear();
 
@@ -258,7 +263,7 @@ namespace ChampSelectHelperApp
             Debug.Print("found in dict");
 
             Debug.Print("spellsID[0]: " + settings.spellsId[0].ToString());
-            if (settings.skinsOrChromasId.Count != 0)
+            if (settings.skinsOrChromasId.Count > 0)
             {
                 skinCheckBox.IsChecked = true;
 
@@ -268,7 +273,12 @@ namespace ChampSelectHelperApp
                     {
                         skinComboBox.SelectedIndex = IndexOfId(champion.Skins, settings.skinsOrChromasId[0]);
                     }
-                    else skinRndmCheckBox.IsChecked = true;
+                    else
+                    {
+                        skinRndmCheckBox.IsChecked = true;
+                        saveSkinsOrChromas = settings.skinsOrChromasId;
+                        saveOriginSkin = settings.originSkinId;
+                    }
                 }
                 else
                 {
@@ -281,7 +291,12 @@ namespace ChampSelectHelperApp
                         chromaComboBox.SelectedIndex = 
                             IndexOfId(champion.Skins[skinComboBox.SelectedIndex].Chromas, settings.skinsOrChromasId[0]);
                     }
-                    else chromaRndmCheckBox.IsChecked = true;
+                    else
+                    {
+                        chromaRndmCheckBox.IsChecked = true;
+                        saveSkinsOrChromas = settings.skinsOrChromasId;
+                        saveOriginSkin = settings.originSkinId;
+                    }
                 }
             }
             else skinCheckBox.IsChecked = false;
@@ -317,6 +332,8 @@ namespace ChampSelectHelperApp
             else spellsCheckBox.IsChecked = false;
 
             Debug.Print(savePerks[3].ToString());
+
+            canSave = true;
         }
 
         private int IndexOfId(IEnumerable<Info> info, int id)
@@ -471,7 +488,7 @@ namespace ChampSelectHelperApp
 
                 if (saveOriginSkin != -1 && skinComboBox.SelectedIndex != -1)
                 {
-                    saveSkinsOrChromas = new() { saveOriginSkin };
+                    saveSkinsOrChromas = new List<int>() { saveOriginSkin };
                     saveOriginSkin = -1;
 
                     SaveChampion();

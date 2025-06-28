@@ -7,7 +7,7 @@
         xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d"
         Title="Loading..." Height="400" Width="400" SizeToContent="Height"
-        Icon="Resources/System Icons/icon.ico" ResizeMode="NoResize"
+        Icon="/Resources/System Icons/icon.ico" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         ShowInTaskbar="False" Background="#000911">
     <Grid>
