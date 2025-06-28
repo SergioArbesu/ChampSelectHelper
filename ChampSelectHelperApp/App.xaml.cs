@@ -30,8 +30,6 @@ namespace ChampSelectHelperApp
     {
         private NotifyIcon icon;
         private LeagueConnection leagueConn;
-        public static bool settsOpen = false;
-        public static bool settsLoaded = false;
 
         public App()
         {
@@ -56,7 +54,7 @@ namespace ChampSelectHelperApp
             ToolStripMenuItem quitApp = new ToolStripMenuItem();
             icon.ContextMenuStrip = contextMenu;
 
-            icon.MouseClick += async (sender, ev) => { if (ev.Button == MouseButtons.Left) await OpenSettingsWindow(); };
+            icon.MouseClick += OpenSettingsWindow;
 
             label.Text = Program.APP_NAME + " v" + Program.APP_VERSION;
             label.Font = new Font(label.Font, FontStyle.Bold);
@@ -75,7 +73,7 @@ namespace ChampSelectHelperApp
             {
                 openSettings.Image = Image.FromStream(stream);
             }
-            openSettings.Click += async (sender, ev) => { if (settsOpen) return; else settsOpen = true; await OpenSettingsWindow(); };
+            openSettings.Click += OpenSettingsWindow;
             contextMenu.Items.Add(openSettings);
 
             quitApp.Text = "Quit";
@@ -109,7 +107,7 @@ namespace ChampSelectHelperApp
             // what was this for lol
         }
 
-        private async Task OpenSettingsWindow()
+        private async void OpenSettingsWindow(object? sender, EventArgs ev)
         {
             if (SettingsWindow.Current is not null)
             {
@@ -121,21 +119,12 @@ namespace ChampSelectHelperApp
             }
             else
             {
-                //create window with empty elements
-                //load all the info
-                //make visible all the elements
-                settsLoaded = false;
                 var loadingWindow = new LoadingWindow();
                 var settWindow = new SettingsWindow();
                 loadingWindow.Show();
                 await settWindow.InitializeWindow();
-                if (SettingsWindow.Current is not null)
-                {
-                    settWindow.Show();
-                    settsLoaded = true;
-                }
+                if (SettingsWindow.Current is not null) settWindow.Show();
                 loadingWindow.Close();
-                //var task = Task.Run(settWindow.InitializeWindow).ContinueWith((x) => { settsLoaded = true; Dispatcher.Invoke(loadingWindow.Close); });
                 //add try catch block for and add a messagebox when an error is thrown
             }
         }

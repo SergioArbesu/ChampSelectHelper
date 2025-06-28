@@ -72,7 +72,6 @@ namespace ChampSelectHelperApp
             httpClient = null;
             championImage = null;
             skinImage = null;
-            App.settsOpen = false;
         }
 
         public SettingsWindow()

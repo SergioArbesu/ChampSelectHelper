@@ -23,10 +23,5 @@ namespace ChampSelectHelperApp
         {
             InitializeComponent();
         }
-
-        private void LoadingWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (!App.settsLoaded) e.Cancel = true;
-        }
     }
 }
