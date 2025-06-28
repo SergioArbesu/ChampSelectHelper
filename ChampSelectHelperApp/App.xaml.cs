@@ -1,24 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Windows.Input;
 using System.IO;
-using System.Reflection;
-using Newtonsoft.Json.Linq;
-using System.Net.Http;
-using System.Net.NetworkInformation;
-using System.Windows;
-using FontStyle = System.Drawing.FontStyle;
-using MessageBox = System.Windows.MessageBox;
-using Cursors = System.Windows.Input.Cursors;
-//using System.Windows.Controls;
-
-using System.Threading;
 using System.Diagnostics;
 
 namespace ChampSelectHelperApp
@@ -33,8 +16,6 @@ namespace ChampSelectHelperApp
 
         public App()
         {
-            Debug.WriteLine("check2");
-
             // #######
             // Start System Tray Icon configuration
             // #######
@@ -89,8 +70,6 @@ namespace ChampSelectHelperApp
             // #######
 
             if (!Program.LAUNCHED_AT_STARTUP) ShowNotification(Program.APP_NAME + " is running in the background.");
-
-            Debug.WriteLine("check");
 
             leagueConn = new LeagueConnection();
         }

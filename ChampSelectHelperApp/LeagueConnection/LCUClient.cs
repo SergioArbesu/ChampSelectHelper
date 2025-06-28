@@ -7,15 +7,10 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
-using System.Security.Authentication;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Media.Animation;
 using Newtonsoft.Json.Linq;
-//using SuperSocket.WebSocket;
-//using WebSocket4Net;
 using Websocket.Client;
 
 namespace ChampSelectHelperApp

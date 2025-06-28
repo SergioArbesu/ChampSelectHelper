@@ -1,17 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
+using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Color = System.Drawing.Color;
 
 namespace ChampSelectHelperApp
 {
@@ -64,12 +58,6 @@ namespace ChampSelectHelperApp
         public int Id { get; set; }
         public BitmapImage Icon { get; private set; }
         public BitmapImage GrayIcon { get; private set; }
-        //public bool IsSelected { get; set; }
-
-        public PerkInfo()
-        {
-            //IsSelected = false;
-        }
 
         public async Task CreatePerkAsync(JObject perk, HttpClient httpClient)
         {
