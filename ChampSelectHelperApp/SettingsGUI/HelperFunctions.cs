@@ -8,8 +8,6 @@ namespace ChampSelectHelper
 {
     public static class HelperFunctions
     {
-        private static readonly object locker = new object();
-
         public static BitmapImage CreateBitmapImage(string uri)
         {
             var img = new BitmapImage();
