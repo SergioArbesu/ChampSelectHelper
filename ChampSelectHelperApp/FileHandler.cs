@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Microsoft.Win32;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     public static class FileHandler
     {

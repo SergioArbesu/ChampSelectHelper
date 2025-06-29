@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 using NETWORKLIST;
 using System.Net.Http;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     /// <summary>
     /// Lógica de interacción para SettingsWindow.xaml

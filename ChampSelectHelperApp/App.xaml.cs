@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -34,7 +34,8 @@ namespace ChampSelectHelperApp
             ToolStripMenuItem quitApp = new ToolStripMenuItem();
             icon.ContextMenuStrip = contextMenu;
 
-            icon.MouseClick += OpenSettingsWindow;
+            icon.MouseClick += (sender, e) => { if (e.Button == MouseButtons.Left) OpenSettingsWindow(sender, e); };
+            icon.BalloonTipClicked += OpenSettingsWindow;
 
             label.Text = Program.APP_NAME + " v" + Program.APP_VERSION;
             label.Font = new Font(label.Font, FontStyle.Bold);

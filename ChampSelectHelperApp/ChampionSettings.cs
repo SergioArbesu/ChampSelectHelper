@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     public class ChampionSettings
     {

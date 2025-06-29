@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Windows.Media.Imaging;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     public class SpellInfo : Info
     {

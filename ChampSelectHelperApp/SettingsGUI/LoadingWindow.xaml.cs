@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     /// <summary>
     /// Lógica de interacción para LoadingWindow.xaml

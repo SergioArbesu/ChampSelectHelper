@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     public static class HelperFunctions
     {

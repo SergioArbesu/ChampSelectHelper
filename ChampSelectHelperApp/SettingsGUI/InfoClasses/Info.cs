@@ -1,4 +1,4 @@
-﻿namespace ChampSelectHelperApp
+﻿namespace ChampSelectHelper
 {
     public interface Info
     {

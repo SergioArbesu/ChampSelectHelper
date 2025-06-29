@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     /// <summary>
     /// Lógica de interacción para CheckBoxListWindow.xaml

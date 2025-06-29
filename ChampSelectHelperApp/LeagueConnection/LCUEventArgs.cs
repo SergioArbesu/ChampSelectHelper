@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     class LCUEventArgs : EventArgs
     {

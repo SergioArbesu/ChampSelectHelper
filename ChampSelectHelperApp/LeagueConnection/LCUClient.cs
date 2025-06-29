@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Websocket.Client;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     class LCUClient
     {

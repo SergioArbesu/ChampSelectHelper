@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace ChampSelectHelperApp
+namespace ChampSelectHelper
 {
     public class PerkTreeInfo : Info
     {
