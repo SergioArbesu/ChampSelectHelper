@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
-using System.Diagnostics;
 
 namespace ChampSelectHelperApp
 {

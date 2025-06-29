@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NETWORKLIST;
 using System.Net.Http;
-using System.Diagnostics;
 
 namespace ChampSelectHelperApp
 {
@@ -28,7 +27,7 @@ namespace ChampSelectHelperApp
         public static readonly string ICON_URL_START = "https://ddragon.leagueoflegends.com/cdn/img/";
         // icon paths are added to https://ddragon.leagueoflegends.com/cdn/img/
 
-        public static SettingsWindow? Current { get; private set; } //singleton
+        public static SettingsWindow? Current { get; set; } //singleton
 
         private NetworkListManager networkListManager = new NetworkListManager();
         private HttpClient httpClient;
@@ -87,6 +86,7 @@ namespace ChampSelectHelperApp
             var spellTask = CreateSpellInfoAsync();
 
             await Task.WhenAll(champTask, perkTask, spellTask);
+            if (Current is null) return;
 
             InitializeElements();
         }
@@ -106,7 +106,8 @@ namespace ChampSelectHelperApp
 
         private async Task CreateChampInfoAsync()
         {
-            string response = await httpClient.GetStringAsync(CHAMPIONS_JSON_URL);
+            string? response = await HelperFunctions.RequestAndRetry(() => httpClient.GetStringAsync(CHAMPIONS_JSON_URL));
+            if (response is null) return;
             JObject parsedChampions = JObject.Parse(response);
 
             champions = new List<ChampInfo>(parsedChampions.Count);
@@ -120,11 +121,13 @@ namespace ChampSelectHelperApp
 
         private async Task CreatePerkTreeInfoAsync()
         {
-            string versionResponse = await httpClient.GetStringAsync(DDRAGON_VERSION);
+            string? versionResponse = await HelperFunctions.RequestAndRetry(() => httpClient.GetStringAsync(DDRAGON_VERSION));
+            if (versionResponse is null) return;
             JArray parsedVersions = JArray.Parse(versionResponse);
             PERKS_JSON_URL = $"http://ddragon.leagueoflegends.com/cdn/{(string)parsedVersions[0]}/data/en_US/runesReforged.json";
 
-            string perkResponse = await httpClient.GetStringAsync(PERKS_JSON_URL);
+            string? perkResponse = await HelperFunctions.RequestAndRetry(() => httpClient.GetStringAsync(PERKS_JSON_URL));
+            if (perkResponse is null) return;
             JArray parsedPerks = JArray.Parse(perkResponse);
 
             perkTrees = new List<PerkTreeInfo>(5);
@@ -142,7 +145,8 @@ namespace ChampSelectHelperApp
 
         private async Task CreateSpellInfoAsync()
         {
-            string spellResponse = await httpClient.GetStringAsync(SPELLS_JSON_URL);
+            string? spellResponse = await HelperFunctions.RequestAndRetry(() => httpClient.GetStringAsync(SPELLS_JSON_URL));
+            if (spellResponse is null) return;
             JArray parsedSpells = JArray.Parse(spellResponse);
 
             spells = new List<SpellInfo>();
@@ -206,13 +210,11 @@ namespace ChampSelectHelperApp
                                saveSkinsOrChromas,
                                saveOriginSkin
                                );
-                Debug.Print(JsonConvert.SerializeObject(settings));
                 settingsDict[settings.id] = settings;
             }
 
             // save in file
             FileHandler.SaveChampionSettings(settingsDict);
-            Debug.Print(savePerks[3].ToString());
         }
 
         private void championComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -231,6 +233,7 @@ namespace ChampSelectHelperApp
                 perksCheckBox.IsEnabled = false;
                 spellsCheckBox.IsEnabled = false;
 
+                canSave = true;
                 return;
             }
 
@@ -258,11 +261,10 @@ namespace ChampSelectHelperApp
                 perksCheckBox.IsChecked = false;
                 spellsCheckBox.IsChecked = false;
 
+                canSave = true;
                 return;
             }
-            Debug.Print("found in dict");
 
-            Debug.Print("spellsID[0]: " + settings.spellsId[0].ToString());
             if (settings.skinsOrChromasId.Count > 0)
             {
                 skinCheckBox.IsChecked = true;
@@ -316,12 +318,9 @@ namespace ChampSelectHelperApp
                 SelectMinorPerkImage(settings.perksId[6], offensivePerkGrid);
                 SelectMinorPerkImage(settings.perksId[7], flexPerkGrid);
                 SelectMinorPerkImage(settings.perksId[8], defensivePerkGrid);
-
-                Debug.Print("perks updated");
             }
             else perksCheckBox.IsChecked = false;
 
-            Debug.Print("spellsID[0]: " + settings.spellsId[0].ToString());
             if (settings.spellsId[0] != -1)
             {
                 spellsCheckBox.IsChecked = true;
@@ -331,7 +330,6 @@ namespace ChampSelectHelperApp
             }
             else spellsCheckBox.IsChecked = false;
 
-            Debug.Print(savePerks[3].ToString());
 
             canSave = true;
         }
@@ -432,7 +430,6 @@ namespace ChampSelectHelperApp
                 return;
             }
             
-            CheckConnectivity();
             skinImage.Source = HelperFunctions.CreateBitmapImage(champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].IconUri);
 
             List<ChromaInfo>? chromas = champions[championComboBox.SelectedIndex].Skins[skinComboBox.SelectedIndex].Chromas;
@@ -973,7 +970,6 @@ namespace ChampSelectHelperApp
 
                 saveSpells[0] = spells[spell1ComboBox.SelectedIndex].Id;
 
-                Debug.Print("SaveSpells() call in spell1combobox");
                 SaveSpells();
             }
         }
@@ -993,7 +989,6 @@ namespace ChampSelectHelperApp
 
                 saveSpells[1] = spells[spell2ComboBox.SelectedIndex].Id;
 
-                Debug.Print("SaveSpells() call in spell2combobox");
                 SaveSpells();
             }
         }
@@ -1002,7 +997,6 @@ namespace ChampSelectHelperApp
         {
             if (saveSpells[0] != -1 && saveSpells[1] != -1)
             {
-                Debug.Print("SaveChampion() call in SaveSpells()");
                 SaveChampion();
             }
         }

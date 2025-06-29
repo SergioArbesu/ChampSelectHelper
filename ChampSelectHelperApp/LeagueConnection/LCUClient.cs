@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Diagnostics;
 using System.Management;
 using System.Net;
 using System.Net.Http;
@@ -73,7 +73,6 @@ namespace ChampSelectHelperApp
             await TryConnect();
             while (!IsConnected)
             {
-                Debug.WriteLine("retrying connection");
                 await Task.Delay(RETRY_DELAY);
                 await TryConnect();
             }
@@ -117,9 +116,6 @@ namespace ChampSelectHelperApp
 
             await websocket.Start();
 
-            Debug.WriteLine("websocket connected");
-
-
             foreach (string key in subscribers.Keys)
             {
                 await websocket.SendInstant($"[5, \"{key}\"]");
@@ -129,8 +125,6 @@ namespace ChampSelectHelperApp
         private void LCUMessageReceived(ResponseMessage msg)
         {
             if (msg.Text is null) return;
-
-            Debug.WriteLine(msg.Text);
 
             var messageArray = JArray.Parse(msg.Text);
 
@@ -165,8 +159,6 @@ namespace ChampSelectHelperApp
 
             }
             authToken = null; port = null;
-
-            Debug.WriteLine("websocket disconnected");
 
             Task.Run(TryConnectOrRetry);
         }

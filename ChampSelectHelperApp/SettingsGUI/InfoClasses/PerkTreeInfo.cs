@@ -18,9 +18,10 @@ namespace ChampSelectHelperApp
         public async Task CreatePerkTreeAsync(JObject perkTree, HttpClient httpClient)
         {
             Id = (int)perkTree["id"];
-            using (Stream tempStream = await httpClient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perkTree["icon"]))
+            using (Stream? tempStream = await HelperFunctions.RequestAndRetry(() => httpClient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perkTree["icon"])))
             using (MemoryStream stream = new MemoryStream())
             {
+                if (tempStream is null) return;
                 await tempStream.CopyToAsync(stream);
 
                 Icon = new BitmapImage();
@@ -48,7 +49,6 @@ namespace ChampSelectHelperApp
                     j++;
                 }
             }
-
             await Task.WhenAll(tasks);
         }
     }
@@ -65,9 +65,10 @@ namespace ChampSelectHelperApp
 
             Bitmap bitmap;
 
-            using (Stream tempStream = await httpClient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perk["icon"]))
+            using (Stream? tempStream = await HelperFunctions.RequestAndRetry(() => httpClient.GetStreamAsync(SettingsWindow.ICON_URL_START + (string)perk["icon"])))
             using (MemoryStream stream = new MemoryStream())
             {
+                if (tempStream is null) return;
                 await tempStream.CopyToAsync(stream);
 
                 Icon = new BitmapImage();
@@ -75,7 +76,7 @@ namespace ChampSelectHelperApp
                 Icon.CacheOption = BitmapCacheOption.OnLoad;
                 Icon.StreamSource = stream;
                 Icon.EndInit();
-                
+
                 bitmap = new Bitmap(stream);
             }
             Icon.Freeze();
@@ -105,6 +106,9 @@ namespace ChampSelectHelperApp
                 GrayIcon.EndInit();
             }
             GrayIcon.Freeze();
+
+            bitmap.Dispose();
+            newBitmap.Dispose();
         }
     }
 }
