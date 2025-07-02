@@ -13,7 +13,7 @@ namespace ChampSelectHelper
     {
         public int Id { get; set; }
         public BitmapImage Icon { get; set; }
-        public PerkInfo[][] Slots { get; private set; }
+        public PerkInfo[][] Slots { get; set; }
 
         public async Task CreatePerkTreeAsync(JObject perkTree, HttpClient httpClient)
         {
@@ -56,8 +56,8 @@ namespace ChampSelectHelper
     public class PerkInfo : Info
     {
         public int Id { get; set; }
-        public BitmapImage Icon { get; private set; }
-        public BitmapImage GrayIcon { get; private set; }
+        public BitmapImage Icon { get; set; }
+        public BitmapImage GrayIcon { get; set; }
 
         public async Task CreatePerkAsync(JObject perk, HttpClient httpClient)
         {

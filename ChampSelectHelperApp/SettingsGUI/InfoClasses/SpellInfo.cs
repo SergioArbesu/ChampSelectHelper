@@ -6,8 +6,8 @@ namespace ChampSelectHelper
     public class SpellInfo : Info
     {
         public int Id { get; set; }
-        public string Name { get; private set; }
-        public BitmapImage Icon { get; private set; }
+        public string Name { get; set; }
+        public BitmapImage Icon { get; set; }
 
         public SpellInfo(JObject spell)
         {

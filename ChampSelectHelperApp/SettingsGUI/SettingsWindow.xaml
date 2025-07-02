@@ -75,7 +75,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent"
-                                        Width="{Binding Path=ActualHeight, ElementName=keyStonesItemsControl}">
+                                        Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="55" MaxWidth="55" 
                                            MouseLeftButtonDown="keyStonesImage_MouseLeftButtonDown"/>
                                 </Border>
@@ -91,7 +91,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent"
-                                        Width="{Binding Path=ActualHeight, ElementName=primarySlot1ItemsControl}">
+                                        Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
                                            MouseLeftButtonDown="primarySlot1Image_MouseLeftButtonDown"/>
                                 </Border>
@@ -107,7 +107,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
-                                        Width="{Binding Path=ActualHeight, ElementName=primarySlot2ItemsControl}">
+                                        Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
                                            MouseLeftButtonDown="primarySlot2Image_MouseLeftButtonDown"/>
                                 </Border>
@@ -123,7 +123,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
-                                        Width="{Binding Path=ActualHeight, ElementName=primarySlot3ItemsControl}">
+                                        Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
                                            MouseLeftButtonDown="primarySlot3Image_MouseLeftButtonDown"/>
                                 </Border>
@@ -171,7 +171,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
-                                        Width="{Binding Path=ActualHeight, ElementName=subSlot1ItemsControl}">
+                                        Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
                                            MouseLeftButtonDown="subSlot1Image_MouseLeftButtonDown"/>
                                 </Border>
@@ -187,7 +187,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
-                                        Width="{Binding Path=ActualHeight, ElementName=subSlot2ItemsControl}">
+                                        Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
                                            MouseLeftButtonDown="subSlot2Image_MouseLeftButtonDown"/>
                                 </Border>
@@ -203,7 +203,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
-                                        Width="{Binding Path=ActualHeight, ElementName=subSlot3ItemsControl}">
+                                        Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Image Source="{Binding Icon}" Tag="{Binding Id}" MaxHeight="32" MaxWidth="32" 
                                            MouseLeftButtonDown="subSlot3Image_MouseLeftButtonDown"/>
                                 </Border>

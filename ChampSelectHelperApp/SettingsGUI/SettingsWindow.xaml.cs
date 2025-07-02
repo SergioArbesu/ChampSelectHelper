@@ -53,6 +53,29 @@ namespace ChampSelectHelper
         private void Window_Closed(object sender, EventArgs e)
         {
             if (Current == this) Current = null;
+
+            foreach (SpellInfo spell in spells)
+            {
+                spell.Icon = null;
+            }
+
+            foreach (PerkTreeInfo perkTree in perkTrees)
+            {
+                perkTree.Icon = null;
+                foreach (PerkInfo[] perkSlot in perkTree.Slots)
+                {
+                    foreach (PerkInfo perk in perkSlot)
+                    {
+                        perk.Icon = null;
+                        perk.GrayIcon = null;
+                    }
+                }
+            }
+
+            skinImage.Source = null;
+            foreach (Border border in primaryStyleGrid.Children) ((Image)border.Child).Source = null;
+            foreach (Border border in subStyleGrid.Children) ((Image)border.Child).Source = null;
+
             champions = null;
             perkTrees = null;
             spells = null;
@@ -676,6 +699,7 @@ namespace ChampSelectHelper
                     border.Visibility = Visibility.Visible;
                     border.BorderBrush = perkTrees[i].Id == saveStyles[1] ? Brushes.White : Brushes.Transparent;
                 }
+                border = null;
             }
 
             if (perkTrees[index].Id == saveStyles[1]) ChangeSubStyle(-1);
@@ -815,6 +839,7 @@ namespace ChampSelectHelper
                     isPresent = true;
                     break;
                 }
+                border = null;
             }
 
             if (isPresent)
@@ -875,6 +900,7 @@ namespace ChampSelectHelper
                     image.Source = ((PerkInfo)image.DataContext).GrayIcon;
                     border.BorderBrush = Brushes.Transparent;
                 }
+                border = null;
             }
         }
 
