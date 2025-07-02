@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Threading;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace ChampSelectHelper
 {
     class Program
     {
         public static readonly string APP_NAME = "Champ Select Helper";
-        public static readonly string APP_VERSION = "1.0";
+        public static readonly string APP_VERSION;
 
         public static readonly string UNINSTALL_FLAG = "--uninstall";
         public static readonly string WINDOWS_STARTUP_FLAG = "--systemstartup";
@@ -17,6 +18,12 @@ namespace ChampSelectHelper
         private static Mutex mutex = new Mutex(false, APP_NAME);
 
         private static App instance;
+
+        static Program()
+        {
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            APP_VERSION = $"{version.Major}.{version.Minor}.{version.Build}";
+        }
 
         [STAThread]
         static void Main(string[] args)
