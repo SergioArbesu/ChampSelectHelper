@@ -9,8 +9,7 @@
     <StartupObject>ChampSelectHelper.Program</StartupObject>       
     <ApplicationIcon>Resources\System Icons\icon.ico</ApplicationIcon>       
     <AssemblyName>ChampSelectHelper</AssemblyName>       
-    <RootNamespace>ChampSelectHelper</RootNamespace>       
-    <SignAssembly>False</SignAssembly>       
+    <RootNamespace>ChampSelectHelper</RootNamespace>     
     <Version>1.0.0</Version>
   </PropertyGroup>
 

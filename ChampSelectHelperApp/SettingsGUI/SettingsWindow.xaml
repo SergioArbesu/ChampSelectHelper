@@ -232,7 +232,7 @@
                         <UniformGrid x:Name="flexPerkGrid" Columns="3" Margin="0,1">
                             <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
                                     Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
-                                <Image Tag="5002" Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png" 
+                                <Image Tag="5008" Source="pack://application:,,,/Resources/Perks Icons/adaptiveforceicon.png" 
                                        MouseLeftButtonDown="flexPerkImage_MouseLeftButtonDown"/>
                             </Border>
                             <Border BorderThickness="2" CornerRadius="90" BorderBrush="Transparent" 
