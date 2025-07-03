@@ -1,7 +1,3 @@
-- Background application that integrates with the League of Legends client API to automate character customization and performs a predefined automatic character customization.
-- Includes a user-friendly GUI, enabling users to customize predefined settings for each in-game character.
-- Implements an option to launch the application automatically at system startup for seamless background operation.
-
 ## What is Champ Select Helper? 🤔
 
 Champ Select Helper is an app that integrates with the League of Legends client and allows you to set runes, summoner spells, skins and chromas that will be automatically selected when a champion is picked. You can create a different configuration for each champion.
@@ -52,11 +48,19 @@ You can create a rune page.
 
 ## Pick a champion during Champ Select
 
-
+https://github.com/user-attachments/assets/3c126686-bad6-4374-9c97-1f88546c877a
 
 ## The app runs in the background!
 
 You don't need to have the settings window open. The app will run in the background and connect to the League of Legends client even when the settings window is closed. If you want to stop the app, select Quit when right-clicking the system tray icon.
+
+<img src="https://github.com/user-attachments/assets/90591091-b7d5-460b-9ef6-ae31a929ddee" width="50%" height="50%"/>
+
+## Launch at system startup
+
+If you are as forgetful as I am, you will probably forget to run the app before playing. But don't worry, you can automatically launch the app at Windows startup by right-clicking the system tray icon and clicking on the Launch At System Startup option.
+
+<img src="https://github.com/user-attachments/assets/f87196f8-16b9-4eaa-9dab-a4c0a1332040" width="50%" height="50%"/>
 
 ## What happens when a patch changes the runes/spells/skins?
 
